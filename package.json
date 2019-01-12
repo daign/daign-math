@@ -1,0 +1,35 @@
+{
+  "name": "daign-math",
+  "version": "0.0.1",
+  "description": "Math library in Typescript",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha -r ts-node/register lib/**/*.spec.ts",
+    "link": "tsc && cp -R package.json dist && cp -R readme.md dist && cd dist && npm link",
+    "publish": "tsc && cp -R package.json dist && cp -R readme.md dist && cd dist && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daign/daign-math.git"
+  },
+  "author": "daign.de",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/daign/daign-math/issues"
+  },
+  "homepage": "https://github.com/daign/daign-math#readme",
+  "devDependencies": {
+    "@types/chai": "^4.1.6",
+    "@types/mocha": "^5.2.5",
+    "@types/sinon": "^5.0.5",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "sinon": "^7.0.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {}
+}
