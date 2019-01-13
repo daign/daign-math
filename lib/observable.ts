@@ -13,7 +13,7 @@ export abstract class Observable {
   /**
    * Notify all observers by calling their callbacks
    */
-  protected notifyObservers() {
+  protected notifyObservers(): void {
     this.listeners.forEach( callback => {
       callback();
     });
@@ -22,7 +22,7 @@ export abstract class Observable {
   /**
    * Add an observer by passing a callback
    * @param callback Callback of the observer
-   * @returns A Callback to remove the observer
+   * @returns A callback to remove the observer
    */
   public subscribeToChanges( callback: () => void ): () => void {
     this.listeners.push( callback );
@@ -39,7 +39,7 @@ export abstract class Observable {
   /**
    * Remove all observers
    */
-  protected clearObservers() {
+  protected clearObservers(): void {
     this.listeners = [];
   }
 }
