@@ -2,17 +2,17 @@ import {Line2} from './line2';
 import {Observable} from './observable';
 
 /**
- * 2D Vector
+ * 2D vector
  */
 export class Vector2 extends Observable {
   private _x: number;
   private _y: number;
 
-  get x(): number {
+  public get x(): number {
       return this._x;
   }
 
-  set x(value: number) {
+  public set x(value: number) {
     // only call observers if something changed
     if ( this._x !== value ) {
       this._x = value;
@@ -20,11 +20,11 @@ export class Vector2 extends Observable {
     }
   }
 
-  get y(): number {
+  public get y(): number {
       return this._y;
   }
 
-  set y(value: number) {
+  public set y(value: number) {
     // only call observers if something changed
     if ( this._y !== value ) {
       this._y = value;
@@ -40,7 +40,7 @@ export class Vector2 extends Observable {
    * @param x First Value
    * @param y Second value
    */
-  constructor( x?: any, y?: any ) {
+  constructor( x?: number, y?: number ) {
     super();
 
     this._x = x || 0;
@@ -374,12 +374,12 @@ export class Vector2 extends Observable {
    * @returns A projected vector
    */
   public projectOnLine( l: Line2 ): Vector2 {
-    const support = this.clone().sub( l.point1 );
-    const direction = l.point2.clone().sub( l.point1 );
+    const support = this.clone().sub( l.start );
+    const direction = l.end.clone().sub( l.start );
     const directionN = direction.clone().normalize();
     const d = support.dot( directionN );
 
-    return directionN.clone().multiplyScalar( d ).add( l.point1 );
+    return directionN.clone().multiplyScalar( d ).add( l.start );
   }
 
   /**
@@ -388,14 +388,14 @@ export class Vector2 extends Observable {
    * @returns A projected vector or null if projection not possible
    */
   public projectOnLineSegment( l: Line2 ): Vector2 | null {
-    const support = this.clone().sub( l.point1 );
-    const direction = l.point2.clone().sub( l.point1 );
+    const support = this.clone().sub( l.start );
+    const direction = l.end.clone().sub( l.start );
     const directionN = direction.clone().normalize();
     const d = support.dot( directionN );
 
     // check if the result of the projection would lie between the endpoints of the line segment
     if ( d >= 0 && d <= direction.length() ) {
-      return directionN.clone().multiplyScalar( d ).add( l.point1 );
+      return directionN.clone().multiplyScalar( d ).add( l.start );
     } else {
       // projection not possible because the projected point would not lie on the line segment
       return null;
