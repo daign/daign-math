@@ -3,6 +3,7 @@ import * as sinon from 'sinon';
 
 import {Vector2} from './vector2';
 import {Line2} from './line2';
+import {Box2} from './box2';
 
 describe( 'Vector2', () => {
   describe( 'getter x', () => {
@@ -234,6 +235,64 @@ describe( 'Vector2', () => {
 
       // assert
       expect( result ).to.be.false;
+    } );
+  } );
+
+  describe( 'clampInBox', () => {
+    it( 'should make vector smaller if too big', () => {
+      // arrange
+      const v = new Vector2( 8, 9 );
+      const min = new Vector2( -1, -2 );
+      const max = new Vector2( 5, 4 );
+      const b = new Box2( min, max );
+
+      // act
+      v.clampInBox( b );
+
+      // assert
+      expect( v.equals( max ) ).to.be.true;
+    } );
+
+    it( 'should make vector bigger if too small', () => {
+      // arrange
+      const v = new Vector2( -4, -5 );
+      const min = new Vector2( -1, -2 );
+      const max = new Vector2( 5, 4 );
+      const b = new Box2( min, max );
+
+      // act
+      v.clampInBox( b );
+
+      // assert
+      expect( v.equals( min ) ).to.be.true;
+    } );
+
+    it( 'should not change vector that is inside box', () => {
+      // arrange
+      const v = new Vector2( 2, 3 );
+      const vCopy = v.clone();
+      const min = new Vector2( -1, -2 );
+      const max = new Vector2( 5, 4 );
+      const b = new Box2( min, max );
+
+      // act
+      v.clampInBox( b );
+
+      // assert
+      expect( v.equals( vCopy ) ).to.be.true;
+    } );
+  } );
+
+  describe( 'length', () => {
+    it( 'should get length', () => {
+      // arrange
+      const v = new Vector2( 3, 4 );
+
+      // act
+      const result = v.length();
+
+      // assert
+      expect( result ).to.be.closeTo( 5, 0.001 );
     } );
   } );
 

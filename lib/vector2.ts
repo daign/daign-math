@@ -1,4 +1,5 @@
 import {Line2} from './line2';
+import {Box2} from './box2';
 import {Observable} from './observable';
 
 /**
@@ -274,6 +275,17 @@ export class Vector2 extends Observable {
    */
   public ceil(): Vector2 {
     this.set( Math.ceil( this.x ), Math.ceil( this.y ) );
+    return this;
+  }
+
+  /**
+   * Confine point to nearest position inside box
+   * @param b The bounding box
+   * @returns A reference to itself
+   */
+  public clampInBox( b: Box2 ): Vector2 {
+    this.min( b.max );
+    this.max( b.min );
     return this;
   }
 

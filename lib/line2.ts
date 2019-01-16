@@ -32,8 +32,8 @@ export class Line2 extends Observable {
     super();
 
     // passed points are used directly, not cloned
-    this._start = ( start !== undefined ) ? start : new Vector2();
-    this._end = ( end !== undefined ) ? end : new Vector2();
+    this._start = start || new Vector2();
+    this._end = end || new Vector2();
 
     // notify observers when start or end point has changes
     const callback = (): void => {
