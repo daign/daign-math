@@ -195,7 +195,7 @@ describe( 'Vector2', () => {
 
       // assert
       expect( v1.x ).to.equal( 1 );
-      expect( v2.y ).to.equal( 2 );
+      expect( v1.y ).to.equal( 2 );
     } );
 
     it( 'should call set', () => {
