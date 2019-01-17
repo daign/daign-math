@@ -1,5 +1,5 @@
-import {Vector2} from './vector2';
 import {Observable} from './observable';
+import {Vector2} from './vector2';
 
 /**
  * Rectangle shape that is defined by a min and max point. Used to represent bounding boxes.

@@ -1,9 +1,9 @@
 import {expect} from 'chai';
 import * as sinon from 'sinon';
 
-import {Vector2} from './vector2';
-import {Line2} from './line2';
 import {Box2} from './box2';
+import {Line2} from './line2';
+import {Vector2} from './vector2';
 
 describe( 'Vector2', () => {
   describe( 'getter x', () => {

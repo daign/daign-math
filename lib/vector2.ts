@@ -1,5 +1,5 @@
-import {Line2} from './line2';
 import {Box2} from './box2';
+import {Line2} from './line2';
 import {Observable} from './observable';
 
 /**
@@ -68,7 +68,7 @@ export class Vector2 extends Observable {
 
   /**
    * Set the values without notifying observers
-   * @param x First Value
+   * @param x First value
    * @param y Second value
    * @returns A reference to itself
    */
