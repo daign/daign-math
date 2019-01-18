@@ -1,3 +1,4 @@
+import {Angle} from './angle';
 import {Box2} from './box2';
 import {Line2} from './line2';
 import {Observable} from './observable';
@@ -13,7 +14,7 @@ export class Vector2 extends Observable {
       return this._x;
   }
 
-  public set x(value: number) {
+  public set x( value: number ) {
     // only call observers if something changed
     if ( this._x !== value ) {
       this._x = value;
@@ -25,7 +26,7 @@ export class Vector2 extends Observable {
       return this._y;
   }
 
-  public set y(value: number) {
+  public set y( value: number ) {
     // only call observers if something changed
     if ( this._y !== value ) {
       this._y = value;
@@ -38,7 +39,7 @@ export class Vector2 extends Observable {
 
   /**
    * Constructor
-   * @param x First Value
+   * @param x First value
    * @param y Second value
    */
   constructor( x?: number, y?: number ) {
@@ -52,7 +53,7 @@ export class Vector2 extends Observable {
 
   /**
    * Set the values
-   * @param x First Value
+   * @param x First value
    * @param y Second value
    * @returns A reference to itself
    */
@@ -123,7 +124,7 @@ export class Vector2 extends Observable {
 
   /**
    * Set from the values of another vector
-   * @param v Another Vector
+   * @param v Another vector
    * @returns A reference to itself
    */
   public copy( v: Vector2 ): Vector2 {
@@ -150,7 +151,7 @@ export class Vector2 extends Observable {
 
   /**
    * Add another vector
-   * @param v Another Vector
+   * @param v Another vector
    * @returns A reference to itself
    */
   public add( v: Vector2 ): Vector2 {
@@ -160,7 +161,7 @@ export class Vector2 extends Observable {
 
   /**
    * Subtract another vector
-   * @param v Another Vector
+   * @param v Another vector
    * @returns A reference to itself
    */
   public sub( v: Vector2 ): Vector2 {
@@ -170,7 +171,7 @@ export class Vector2 extends Observable {
 
   /**
    * Mutiply with another vector elementwise
-   * @param v Another Vector
+   * @param v Another vector
    * @returns A reference to itself
    */
   public multiply( v: Vector2 ): Vector2 {
@@ -180,7 +181,7 @@ export class Vector2 extends Observable {
 
   /**
    * Divide with another vector elementwise
-   * @param v Another Vector
+   * @param v Another vector
    * @returns A reference to itself
    */
   public divide( v: Vector2 ): Vector2 {
@@ -335,10 +336,10 @@ export class Vector2 extends Observable {
    * Get the angle to the x-axis
    * @returns The angle
    */
-  public angle(): number {
+  public angle(): Angle {
     let angle = Math.atan2( this.y, this.x );
 		if ( angle < 0 ) angle += 2 * Math.PI;
-    return angle;
+    return new Angle( angle );
   }
 
   /**

@@ -1,3 +1,4 @@
+export {Angle} from './angle';
 export {Box2} from './box2';
 export {Line2} from './line2';
 export {Observable} from './observable';

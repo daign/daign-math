@@ -12,7 +12,7 @@ export class Vector3 extends Observable {
       return this._x;
   }
 
-  public set x(value: number) {
+  public set x( value: number ) {
     // only call observers if something changed
     if ( this._x !== value ) {
       this._x = value;
@@ -24,7 +24,7 @@ export class Vector3 extends Observable {
       return this._y;
   }
 
-  public set y(value: number) {
+  public set y( value: number ) {
     // only call observers if something changed
     if ( this._y !== value ) {
       this._y = value;
@@ -36,7 +36,7 @@ export class Vector3 extends Observable {
       return this._z;
   }
 
-  public set z(value: number) {
+  public set z( value: number ) {
     // only call observers if something changed
     if ( this._z !== value ) {
       this._z = value;

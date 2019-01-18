@@ -345,7 +345,7 @@ describe( 'Vector2', () => {
       const result = v.angle();
 
       // assert
-      expect( result ).to.be.closeTo( 0, 0.001 );
+      expect( result.radians ).to.be.closeTo( 0, 0.001 );
     } );
 
     it( 'should get pi/2 for vector 0, 1', () => {
@@ -356,7 +356,7 @@ describe( 'Vector2', () => {
       const result = v.angle();
 
       // assert
-      expect( result ).to.be.closeTo( Math.PI / 2, 0.001 );
+      expect( result.radians ).to.be.closeTo( Math.PI / 2, 0.001 );
     } );
 
     it( 'should get pi for vector -1, 0', () => {
@@ -367,7 +367,7 @@ describe( 'Vector2', () => {
       const result = v.angle();
 
       // assert
-      expect( result ).to.be.closeTo( Math.PI, 0.001 );
+      expect( result.radians ).to.be.closeTo( Math.PI, 0.001 );
     } );
 
     it( 'should get 1.5*pi for vector 0, -1', () => {
@@ -378,7 +378,7 @@ describe( 'Vector2', () => {
       const result = v.angle();
 
       // assert
-      expect( result ).to.be.closeTo( Math.PI * 1.5, 0.001 );
+      expect( result.radians ).to.be.closeTo( Math.PI * 1.5, 0.001 );
     } );
   } );
 
