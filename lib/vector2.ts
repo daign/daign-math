@@ -1,6 +1,7 @@
 import {Angle} from './angle';
 import {Box2} from './box2';
 import {Line2} from './line2';
+import {Matrix3} from './matrix3';
 import {Observable} from './observable';
 
 /**
@@ -214,7 +215,7 @@ export class Vector2 extends Observable {
    * @param m A matrix
    * @returns A reference to itself
    */
-  public transform( m: any ): Vector2 {
+  public transform( m: Matrix3 ): Vector2 {
     const a = m.elements;
     const x = a[0] * this.x + a[1] * this.y + a[2];
     const y = a[3] * this.x + a[4] * this.y + a[5];

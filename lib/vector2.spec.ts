@@ -3,6 +3,7 @@ import * as sinon from 'sinon';
 
 import {Box2} from './box2';
 import {Line2} from './line2';
+import {Matrix3} from './matrix3';
 import {Vector2} from './vector2';
 
 describe( 'Vector2', () => {
@@ -235,6 +236,36 @@ describe( 'Vector2', () => {
 
       // assert
       expect( result ).to.be.false;
+    } );
+  } );
+
+  describe( 'transform', () => {
+    it( 'should return transformed vector', () => {
+      // arrange
+      const v1 = new Vector2( 1, 2 );
+      const v2 = new Vector2( 1, 2 );
+      const m = new Matrix3();
+      m.set( 1, 0, 0, 0, 1, 0, 0, 0, 1 );
+
+      // act
+      const result = v1.transform( m );
+
+      // assert
+      expect( result.equals( v2 ) ).to.be.true;
+    } );
+
+    it( 'should call set', () => {
+      // arrange
+      const v = new Vector2();
+      const m = new Matrix3();
+      m.set( 1, 0, 0, 0, 1, 0, 0, 0, 1 );
+      const spy = sinon.spy( v, 'set' );
+
+      // act
+      v.transform( m );
+
+      // assert
+      expect( spy.calledOnce ).to.be.true;
     } );
   } );
 
