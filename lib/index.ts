@@ -4,5 +4,6 @@ export {Line2} from './line2';
 export {Matrix3} from './matrix3';
 export {Observable} from './observable';
 export {Triangle2} from './triangle2';
+export {Value} from './value';
 export {Vector2} from './vector2';
 export {Vector3} from './vector3';
