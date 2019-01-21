@@ -242,23 +242,21 @@ describe( 'Vector2', () => {
   describe( 'transform', () => {
     it( 'should return transformed vector', () => {
       // arrange
-      const v1 = new Vector2( 1, 2 );
-      const v2 = new Vector2( 1, 2 );
-      const m = new Matrix3();
-      m.set( 1, 0, 0, 0, 1, 0, 0, 0, 1 );
+      const v = new Vector2();
+      const translation = new Vector2( 1, 2 );
+      const m = new Matrix3().setTranslation( translation );
 
       // act
-      const result = v1.transform( m );
+      const result = v.transform( m );
 
       // assert
-      expect( result.equals( v2 ) ).to.be.true;
+      expect( result.equals( translation ) ).to.be.true;
     } );
 
     it( 'should call set', () => {
       // arrange
       const v = new Vector2();
-      const m = new Matrix3();
-      m.set( 1, 0, 0, 0, 1, 0, 0, 0, 1 );
+      const m = new Matrix3().setIdentity();
       const spy = sinon.spy( v, 'set' );
 
       // act
