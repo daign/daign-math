@@ -7,6 +7,9 @@
 # IDEs and editors
 /.idea
 
+# Coverage
+/.nyc_output
+
 # System Files
 .DS_Store
 Thumbs.db
