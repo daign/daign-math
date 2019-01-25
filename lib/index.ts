@@ -1,6 +1,7 @@
 export {Angle} from './angle';
 export {Box2} from './box2';
 export {Color} from './color';
+export {Gradient} from './gradient';
 export {Line2} from './line2';
 export {MathHelper} from './mathHelper';
 export {Matrix3} from './matrix3';

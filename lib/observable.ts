@@ -14,9 +14,9 @@ export abstract class Observable {
    * Notify all observers by calling their callbacks
    */
   protected notifyObservers(): void {
-    this.listeners.forEach( callback => {
+    this.listeners.forEach( ( callback: () => void ): void => {
       callback();
-    });
+    } );
   }
 
   /**
