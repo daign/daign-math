@@ -3,21 +3,12 @@
  */
 export abstract class Observable {
   // Array of callbacks from the observers
-  private listeners: ( () => void )[] = [];
+  private listeners: Array<() => void> = [];
 
   /**
    * Constructor
    */
   constructor() {}
-
-  /**
-   * Notify all observers by calling their callbacks
-   */
-  protected notifyObservers(): void {
-    this.listeners.forEach( ( callback: () => void ): void => {
-      callback();
-    } );
-  }
 
   /**
    * Add an observer by passing a callback
@@ -34,6 +25,15 @@ export abstract class Observable {
         this.listeners.splice( i, 1 );
       }
     };
+  }
+
+  /**
+   * Notify all observers by calling their callbacks
+   */
+  protected notifyObservers(): void {
+    this.listeners.forEach( ( callback: () => void ): void => {
+      callback();
+    } );
   }
 
   /**

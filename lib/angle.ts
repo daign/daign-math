@@ -10,7 +10,7 @@ export class Angle extends Observable {
    * Get angle in radians
    */
   public get radians(): number {
-      return this._radians;
+    return this._radians;
   }
 
   /**
@@ -28,7 +28,7 @@ export class Angle extends Observable {
    * Get angle in degrees
    */
   public get degrees(): number {
-      return ( this.radians * 180 / Math.PI );
+    return ( this.radians * 180 / Math.PI );
   }
 
   /**

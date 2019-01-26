@@ -87,7 +87,7 @@ export class Box2 extends Observable {
    * @returns Whether boxes are equal
    */
   public equals( b: Box2 ): boolean {
-		return this.min.equals( b.min ) && this.max.equals( b.max );
+    return this.min.equals( b.min ) && this.max.equals( b.max );
   }
 
   /**
@@ -95,9 +95,9 @@ export class Box2 extends Observable {
    * @returns A reference to itself
    */
   public makeEmpty(): Box2 {
-  	this.min.x = this.min.y = +Infinity;
-  	this.max.x = this.max.y = -Infinity;
-		return this;
+    this.min.x = this.min.y = +Infinity;
+    this.max.x = this.max.y = -Infinity;
+    return this;
   }
 
   /**
@@ -139,21 +139,21 @@ export class Box2 extends Observable {
    * @returns Whether point lies inside of box
    */
   public containsPoint( p: Vector2 ): boolean {
-		return !(
+    return !(
       p.x < this.min.x || p.x > this.max.x ||
-			p.y < this.min.y || p.y > this.max.y
+      p.y < this.min.y || p.y > this.max.y
     );
-	}
+  }
 
   /**
    * Test whether another box lies inside of box including the border
    * @param b The other box
    * @returns Whether box lies inside of box
    */
-	public containsBox( b: Box2 ): boolean {
-		return (
+  public containsBox( b: Box2 ): boolean {
+    return (
       this.min.x <= b.min.x && b.max.x <= this.max.x &&
-			this.min.y <= b.min.y && b.max.y <= this.max.y
+      this.min.y <= b.min.y && b.max.y <= this.max.y
     );
   }
 }

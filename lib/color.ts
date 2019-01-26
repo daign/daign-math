@@ -116,6 +116,7 @@ export class Color extends Observable {
    */
   public get hex(): string {
     return (
+      // tslint:disable-next-line:no-bitwise
       '#' + ( ( 1 << 24 ) + ( this.r << 16 ) + ( this.g << 8 ) + this.b ).toString( 16 ).slice( 1 )
     );
   }
@@ -188,26 +189,26 @@ export class Color extends Observable {
     a = ( a !== undefined ) ? a : this._a;
 
     this.set( r, g, b, a );
-		return this;
-	}
+    return this;
+  }
 
   /**
    * Set this color to the values of another color
    * @param c The other color
    * @returns A reference to itself
    */
-	public copy( c: Color ): Color {
+  public copy( c: Color ): Color {
     this.set( c.r, c.g, c.b, c.a );
     return this;
-	}
+  }
 
   /**
-	 * Create a new color object with the same values
+   * Create a new color object with the same values
    * @returns A new color object
    */
-	public clone(): Color {
-		return new Color( this.r, this.g, this.b, this.a );
-	}
+  public clone(): Color {
+    return new Color( this.r, this.g, this.b, this.a );
+  }
 
   /**
    * Test equality of values for two colors
@@ -235,7 +236,7 @@ export class Color extends Observable {
       MathHelper.lerp( start.r, end.r, t ),
       MathHelper.lerp( start.g, end.g, t ),
       MathHelper.lerp( start.b, end.b, t ),
-      MathHelper.lerp( start.a, end.a, t ),
+      MathHelper.lerp( start.a, end.a, t )
     );
     return this;
   }

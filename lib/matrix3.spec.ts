@@ -12,7 +12,7 @@ describe( 'Matrix3', () => {
       const m = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
 
       // act
-     const result = m.elements;
+      const result = m.elements;
 
       // assert
       expect( result.length ).to.equal( 9 );

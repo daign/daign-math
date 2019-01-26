@@ -15,6 +15,10 @@ Math library in Typescript
 
     npm run coverage
 
+#### Run lint analysis
+
+    npm run lint
+
 #### Make package available locally
 
     npm run link

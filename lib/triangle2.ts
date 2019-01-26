@@ -72,7 +72,7 @@ export class Triangle2 extends Observable {
    * @returns Whether triangles are equal
    */
   public equals( t: Triangle2 ): boolean {
-		return this.a.equals( t.a ) && this.b.equals( t.b ) && this.c.equals( t.c );
+    return this.a.equals( t.a ) && this.b.equals( t.b ) && this.c.equals( t.c );
   }
 
   /**
@@ -92,11 +92,11 @@ export class Triangle2 extends Observable {
     const dot11 = v1.dot( v1 );
     const dot12 = v1.dot( v2 );
 
-    var denom = ( dot00 * dot11 - dot01 * dot01 );
+    const denom = ( dot00 * dot11 - dot01 * dot01 );
 
     // collinear or singular triangle
-		if ( denom === 0 ) {
-				return null;
+    if ( denom === 0 ) {
+      return null;
     }
 
     const invDenom = 1 / denom;

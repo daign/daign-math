@@ -29,25 +29,6 @@ describe( 'Gradient', () => {
     } );
   } );
 
-  describe( 'sortStops', () => {
-    it( 'should sort the color stops', () => {
-      // arrange
-      const g = new Gradient();
-      g.addColorStop( 0.2, new Color() );
-      g.addColorStop( 1, new Color() );
-      g.addColorStop( 0, new Color() );
-
-      // act
-      ( g as any ).sortStops();
-
-      // assert
-      const stops = g.stops;
-      expect( stops[ 0 ].position ).to.equal( 0 );
-      expect( stops[ 1 ].position ).to.equal( 0.2 );
-      expect( stops[ 2 ].position ).to.equal( 1 );
-    } );
-  } );
-
   describe( 'addColorStop', () => {
     it( 'should add a color stop', () => {
       // arrange
@@ -105,9 +86,9 @@ describe( 'Gradient', () => {
       const spy = sinon.spy( g as any, 'sortStops' );
 
       // act
-      g.addColorStop( 0.2, new Color );
+      g.addColorStop( 0.2, new Color() );
       spy.resetHistory();
-      g.stops[ 0 ].position = 0.3
+      g.stops[ 0 ].position = 0.3;
 
       // assert
       expect( spy.calledOnce ).to.be.true;
@@ -271,6 +252,25 @@ describe( 'Gradient', () => {
 
       // assert
       expect( spy.notCalled ).to.be.true;
+    } );
+  } );
+
+  describe( 'sortStops', () => {
+    it( 'should sort the color stops', () => {
+      // arrange
+      const g = new Gradient();
+      g.addColorStop( 0.2, new Color() );
+      g.addColorStop( 1, new Color() );
+      g.addColorStop( 0, new Color() );
+
+      // act
+      ( g as any ).sortStops();
+
+      // assert
+      const stops = g.stops;
+      expect( stops[ 0 ].position ).to.equal( 0 );
+      expect( stops[ 1 ].position ).to.equal( 0.2 );
+      expect( stops[ 2 ].position ).to.equal( 1 );
     } );
   } );
 } );

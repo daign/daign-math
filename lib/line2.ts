@@ -9,11 +9,11 @@ export class Line2 extends Observable {
   private _end: Vector2;
 
   public get start(): Vector2 {
-      return this._start;
+    return this._start;
   }
 
   public get end(): Vector2 {
-      return this._end;
+    return this._end;
   }
 
   /**
@@ -68,7 +68,7 @@ export class Line2 extends Observable {
    * @returns Whether lines are equal
    */
   public equals( l: Line2 ): boolean {
-		return this.start.equals( l.start ) && this.end.equals( l.end );
+    return this.start.equals( l.start ) && this.end.equals( l.end );
   }
 
   /**

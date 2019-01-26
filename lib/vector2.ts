@@ -8,6 +8,9 @@ import {Observable} from './observable';
  * 2D vector
  */
 export class Vector2 extends Observable {
+  // Used for saving an older version of itself
+  public snapshot: Vector2 | undefined;
+
   private _x: number;
   private _y: number;
 
@@ -34,9 +37,6 @@ export class Vector2 extends Observable {
       this.notifyObservers();
     }
   }
-
-  // Used for saving an older version of itself
-  public snapshot: Vector2 | undefined;
 
   /**
    * Constructor
@@ -339,7 +339,9 @@ export class Vector2 extends Observable {
    */
   public angle(): Angle {
     let angle = Math.atan2( this.y, this.x );
-		if ( angle < 0 ) angle += 2 * Math.PI;
+    if ( angle < 0 ) {
+      angle += 2 * Math.PI;
+    }
     return new Angle( angle );
   }
 

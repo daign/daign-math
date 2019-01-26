@@ -118,19 +118,19 @@ export class Matrix3 extends Observable {
     const a = m1.elements;
     const b = m2.elements;
 
-		this.set(
-			a[0] * b[0] + a[1] * b[3] + a[2] * b[6],
-			a[0] * b[1] + a[1] * b[4] + a[2] * b[7],
-			a[0] * b[2] + a[1] * b[5] + a[2] * b[8],
-			a[3] * b[0] + a[4] * b[3] + a[5] * b[6],
-			a[3] * b[1] + a[4] * b[4] + a[5] * b[7],
-			a[3] * b[2] + a[4] * b[5] + a[5] * b[8],
-			a[6] * b[0] + a[7] * b[3] + a[8] * b[6],
-			a[6] * b[1] + a[7] * b[4] + a[8] * b[7],
-			a[6] * b[2] + a[7] * b[5] + a[8] * b[8]
-		);
+    this.set(
+      a[0] * b[0] + a[1] * b[3] + a[2] * b[6],
+      a[0] * b[1] + a[1] * b[4] + a[2] * b[7],
+      a[0] * b[2] + a[1] * b[5] + a[2] * b[8],
+      a[3] * b[0] + a[4] * b[3] + a[5] * b[6],
+      a[3] * b[1] + a[4] * b[4] + a[5] * b[7],
+      a[3] * b[2] + a[4] * b[5] + a[5] * b[8],
+      a[6] * b[0] + a[7] * b[3] + a[8] * b[6],
+      a[6] * b[1] + a[7] * b[4] + a[8] * b[7],
+      a[6] * b[2] + a[7] * b[5] + a[8] * b[8]
+    );
     return this;
-	}
+  }
 
   /**
    * Mutiply with another matrix
@@ -138,9 +138,9 @@ export class Matrix3 extends Observable {
    * @returns A reference to itself
    */
   public multiply( m: Matrix3 ): Matrix3 {
-		this.matrixMultiplication( this, m );
-		return this;
-	}
+    this.matrixMultiplication( this, m );
+    return this;
+  }
 
   /**
    * Combine two transformation matrices.
@@ -149,8 +149,8 @@ export class Matrix3 extends Observable {
    * @returns A reference to itself
    */
   public transform( m: Matrix3 ): Matrix3 {
-		this.matrixMultiplication( m, this );
-		return this;
+    this.matrixMultiplication( m, this );
+    return this;
   }
 
   /**
@@ -158,13 +158,13 @@ export class Matrix3 extends Observable {
    * @returns A reference to itself
    */
   public setIdentity(): Matrix3 {
-		this.set(
-			1, 0, 0,
-			0, 1, 0,
-			0, 0, 1
-		);
-		return this;
-	}
+    this.set(
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1
+    );
+    return this;
+  }
 
   /**
    * Set the translation transformation matrix
@@ -172,13 +172,13 @@ export class Matrix3 extends Observable {
    * @returns A reference to itself
    */
   public setTranslation( t: Vector2 ): Matrix3 {
-		this.set(
-			1, 0, t.x,
-			0, 1, t.y,
-			0, 0, 1
-		);
-		return this;
-	}
+    this.set(
+      1, 0, t.x,
+      0, 1, t.y,
+      0, 0, 1
+    );
+    return this;
+  }
 
   /**
    * Set the scaling transformation matrix
@@ -186,13 +186,13 @@ export class Matrix3 extends Observable {
    * @returns A reference to itself
    */
   public setScaling( s: Vector2 ): Matrix3 {
-		this.set(
-		  s.x, 0, 0,
-		  0, s.y, 0,
-		  0, 0, 1
-		);
-		return this;
-	}
+    this.set(
+      s.x, 0, 0,
+      0, s.y, 0,
+      0, 0, 1
+    );
+    return this;
+  }
 
   /**
    * Set the rotation transformation matrix
@@ -203,8 +203,8 @@ export class Matrix3 extends Observable {
   public setRotation( a: Angle, p?: Vector2 ): Matrix3 {
     if ( p === undefined ) {
       // rotation around the origin of coordinates
-      var sin = Math.sin( a.radians );
-      var cos = Math.cos( a.radians );
+      const sin = Math.sin( a.radians );
+      const cos = Math.cos( a.radians );
 
       this.set(
         cos, -sin, 0,
@@ -218,8 +218,8 @@ export class Matrix3 extends Observable {
       this.applyTranslation( p );
     }
 
-		return this;
-	}
+    return this;
+  }
 
   /**
    * Apply a translation transformation to the matrix
@@ -227,19 +227,19 @@ export class Matrix3 extends Observable {
    * @returns A reference to itself
    */
   public applyTranslation( t: Vector2 ): Matrix3 {
-		this.transform( new Matrix3().setTranslation( t ) );
-		return this;
-	}
+    this.transform( new Matrix3().setTranslation( t ) );
+    return this;
+  }
 
   /**
    * Apply a scaling transformation to the matrix
    * @param s The scaling vector
    * @returns A reference to itself
    */
-  public applyScaling ( s: Vector2 ): Matrix3 {
-		this.transform( new Matrix3().setScaling( s ) );
-		return this;
-	}
+  public applyScaling( s: Vector2 ): Matrix3 {
+    this.transform( new Matrix3().setScaling( s ) );
+    return this;
+  }
 
   /**
    * Apply a rotation transformation to the matrix
@@ -248,9 +248,9 @@ export class Matrix3 extends Observable {
    * @returns A reference to itself
    */
   public applyRotation( a: Angle, p?: Vector2 ): Matrix3 {
-		this.transform( new Matrix3().setRotation( a, p ) );
-		return this;
-	}
+    this.transform( new Matrix3().setRotation( a, p ) );
+    return this;
+  }
 
   /**
    * Calculate the determinant of a matrix

@@ -4,6 +4,9 @@ import {Observable} from './observable';
  * 1D vector that implements the Observable pattern
  */
 export class Value extends Observable {
+  // Used for saving an older version of itself
+  public snapshot: Value | undefined;
+
   private _x: number;
 
   public get x(): number {
@@ -17,9 +20,6 @@ export class Value extends Observable {
       this.notifyObservers();
     }
   }
-
-  // Used for saving an older version of itself
-  public snapshot: Value | undefined;
 
   /**
    * Constructor

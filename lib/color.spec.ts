@@ -319,7 +319,7 @@ describe( 'Color', () => {
       const c = new Color( 1, 2, 3, 0.2 );
 
       // act and assert
-      expect( c.rgba ).to.equal( "rgba(1,2,3,0.2)" );
+      expect( c.rgba ).to.equal( 'rgba(1,2,3,0.2)' );
     } );
   } );
 
@@ -329,7 +329,7 @@ describe( 'Color', () => {
       const c = new Color( 255, 140, 100 );
 
       // act and assert
-      expect( c.hex ).to.equal( "#ff8c64" );
+      expect( c.hex ).to.equal( '#ff8c64' );
     } );
   } );
 
@@ -463,7 +463,7 @@ describe( 'Color', () => {
       const c = new Color();
 
       // act
-      c.setFromHex( "#ff8c64", 0.2 );
+      c.setFromHex( '#ff8c64', 0.2 );
 
       // assert
       const expected = new Color( 255, 140, 100, 0.2 );
@@ -475,7 +475,7 @@ describe( 'Color', () => {
       const c = new Color( 1, 2, 3, 0.2 );
 
       // act
-      c.setFromHex( "#ff8c64" );
+      c.setFromHex( '#ff8c64' );
 
       // assert
       expect( c.a ).to.equal( 0.2 );
@@ -487,7 +487,7 @@ describe( 'Color', () => {
       const spy = sinon.spy( c, 'set' );
 
       // act
-      c.setFromHex( "#ff8c64" );
+      c.setFromHex( '#ff8c64' );
 
       // assert
       expect( spy.calledOnce ).to.be.true;

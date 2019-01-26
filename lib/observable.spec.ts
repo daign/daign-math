@@ -10,21 +10,6 @@ describe( 'Observable', () => {
     }
   }
 
-  describe( 'notifyObservers', () => {
-    it( 'should call the callback', () => {
-      // arrange
-      const t = new TestClass();
-      const spy = sinon.spy();
-      t.subscribeToChanges( spy );
-
-      // act
-      ( t as any ).notifyObservers();
-
-      // assert
-      expect( spy.calledOnce ).to.be.true;
-    } );
-  } );
-
   describe( 'subscribeToChanges', () => {
     it( 'should add a listener', () => {
       // arrange
@@ -47,6 +32,21 @@ describe( 'Observable', () => {
 
       // assert
       expect( ( t as any ).listeners.length ).to.equal( 0 );
+    } );
+  } );
+
+  describe( 'notifyObservers', () => {
+    it( 'should call the callback', () => {
+      // arrange
+      const t = new TestClass();
+      const spy = sinon.spy();
+      t.subscribeToChanges( spy );
+
+      // act
+      ( t as any ).notifyObservers();
+
+      // assert
+      expect( spy.calledOnce ).to.be.true;
     } );
   } );
 
