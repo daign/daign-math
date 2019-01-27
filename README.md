@@ -1,5 +1,18 @@
 # daign-math
-Math library in Typescript
+
+[![NPM package][npm]][npm-url]
+
+#### Math library in Typescript
+
+Inspired by the math classes from [three.js](https://github.com/mrdoob/three.js/).
+But here the focus is on 2D graphics.
+Additionally every class implements an [observable pattern](https://github.com/daign/daign-observable).
+
+## Installation
+
+```sh
+npm install @daign/math --save
+```
 
 ## Scripts
 
@@ -11,9 +24,9 @@ Math library in Typescript
 
     npm run test
 
-#### Show test coverage
+#### Show code coverage
 
-    npm run coverage
+    npm run cover
 
 #### Run lint analysis
 
@@ -26,3 +39,6 @@ Math library in Typescript
 #### Publish package
 
     npm run publish
+
+[npm]: https://img.shields.io/npm/v/@daign/math.svg
+[npm-url]: https://www.npmjs.com/package/@daign/math
