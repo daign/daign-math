@@ -1,22 +1,27 @@
 {
-  "name": "daign-math",
-  "version": "0.0.1",
+  "name": "@daign/math",
+  "version": "1.0.0",
   "description": "Math library in Typescript",
+  "keywords": [
+    "math",
+    "vector",
+    "typescript"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "lint": "tslint -c tslint.json lib/**/*.ts",
     "test": "mocha -r ts-node/register lib/**/*.spec.ts",
-    "coverage": "nyc mocha -r ts-node/register lib/**/*.spec.ts",
-    "link": "tsc && cp -R package.json dist && cp -R readme.md dist && cd dist && npm link",
-    "publish": "tsc && cp -R package.json dist && cp -R readme.md dist && cd dist && npm publish"
+    "cover": "nyc mocha -r ts-node/register lib/**/*.spec.ts",
+    "link": "tsc && cp -R package.json dist && cp -R README.md dist && cd dist && npm link",
+    "publish": "tsc && cp -R package.json dist && cp -R README.md dist && cd dist && npm publish --access public"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daign/daign-math.git"
   },
-  "author": "daign.de",
+  "author": "Jakob Mischek <jakob.mischek@daign.de> (https://github.com/daign)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/daign/daign-math/issues"
@@ -36,7 +41,9 @@
     "tslint-no-unused-expression-chai": "^0.1.4",
     "typescript": "^3.2.4"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@daign/observable": "^1.0.0"
+  },
   "nyc": {
     "include": [
       "lib/**/*.ts"

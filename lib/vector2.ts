@@ -1,8 +1,9 @@
+import {Observable} from '@daign/observable';
+
 import {Angle} from './angle';
 import {Box2} from './box2';
 import {Line2} from './line2';
 import {Matrix3} from './matrix3';
-import {Observable} from './observable';
 
 /**
  * 2D vector

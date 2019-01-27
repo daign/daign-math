@@ -1,4 +1,5 @@
-import {Observable} from './observable';
+import {Observable} from '@daign/observable';
+
 import {Vector2} from './vector2';
 
 /**

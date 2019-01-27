@@ -1,5 +1,6 @@
+import {Observable} from '@daign/observable';
+
 import {Line2} from './line2';
-import {Observable} from './observable';
 import {Vector2} from './vector2';
 import {Vector3} from './vector3';
 

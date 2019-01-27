@@ -1,4 +1,4 @@
-import {Observable} from './observable';
+import {Observable} from '@daign/observable';
 
 /**
  * 1D vector that implements the Observable pattern
@@ -10,7 +10,7 @@ export class Value extends Observable {
   private _x: number;
 
   public get x(): number {
-      return this._x;
+    return this._x;
   }
 
   public set x( value: number ) {

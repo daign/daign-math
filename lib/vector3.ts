@@ -1,4 +1,4 @@
-import {Observable} from './observable';
+import {Observable} from '@daign/observable';
 
 /**
  * 3D vector
