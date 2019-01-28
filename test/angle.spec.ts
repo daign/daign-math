@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import * as sinon from 'sinon';
 
-import {Angle} from './angle';
+import {Angle} from '../lib/angle';
 
 describe( 'Angle', () => {
   describe( 'getter radians', () => {

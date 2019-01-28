@@ -1,8 +1,8 @@
 import {expect} from 'chai';
 import * as sinon from 'sinon';
 
-import {Triangle2} from './triangle2';
-import {Vector2} from './vector2';
+import {Triangle2} from '../lib/triangle2';
+import {Vector2} from '../lib/vector2';
 
 describe( 'Triangle2', () => {
   describe( 'constructor', () => {

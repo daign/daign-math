@@ -1,8 +1,8 @@
 import {expect} from 'chai';
 import * as sinon from 'sinon';
 
-import {Box2} from './box2';
-import {Vector2} from './vector2';
+import {Box2} from '../lib/box2';
+import {Vector2} from '../lib/vector2';
 
 describe( 'Box2', () => {
   describe( 'isEmpty getter', () => {

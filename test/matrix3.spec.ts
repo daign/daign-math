@@ -1,9 +1,9 @@
 import {expect} from 'chai';
 import * as sinon from 'sinon';
 
-import {Angle} from './angle';
-import {Matrix3} from './matrix3';
-import {Vector2} from './vector2';
+import {Angle} from '../lib/angle';
+import {Matrix3} from '../lib/matrix3';
+import {Vector2} from '../lib/vector2';
 
 describe( 'Matrix3', () => {
   describe( 'getter elements', () => {

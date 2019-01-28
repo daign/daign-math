@@ -1,8 +1,8 @@
 import {expect} from 'chai';
 import * as sinon from 'sinon';
 
-import {Line2} from './line2';
-import {Vector2} from './vector2';
+import {Line2} from '../lib/line2';
+import {Vector2} from '../lib/vector2';
 
 describe( 'Line2', () => {
   describe( 'direction getter', () => {
