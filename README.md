@@ -14,6 +14,26 @@ Additionally every class implements an [observable pattern](https://github.com/d
 npm install @daign/math --save
 ```
 
+## Usage
+
+```typescript
+import {Line2} from '@daign/math';
+import {Vector2} from '@daign/math';
+
+// Create a point
+const point = new Vector2( 1, 5 );
+
+// Create a line
+const line = new Line2( new Vector2(), new Vector2( 6, 4 ) );
+
+// Calculate result of projecting the point on the line
+const projected = point.projectOnLine( line );
+console.log( projected.x, projected.y );
+
+// Calculate distance between point and projection
+console.log( point.distanceTo( projected ) );
+```
+
 ## Scripts
 
 #### Build
