@@ -129,6 +129,32 @@ describe( 'Matrix3', () => {
     } );
   } );
 
+  describe( 'clone', () => {
+    it( 'should return an object with the same values', () => {
+      // arrange
+      const m = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
+
+      // act
+      const result = m.clone();
+
+      // assert
+      expect( result.equals( m ) ).to.be.true;
+    } );
+
+    it( 'should not call observers when original matrix changes', () => {
+      // arrange
+      const m = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
+      const result = m.clone();
+      const spy = sinon.spy( ( result as any ), 'notifyObservers' );
+
+      // act
+      m.setIdentity();
+
+      // assert
+      expect( spy.notCalled ).to.be.true;
+    } );
+  } );
+
   describe( 'equals', () => {
     it( 'should return true if values equal', () => {
       // arrange

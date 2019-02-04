@@ -16,7 +16,7 @@ export class Vector2 extends Observable {
   private _y: number;
 
   public get x(): number {
-      return this._x;
+    return this._x;
   }
 
   public set x( value: number ) {
@@ -28,7 +28,7 @@ export class Vector2 extends Observable {
   }
 
   public get y(): number {
-      return this._y;
+    return this._y;
   }
 
   public set y( value: number ) {
@@ -148,7 +148,7 @@ export class Vector2 extends Observable {
    * @returns Whether vectors are equal
    */
   public equals( v: Vector2 ): boolean {
-      return ( ( this.x === v.x ) && ( this.y === v.y ) );
+    return ( ( this.x === v.x ) && ( this.y === v.y ) );
   }
 
   /**

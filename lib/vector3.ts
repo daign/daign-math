@@ -9,7 +9,7 @@ export class Vector3 extends Observable {
   private _z: number;
 
   public get x(): number {
-      return this._x;
+    return this._x;
   }
 
   public set x( value: number ) {
@@ -21,7 +21,7 @@ export class Vector3 extends Observable {
   }
 
   public get y(): number {
-      return this._y;
+    return this._y;
   }
 
   public set y( value: number ) {
@@ -33,7 +33,7 @@ export class Vector3 extends Observable {
   }
 
   public get z(): number {
-      return this._z;
+    return this._z;
   }
 
   public set z( value: number ) {
@@ -114,7 +114,7 @@ export class Vector3 extends Observable {
    * @returns Whether vectors are equal
    */
   public equals( v: Vector3 ): boolean {
-      return ( ( this.x === v.x ) && ( this.y === v.y ) && ( this.z === v.z ));
+    return ( ( this.x === v.x ) && ( this.y === v.y ) && ( this.z === v.z ));
   }
 
   /**

@@ -10,7 +10,7 @@ export class Matrix3 extends Observable {
   private _elements: number[];
 
   public get elements(): number[] {
-      return this._elements;
+    return this._elements;
   }
 
   /**

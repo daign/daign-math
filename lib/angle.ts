@@ -54,6 +54,6 @@ export class Angle extends Observable {
    * @returns Whether angles are equal
    */
   public equals( a: Angle ): boolean {
-      return ( this.radians === a.radians  );
+    return ( this.radians === a.radians  );
   }
 }

@@ -206,5 +206,28 @@ describe( 'Value', () => {
       // assert
       expect( spy.calledOnce ).to.be.true;
     } );
+
+    it( 'should not change value if value has no snapshot', () => {
+      // arrange
+      const v = new Value( 2 );
+
+      // act
+      v.drag( 4 );
+
+      // assert
+      expect( v.x ).to.equal( 2 );
+    } );
+
+    it( 'should not call notifyObservers if value has no snapshot', () => {
+      // arrange
+      const v = new Value( 2 );
+      const spy = sinon.spy( v as any, 'notifyObservers' );
+
+      // act
+      v.drag( 4 );
+
+      // assert
+      expect( spy.notCalled ).to.be.true;
+    } );
   } );
 } );

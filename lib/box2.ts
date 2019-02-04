@@ -7,16 +7,16 @@ import {Vector2} from './vector2';
  */
 export class Box2 extends Observable {
   // min coordinates, has the smaller x and y values
-  public _min: Vector2;
+  private _min: Vector2;
   // max coodinates, has the greater x and y values
-  public _max: Vector2;
+  private _max: Vector2;
 
   public get min(): Vector2 {
-      return this._min;
+    return this._min;
   }
 
   public get max(): Vector2 {
-      return this._max;
+    return this._max;
   }
 
   /**

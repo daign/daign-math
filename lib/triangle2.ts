@@ -13,15 +13,15 @@ export class Triangle2 extends Observable {
   private _c: Vector2;
 
   public get a(): Vector2 {
-      return this._a;
+    return this._a;
   }
 
   public get b(): Vector2 {
-      return this._b;
+    return this._b;
   }
 
   public get c(): Vector2 {
-      return this._c;
+    return this._c;
   }
 
   /**
