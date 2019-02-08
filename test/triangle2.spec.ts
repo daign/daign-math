@@ -5,6 +5,45 @@ import {Triangle2} from '../lib/triangle2';
 import {Vector2} from '../lib/vector2';
 
 describe( 'Triangle2', () => {
+  describe( 'getter a', () => {
+    it( 'should get vector a', () => {
+      // arrange
+      const a = new Vector2( 1, 2 );
+      const b = new Vector2( 3, 4 );
+      const c = new Vector2( 3, 2 );
+      const triangle = new Triangle2( a, b, c );
+
+      // act and assert
+      expect( triangle.a.equals( a ) ).to.be.true;
+    } );
+  } );
+
+  describe( 'getter b', () => {
+    it( 'should get vector b', () => {
+      // arrange
+      const a = new Vector2( 1, 2 );
+      const b = new Vector2( 3, 4 );
+      const c = new Vector2( 3, 2 );
+      const triangle = new Triangle2( a, b, c );
+
+      // act and assert
+      expect( triangle.b.equals( b ) ).to.be.true;
+    } );
+  } );
+
+  describe( 'getter c', () => {
+    it( 'should get vector c', () => {
+      // arrange
+      const a = new Vector2( 1, 2 );
+      const b = new Vector2( 3, 4 );
+      const c = new Vector2( 3, 2 );
+      const triangle = new Triangle2( a, b, c );
+
+      // act and assert
+      expect( triangle.c.equals( c ) ).to.be.true;
+    } );
+  } );
+
   describe( 'constructor', () => {
     it( 'should create with given points', () => {
       // arrange
@@ -131,6 +170,73 @@ describe( 'Triangle2', () => {
 
       // assert
       expect( spy.notCalled ).to.be.true;
+    } );
+  } );
+
+  describe( 'clone', () => {
+    it( 'should return an object with the same values', () => {
+      // arrange
+      const p1 = new Vector2( 1, 2 );
+      const p2 = new Vector2( 3, 4 );
+      const p3 = new Vector2( 5, 6 );
+      const t = new Triangle2( p1, p2, p3 );
+
+      // act
+      const result = t.clone();
+
+      // assert
+      expect( result.a.equals( p1 ) ).to.be.true;
+      expect( result.b.equals( p2 ) ).to.be.true;
+      expect( result.c.equals( p3 ) ).to.be.true;
+    } );
+
+    it( 'should not call observers when original triangle changes', () => {
+      // arrange
+      const p1 = new Vector2( 1, 2 );
+      const p2 = new Vector2( 3, 4 );
+      const p3 = new Vector2( 5, 6 );
+      const t = new Triangle2( p1, p2, p3 );
+      const result = t.clone();
+      const spy = sinon.spy( result as any, 'notifyObservers' );
+
+      // act
+      t.a.x = 0;
+
+      // assert
+      expect( spy.notCalled ).to.be.true;
+    } );
+  } );
+
+  describe( 'equals', () => {
+    it( 'should return true if values equal', () => {
+      // arrange
+      const p1 = new Vector2( 1, 2 );
+      const p2 = new Vector2( 3, 4 );
+      const p3 = new Vector2( 5, 6 );
+      const t1 = new Triangle2( p1, p2, p3 );
+      const t2 = new Triangle2( p1.clone(), p2.clone(), p3.clone() );
+
+      // act
+      const result = t1.equals( t2 );
+
+      // assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false if values do not equal', () => {
+      // arrange
+      const p1 = new Vector2( 1, 2 );
+      const p2 = new Vector2( 3, 4 );
+      const p3 = new Vector2( 5, 6 );
+      const p4 = new Vector2( 7, 8 );
+      const t1 = new Triangle2( p1, p2, p3 );
+      const t2 = new Triangle2( p1.clone(), p2.clone(), p4 );
+
+      // act
+      const result = t1.equals( t2 );
+
+      // assert
+      expect( result ).to.be.false;
     } );
   } );
 

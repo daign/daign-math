@@ -5,6 +5,30 @@ import {Line2} from '../lib/line2';
 import {Vector2} from '../lib/vector2';
 
 describe( 'Line2', () => {
+  describe( 'getter start', () => {
+    it( 'should get start vector', () => {
+      // arrange
+      const start = new Vector2( 1, 2 );
+      const end = new Vector2( 3, 4 );
+      const line = new Line2( start, end );
+
+      // act and assert
+      expect( line.start.equals( start ) ).to.be.true;
+    } );
+  } );
+
+  describe( 'getter end', () => {
+    it( 'should get end vector', () => {
+      // arrange
+      const start = new Vector2( 1, 2 );
+      const end = new Vector2( 3, 4 );
+      const line = new Line2( start, end );
+
+      // act and assert
+      expect( line.end.equals( end ) ).to.be.true;
+    } );
+  } );
+
   describe( 'direction getter', () => {
     it( 'should return the direction', () => {
       // arrange
@@ -121,6 +145,68 @@ describe( 'Line2', () => {
 
       // assert
       expect( spy.notCalled ).to.be.true;
+    } );
+  } );
+
+  describe( 'clone', () => {
+    it( 'should return an object with the same values', () => {
+      // arrange
+      const start = new Vector2( 1, 2 );
+      const end = new Vector2( 3, 4 );
+      const line = new Line2( start, end );
+
+      // act
+      const result = line.clone();
+
+      // assert
+      expect( result.start.equals( start ) ).to.be.true;
+      expect( result.end.equals( end ) ).to.be.true;
+    } );
+
+    it( 'should not call observers when original line changes', () => {
+      // arrange
+      const start = new Vector2( 1, 2 );
+      const end = new Vector2( 3, 4 );
+      const line = new Line2( start, end );
+      const result = line.clone();
+      const spy = sinon.spy( result as any, 'notifyObservers' );
+
+      // act
+      line.start.x = 0;
+
+      // assert
+      expect( spy.notCalled ).to.be.true;
+    } );
+  } );
+
+  describe( 'equals', () => {
+    it( 'should return true if values equal', () => {
+      // arrange
+      const start = new Vector2( 1, 2 );
+      const end = new Vector2( 3, 4 );
+      const l1 = new Line2( start, end );
+      const l2 = new Line2( start.clone(), end.clone() );
+
+      // act
+      const result = l1.equals( l2 );
+
+      // assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false if values do not equal', () => {
+      // arrange
+      const start = new Vector2( 1, 2 );
+      const end1 = new Vector2( 3, 4 );
+      const end2 = new Vector2( 5, 6 );
+      const l1 = new Line2( start, end1 );
+      const l2 = new Line2( start.clone(), end2 );
+
+      // act
+      const result = l1.equals( l2 );
+
+      // assert
+      expect( result ).to.be.false;
     } );
   } );
 
