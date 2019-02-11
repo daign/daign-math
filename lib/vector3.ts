@@ -143,7 +143,7 @@ export class Vector3 extends Observable {
    * @returns A reference to itself
    */
   public multiply( v: Vector3 ): Vector3 {
-    this.set( this.x * v.x, this.y * v.y, this.z = v.z );
+    this.set( this.x * v.x, this.y * v.y, this.z * v.z );
     return this;
   }
 
