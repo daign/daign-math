@@ -522,4 +522,48 @@ describe( 'Matrix3', () => {
       expect( result ).to.equal( 32 );
     } );
   } );
+
+  describe( 'setToInverse', () => {
+    it( 'should set to the inverse of a matrix', () => {
+      // arrange
+      const m = new Matrix3( 1, 2, 3, 4, 0, 4, 3, 2, 1 );
+      const expected = new Matrix3(
+        -2 / 8, 1 / 8, 2 / 8,
+        2 / 8, -2 / 8, 2 / 8,
+        2 / 8, 1 / 8, -2 / 8
+      );
+
+      // act
+      const result = new Matrix3().setToInverse( m );
+
+      // assert
+      expect( result.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should throw error when matrix cannot be inverted', () => {
+      // arrange
+      const m = new Matrix3( 1, 2, 3, 4, 0, 4, 0, 0, 0 );
+
+      // act
+      const badFn = () => {
+        new Matrix3().setToInverse( m );
+      };
+
+      // assert
+      expect( badFn ).to.throw( 'Can not invert matrix because determinant is 0.' );
+    } );
+
+    it( 'should result in identity matrix when multiplied with original matrix', () => {
+      // arrange
+      const m = new Matrix3( 1, 2, 3, 4, 0, 4, 3, 2, 1 );
+      const inverse = new Matrix3().setToInverse( m );
+      const expected = new Matrix3().setIdentity();
+
+      // act
+      m.multiply( inverse );
+
+      // assert
+      expect( m.equals( expected ) ).to.be.true;
+    } );
+  } );
 } );

@@ -271,4 +271,46 @@ export class Matrix3 extends Observable {
 
     return a * e * i - a * f * h - b * d * i + b * f * g + c * d * h - c * e * g;
   }
+
+  /**
+   * Set to the inverse of the passed matrix.
+   * Will throw error if matrix cannot be inverted because determinant is 0.
+   * Based on: https://github.com/mrdoob/three.js/blob/dev/src/math/Matrix3.js
+   * @param m The matrix to invert.
+   * @returns A reference to itself
+   */
+  public setToInverse( m: Matrix3 ): Matrix3 {
+    const det = m.determinant();
+
+    if ( det === 0 ) {
+      throw new Error( 'Can not invert matrix because determinant is 0.' );
+    }
+
+    const detInv = 1 / det;
+
+    const me = m.elements;
+    const a = me[ 0 ];
+    const b = me[ 1 ];
+    const c = me[ 2 ];
+    const d = me[ 3 ];
+    const e = me[ 4 ];
+    const f = me[ 5 ];
+    const g = me[ 6 ];
+    const h = me[ 7 ];
+    const i = me[ 8 ];
+
+    this.set(
+      ( i * e - f * h ) * detInv,
+      ( c * h - i * b ) * detInv,
+      ( f * b - c * e ) * detInv,
+      ( f * g - i * d ) * detInv,
+      ( i * a - c * g ) * detInv,
+      ( c * d - f * a ) * detInv,
+      ( h * d - e * g ) * detInv,
+      ( b * g - h * a ) * detInv,
+      ( e * a - b * d ) * detInv
+    );
+
+    return this;
+  }
 }
