@@ -51,7 +51,7 @@ describe( 'Matrix3', () => {
       const m = new Matrix3();
 
       // Assert
-      expect( m.elements.every( a => a === 0 ) ).to.be.true;
+      expect( m.elements.every( ( a: number ): boolean => a === 0 ) ).to.be.true;
     } );
   } );
 
@@ -545,7 +545,7 @@ describe( 'Matrix3', () => {
       const m = new Matrix3( 1, 2, 3, 4, 0, 4, 0, 0, 0 );
 
       // Act
-      const badFn = () => {
+      const badFn = (): void => {
         new Matrix3().setToInverse( m );
       };
 
