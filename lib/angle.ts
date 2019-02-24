@@ -1,4 +1,4 @@
-import {Observable} from '@daign/observable';
+import { Observable } from '@daign/observable';
 
 /**
  * Angle
@@ -17,7 +17,7 @@ export class Angle extends Observable {
    * Set angle in radians
    */
   public set radians( value: number ) {
-    // only call observers if something changed
+    // Only call observers if something changed
     if ( this._radians !== value ) {
       this._radians = value;
       this.notifyObservers();
@@ -42,7 +42,7 @@ export class Angle extends Observable {
    * Constructor
    * @param rad The angle in radians
    */
-  constructor( radians?: number ) {
+  public constructor( radians?: number ) {
     super();
 
     this._radians = radians || 0;
@@ -54,6 +54,6 @@ export class Angle extends Observable {
    * @returns Whether angles are equal
    */
   public equals( a: Angle ): boolean {
-    return ( this.radians === a.radians  );
+    return ( this.radians === a.radians );
   }
 }

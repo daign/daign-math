@@ -1,166 +1,166 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 import * as sinon from 'sinon';
 
-import {Vector3} from '../lib/vector3';
+import { Vector3 } from '../lib/vector3';
 
 describe( 'Vector3', () => {
   describe( 'getter x', () => {
     it( 'should get x', () => {
-      // arrange
+      // Arrange
       const v = new Vector3( 1, 0, 0 );
 
-      // act and assert
+      // Act and assert
       expect( v.x ).to.equal( 1 );
     } );
   } );
 
   describe( 'setter x', () => {
     it( 'should set x', () => {
-      // arrange
+      // Arrange
       const v = new Vector3();
 
-      // act
+      // Act
       v.x = 1;
 
-      // assert
+      // Assert
       expect( v.x ).to.equal( 1 );
     } );
 
     it( 'should call notifyObservers', () => {
-      // arrange
+      // Arrange
       const v = new Vector3();
       const spy = sinon.spy( v as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.x = 1;
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should not call notifyObservers when value does not change', () => {
-      // arrange
+      // Arrange
       const v = new Vector3( 1, 0, 0 );
       const spy = sinon.spy( v as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.x = 1;
 
-      // assert
+      // Assert
       expect( spy.notCalled ).to.be.true;
     } );
   } );
 
   describe( 'getter y', () => {
     it( 'should get y', () => {
-      // arrange
+      // Arrange
       const v = new Vector3( 0, 1, 0 );
 
-      // act and assert
+      // Act and assert
       expect( v.y ).to.equal( 1 );
     } );
   } );
 
   describe( 'setter y', () => {
     it( 'should set y', () => {
-      // arrange
+      // Arrange
       const v = new Vector3();
 
-      // act
+      // Act
       v.y = 1;
 
-      // assert
+      // Assert
       expect( v.y ).to.equal( 1 );
     } );
 
     it( 'should call notifyObservers', () => {
-      // arrange
+      // Arrange
       const v = new Vector3();
       const spy = sinon.spy( v as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.y = 1;
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should not call notifyObservers when value does not change', () => {
-      // arrange
+      // Arrange
       const v = new Vector3( 0, 1, 0 );
       const spy = sinon.spy( v as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.y = 1;
 
-      // assert
+      // Assert
       expect( spy.notCalled ).to.be.true;
     } );
   } );
 
   describe( 'getter z', () => {
     it( 'should get z', () => {
-      // arrange
+      // Arrange
       const v = new Vector3( 0, 0, 1 );
 
-      // act and assert
+      // Act and assert
       expect( v.z ).to.equal( 1 );
     } );
   } );
 
   describe( 'setter z', () => {
     it( 'should set z', () => {
-      // arrange
+      // Arrange
       const v = new Vector3();
 
-      // act
+      // Act
       v.z = 1;
 
-      // assert
+      // Assert
       expect( v.z ).to.equal( 1 );
     } );
 
     it( 'should call notifyObservers', () => {
-      // arrange
+      // Arrange
       const v = new Vector3();
       const spy = sinon.spy( v as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.z = 1;
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should not call notifyObservers when value does not change', () => {
-      // arrange
+      // Arrange
       const v = new Vector3( 0, 0, 1 );
       const spy = sinon.spy( v as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.z = 1;
 
-      // assert
+      // Assert
       expect( spy.notCalled ).to.be.true;
     } );
   } );
 
   describe( 'constructor', () => {
     it( 'should set x, y and z properties', () => {
-      // act
+      // Act
       const v = new Vector3( 1, 2, 3 );
 
-      // assert
+      // Assert
       expect( v.x ).to.equal( 1 );
       expect( v.y ).to.equal( 2 );
       expect( v.z ).to.equal( 3 );
     } );
 
     it( 'should set zero values if uninitialised', () => {
-      // act
+      // Act
       const v = new Vector3();
 
-      // assert
+      // Assert
       expect( v.x ).to.equal( 0 );
       expect( v.y ).to.equal( 0 );
       expect( v.z ).to.equal( 0 );
@@ -169,371 +169,371 @@ describe( 'Vector3', () => {
 
   describe( 'set', () => {
     it( 'should set x, y and z properties', () => {
-      // arrange
+      // Arrange
       const v = new Vector3();
 
-      // act
+      // Act
       v.set( 1, 2, 3 );
 
-      // assert
+      // Assert
       expect( v.x ).to.equal( 1 );
       expect( v.y ).to.equal( 2 );
       expect( v.z ).to.equal( 3 );
     } );
 
     it( 'should call notifyObservers', () => {
-      // arrange
+      // Arrange
       const v = new Vector3();
       const spy = sinon.spy( v as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.set( 1, 2, 3 );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should not call notifyObservers when value does not change', () => {
-      // arrange
+      // Arrange
       const v = new Vector3( 1, 2, 3 );
       const spy = sinon.spy( v as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.set( 1, 2, 3 );
 
-      // assert
+      // Assert
       expect( spy.notCalled ).to.be.true;
     } );
   } );
 
   describe( 'setSilent', () => {
     it( 'should set x, y and z properties', () => {
-      // arrange
+      // Arrange
       const v = new Vector3();
 
-      // act
+      // Act
       v.setSilent( 1, 2, 3 );
 
-      // assert
+      // Assert
       expect( v.x ).to.equal( 1 );
       expect( v.y ).to.equal( 2 );
       expect( v.z ).to.equal( 3 );
     } );
 
     it( 'should not call notifyObservers', () => {
-      // arrange
+      // Arrange
       const v = new Vector3();
       const spy = sinon.spy( v as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.setSilent( 1, 2, 3 );
 
-      // assert
+      // Assert
       expect( spy.notCalled ).to.be.true;
     } );
   } );
 
   describe( 'copy', () => {
     it( 'should copy x, y and z properties', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3();
       const v2 = new Vector3( 1, 2, 3 );
 
-      // act
+      // Act
       v1.copy( v2 );
 
-      // assert
+      // Assert
       expect( v1.x ).to.equal( 1 );
       expect( v1.y ).to.equal( 2 );
       expect( v1.z ).to.equal( 3 );
     } );
 
     it( 'should call set', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3();
       const v2 = new Vector3( 1, 2, 3 );
       const spy = sinon.spy( v1, 'set' );
 
-      // act
+      // Act
       v1.copy( v2 );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
   } );
 
   describe( 'clone', () => {
     it( 'should return an object with the same values', () => {
-      // arrange
+      // Arrange
       const v = new Vector3( 1, 2, 3 );
 
-      // act
+      // Act
       const result = v.clone();
 
-      // assert
+      // Assert
       expect( result.x ).to.equal( 1 );
       expect( result.y ).to.equal( 2 );
       expect( result.z ).to.equal( 3 );
     } );
 
     it( 'should not call observers when original vector changes', () => {
-      // arrange
+      // Arrange
       const v = new Vector3( 1, 2, 3 );
       const result = v.clone();
       const spy = sinon.spy( result as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.x = 0;
 
-      // assert
+      // Assert
       expect( spy.notCalled ).to.be.true;
     } );
   } );
 
   describe( 'equals', () => {
     it( 'should return true if values equal', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 1, 2, 3 );
 
-      // act
+      // Act
       const result = v1.equals( v2 );
 
-      // assert
+      // Assert
       expect( result ).to.be.true;
     } );
 
     it( 'should return false if values do not equal', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 1, 3, 5 );
 
-      // act
+      // Act
       const result = v1.equals( v2 );
 
-      // assert
+      // Assert
       expect( result ).to.be.false;
     } );
   } );
 
   describe( 'add', () => {
     it( 'should add vectors', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 2, 5 );
       const expected = new Vector3( 5, 4, 8 );
 
-      // act
+      // Act
       v1.add( v2 );
 
-      // assert
+      // Assert
       expect( v1.equals( expected ) ).to.be.true;
     } );
 
     it( 'should call set', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 5, 6 );
       const spy = sinon.spy( v1, 'set' );
 
-      // act
+      // Act
       v1.add( v2 );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
   } );
 
   describe( 'sub', () => {
     it( 'should subtract vectors', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3( 4, 2, 5 );
       const v2 = new Vector3( 1, 2, 3 );
       const expected = new Vector3( 3, 0, 2 );
 
-      // act
+      // Act
       v1.sub( v2 );
 
-      // assert
+      // Assert
       expect( v1.equals( expected ) ).to.be.true;
     } );
 
     it( 'should call set', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 5, 6 );
       const spy = sinon.spy( v1, 'set' );
 
-      // act
+      // Act
       v1.sub( v2 );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
   } );
 
   describe( 'multiply', () => {
     it( 'should multiply vectors', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 2, 5 );
       const expected = new Vector3( 4, 4, 15 );
 
-      // act
+      // Act
       v1.multiply( v2 );
 
-      // assert
+      // Assert
       expect( v1.equals( expected ) ).to.be.true;
     } );
 
     it( 'should call set', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 5, 6 );
       const spy = sinon.spy( v1, 'set' );
 
-      // act
+      // Act
       v1.multiply( v2 );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
   } );
 
   describe( 'divide', () => {
     it( 'should divide vectors', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3( 4, 6, 9 );
       const v2 = new Vector3( 4, 3, 3 );
       const expected = new Vector3( 1, 2, 3 );
 
-      // act
+      // Act
       v1.divide( v2 );
 
-      // assert
+      // Assert
       expect( v1.equals( expected ) ).to.be.true;
     } );
 
     it( 'should call set', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 5, 6 );
       const spy = sinon.spy( v1, 'set' );
 
-      // act
+      // Act
       v1.divide( v2 );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
   } );
 
   describe( 'addScalar', () => {
     it( 'should add scalar', () => {
-      // arrange
+      // Arrange
       const v = new Vector3( 1, 2, 3 );
       const scalar = 3;
       const expected = new Vector3( 4, 5, 6 );
 
-      // act
+      // Act
       v.addScalar( scalar );
 
-      // assert
+      // Assert
       expect( v.equals( expected ) ).to.be.true;
     } );
 
     it( 'should call set', () => {
-      // arrange
+      // Arrange
       const v = new Vector3( 1, 2, 3 );
       const spy = sinon.spy( v, 'set' );
 
-      // act
+      // Act
       v.addScalar( 3 );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
   } );
 
   describe( 'multiplyScalar', () => {
     it( 'should multipy scalar', () => {
-      // arrange
+      // Arrange
       const v = new Vector3( 1, 2, 3 );
       const scalar = 3;
       const expected = new Vector3( 3, 6, 9 );
 
-      // act
+      // Act
       v.multiplyScalar( scalar );
 
-      // assert
+      // Assert
       expect( v.equals( expected ) ).to.be.true;
     } );
 
     it( 'should call set', () => {
-      // arrange
+      // Arrange
       const v = new Vector3( 1, 2, 3 );
       const spy = sinon.spy( v, 'set' );
 
-      // act
+      // Act
       v.multiplyScalar( 3 );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
   } );
 
   describe( 'min', () => {
     it( 'should set to the elementwise minimum of two vectors', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3( 1, 5, 4 );
       const v2 = new Vector3( 2, 3, 4 );
       const expected = new Vector3( 1, 3, 4 );
 
-      // act
+      // Act
       v1.min( v2 );
 
-      // assert
+      // Assert
       expect( v1.equals( expected ) ).to.be.true;
     } );
 
     it( 'should call set', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 5, 6 );
       const spy = sinon.spy( v1, 'set' );
 
-      // act
+      // Act
       v1.min( v2 );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
   } );
 
   describe( 'max', () => {
     it( 'should set to the elementwise maximum of two vectors', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3( 1, 5, 4 );
       const v2 = new Vector3( 2, 3, 4 );
       const expected = new Vector3( 2, 5, 4 );
 
-      // act
+      // Act
       v1.max( v2 );
 
-      // assert
+      // Assert
       expect( v1.equals( expected ) ).to.be.true;
     } );
 
     it( 'should call set', () => {
-      // arrange
+      // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 5, 6 );
       const spy = sinon.spy( v1, 'set' );
 
-      // act
+      // Act
       v1.max( v2 );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
   } );

@@ -1,4 +1,4 @@
-import {Observable} from '@daign/observable';
+import { Observable } from '@daign/observable';
 
 /**
  * 1D vector that implements the Observable pattern
@@ -14,7 +14,7 @@ export class Value extends Observable {
   }
 
   public set x( value: number ) {
-    // only call observers if something changed
+    // Only call observers if something changed
     if ( this._x !== value ) {
       this._x = value;
       this.notifyObservers();
@@ -25,7 +25,7 @@ export class Value extends Observable {
    * Constructor
    * @param x Value
    */
-  constructor( x?: number ) {
+  public constructor( x?: number ) {
     super();
     this._x = x || 0;
     this.snapshot = undefined;

@@ -1,8 +1,8 @@
-import {Observable} from '@daign/observable';
+import { Observable } from '@daign/observable';
 
-import {Line2} from './line2';
-import {Vector2} from './vector2';
-import {Vector3} from './vector3';
+import { Line2 } from './line2';
+import { Vector2 } from './vector2';
+import { Vector3 } from './vector3';
 
 /**
  * 2D triangle
@@ -30,15 +30,15 @@ export class Triangle2 extends Observable {
    * @param b Second point
    * @param c Third point
    */
-  constructor( a?: Vector2, b?: Vector2, c?: Vector2 ) {
+  public constructor( a?: Vector2, b?: Vector2, c?: Vector2 ) {
     super();
 
-    // passed points are used directly, not cloned
+    // Passed points are used directly, not cloned
     this._a = a || new Vector2();
     this._b = b || new Vector2();
     this._c = c || new Vector2();
 
-    // notify observers when one of the points has changes
+    // Notify observers when one of the points has changes
     const callback = (): void => {
       this.notifyObservers();
     };
@@ -95,7 +95,7 @@ export class Triangle2 extends Observable {
 
     const denom = ( dot00 * dot11 - dot01 * dot01 );
 
-    // collinear or singular triangle
+    // Collinear or singular triangle
     if ( denom === 0 ) {
       return null;
     }

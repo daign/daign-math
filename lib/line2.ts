@@ -1,6 +1,6 @@
-import {Observable} from '@daign/observable';
+import { Observable } from '@daign/observable';
 
-import {Vector2} from './vector2';
+import { Vector2 } from './vector2';
 
 /**
  * 2D line
@@ -29,14 +29,14 @@ export class Line2 extends Observable {
    * @param start The start point
    * @param end The end point
    */
-  constructor( start?: Vector2, end?: Vector2 ) {
+  public constructor( start?: Vector2, end?: Vector2 ) {
     super();
 
-    // passed points are used directly, not cloned
+    // Passed points are used directly, not cloned
     this._start = start || new Vector2();
     this._end = end || new Vector2();
 
-    // notify observers when start or end point has changes
+    // Notify observers when start or end point has changes
     const callback = (): void => {
       this.notifyObservers();
     };
@@ -136,7 +136,7 @@ export class Line2 extends Observable {
       return new Vector2( x, y );
     }
 
-    return null; // returns null if lines are parallel
+    return null; // Returns null if lines are parallel
   }
 
   /**
@@ -168,7 +168,7 @@ export class Line2 extends Observable {
       }
     }
 
-    return null; // returns null if lines are parallel or intersection is outside of segment limits
+    return null; // Returns null if lines are parallel or intersection is outside of segment limits
   }
 
   /**

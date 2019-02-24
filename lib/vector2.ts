@@ -1,9 +1,9 @@
-import {Observable} from '@daign/observable';
+import { Observable } from '@daign/observable';
 
-import {Angle} from './angle';
-import {Box2} from './box2';
-import {Line2} from './line2';
-import {Matrix3} from './matrix3';
+import { Angle } from './angle';
+import { Box2 } from './box2';
+import { Line2 } from './line2';
+import { Matrix3 } from './matrix3';
 
 /**
  * 2D vector
@@ -20,7 +20,7 @@ export class Vector2 extends Observable {
   }
 
   public set x( value: number ) {
-    // only call observers if something changed
+    // Only call observers if something changed
     if ( this._x !== value ) {
       this._x = value;
       this.notifyObservers();
@@ -32,7 +32,7 @@ export class Vector2 extends Observable {
   }
 
   public set y( value: number ) {
-    // only call observers if something changed
+    // Only call observers if something changed
     if ( this._y !== value ) {
       this._y = value;
       this.notifyObservers();
@@ -44,7 +44,7 @@ export class Vector2 extends Observable {
    * @param x First value
    * @param y Second value
    */
-  constructor( x?: number, y?: number ) {
+  public constructor( x?: number, y?: number ) {
     super();
 
     this._x = x || 0;
@@ -60,7 +60,7 @@ export class Vector2 extends Observable {
    * @returns A reference to itself
    */
   public set( x: number, y: number ): Vector2 {
-    // only call observers if something changed
+    // Only call observers if something changed
     if ( this._x !== x || this._y !== y ) {
       this._x = x;
       this._y = y;
@@ -410,11 +410,11 @@ export class Vector2 extends Observable {
     const directionN = direction.clone().normalize();
     const d = support.dot( directionN );
 
-    // check if the result of the projection would lie between the endpoints of the line segment
+    // Check if the result of the projection would lie between the endpoints of the line segment
     if ( d >= 0 && d <= direction.length() ) {
       return directionN.clone().multiplyScalar( d ).add( l.start );
     } else {
-      // projection not possible because the projected point would not lie on the line segment
+      // Projection not possible because the projected point would not lie on the line segment
       return null;
     }
   }

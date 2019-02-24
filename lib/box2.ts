@@ -1,14 +1,14 @@
-import {Observable} from '@daign/observable';
+import { Observable } from '@daign/observable';
 
-import {Vector2} from './vector2';
+import { Vector2 } from './vector2';
 
 /**
  * Rectangle shape that is defined by a min and max point. Used to represent bounding boxes.
  */
 export class Box2 extends Observable {
-  // min coordinates, has the smaller x and y values
+  // Min coordinates, has the smaller x and y values
   private _min: Vector2;
-  // max coodinates, has the greater x and y values
+  // Max coodinates, has the greater x and y values
   private _max: Vector2;
 
   public get min(): Vector2 {
@@ -48,14 +48,14 @@ export class Box2 extends Observable {
    * @param min The minimum vector
    * @param max The maximum vector
    */
-  constructor( min?: Vector2, max?: Vector2 ) {
+  public constructor( min?: Vector2, max?: Vector2 ) {
     super();
 
-    // passed points are used directly, not cloned. Also no non-empty check.
+    // Passed points are used directly, not cloned. Also no non-empty check.
     this._min = min || new Vector2( +Infinity, +Infinity );
     this._max = max || new Vector2( -Infinity, -Infinity );
 
-    // notify observers when start or end point has changes
+    // Notify observers when start or end point has changes
     const callback = (): void => {
       this.notifyObservers();
     };

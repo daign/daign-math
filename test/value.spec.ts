@@ -1,232 +1,232 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 import * as sinon from 'sinon';
 
-import {Value} from '../lib/value';
+import { Value } from '../lib/value';
 
 describe( 'Value', () => {
   describe( 'getter x', () => {
     it( 'should get x', () => {
-      // arrange
+      // Arrange
       const v = new Value( 1 );
 
-      // act and assert
+      // Act and assert
       expect( v.x ).to.equal( 1 );
     } );
   } );
 
   describe( 'setter x', () => {
     it( 'should set x', () => {
-      // arrange
+      // Arrange
       const v = new Value();
 
-      // act
+      // Act
       v.x = 1;
 
-      // assert
+      // Assert
       expect( v.x ).to.equal( 1 );
     } );
 
     it( 'should call notifyObservers', () => {
-      // arrange
+      // Arrange
       const v = new Value();
       const spy = sinon.spy( v as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.x = 1;
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should not call notifyObservers when value does not change', () => {
-      // arrange
+      // Arrange
       const v = new Value( 1 );
       const spy = sinon.spy( v as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.x = 1;
 
-      // assert
+      // Assert
       expect( spy.notCalled ).to.be.true;
     } );
   } );
 
   describe( 'constructor', () => {
     it( 'should set x property', () => {
-      // act
+      // Act
       const v = new Value( 1 );
 
-      // assert
+      // Assert
       expect( v.x ).to.equal( 1 );
     } );
 
     it( 'should set zero value if uninitialised', () => {
-      // act
+      // Act
       const v = new Value();
 
-      // assert
+      // Assert
       expect( v.x ).to.equal( 0 );
     } );
   } );
 
   describe( 'setSilent', () => {
     it( 'should set x property', () => {
-      // arrange
+      // Arrange
       const v = new Value();
 
-      // act
+      // Act
       v.setSilent( 1 );
 
-      // assert
+      // Assert
       expect( v.x ).to.equal( 1 );
     } );
 
     it( 'should not call notifyObservers', () => {
-      // arrange
+      // Arrange
       const v = new Value();
       const spy = sinon.spy( v as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.setSilent( 1 );
 
-      // assert
+      // Assert
       expect( spy.notCalled ).to.be.true;
     } );
   } );
 
   describe( 'clone', () => {
     it( 'should return an object with the same value', () => {
-      // arrange
+      // Arrange
       const v = new Value( 2 );
 
-      // act
+      // Act
       const result = v.clone();
 
-      // assert
+      // Assert
       expect( result.x ).to.equal( v.x );
     } );
 
     it( 'should not call notifyObservers when original value changes', () => {
-      // arrange
+      // Arrange
       const v = new Value( 2 );
       const clone = v.clone();
       const spy = sinon.spy( clone as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.x = 3;
 
-      // assert
+      // Assert
       expect( spy.notCalled ).to.be.true;
     } );
   } );
 
   describe( 'clamp', () => {
     it( 'should make value smaller if too big', () => {
-      // arrange
+      // Arrange
       const v = new Value( 8 );
 
-      // act
+      // Act
       v.clamp( -3, 5 );
 
-      // assert
+      // Assert
       expect( v.x ).to.equal( 5 );
     } );
 
     it( 'should make value bigger if too small', () => {
-      // arrange
+      // Arrange
       const v = new Value( -5 );
 
-      // act
+      // Act
       v.clamp( -2, 3 );
 
-      // assert
+      // Assert
       expect( v.x ).to.equal( -2 );
     } );
 
     it( 'should not change value that is inside limits', () => {
-      // arrange
+      // Arrange
       const v = new Value( 3 );
 
-      // act
+      // Act
       v.clamp( -4, 4 );
 
-      // assert
+      // Assert
       expect( v.x ).to.equal( 3 );
     } );
   } );
 
   describe( 'snap', () => {
     it( 'should save a snaptshot with the same value', () => {
-      // arrange
+      // Arrange
       const v = new Value( 2 );
 
-      // act
+      // Act
       v.snap();
 
-      // assert
+      // Assert
       expect( v.snapshot!.x ).to.equal( v.x );
     } );
 
     it( 'should not call notifyObservers', () => {
-      // arrange
+      // Arrange
       const v = new Value( 2 );
       const spy = sinon.spy( v as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.snap();
 
-      // assert
+      // Assert
       expect( spy.notCalled ).to.be.true;
     } );
   } );
 
   describe( 'drag', () => {
     it( 'should add to the value of the snapshot', () => {
-      // arrange
+      // Arrange
       const v = new Value( 2 );
       v.snap();
       v.x = 5;
 
-      // act
+      // Act
       v.drag( 4 );
 
-      // assert
+      // Assert
       expect( v.x ).to.equal( 6 );
     } );
 
     it( 'should call notifyObservers', () => {
-      // arrange
+      // Arrange
       const v = new Value( 2 );
       v.snap();
       const spy = sinon.spy( v as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.drag( 4 );
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should not change value if value has no snapshot', () => {
-      // arrange
+      // Arrange
       const v = new Value( 2 );
 
-      // act
+      // Act
       v.drag( 4 );
 
-      // assert
+      // Assert
       expect( v.x ).to.equal( 2 );
     } );
 
     it( 'should not call notifyObservers if value has no snapshot', () => {
-      // arrange
+      // Arrange
       const v = new Value( 2 );
       const spy = sinon.spy( v as any, 'notifyObservers' );
 
-      // act
+      // Act
       v.drag( 4 );
 
-      // assert
+      // Assert
       expect( spy.notCalled ).to.be.true;
     } );
   } );

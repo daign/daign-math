@@ -1,7 +1,7 @@
-import {Observable} from '@daign/observable';
+import { Observable } from '@daign/observable';
 
-import {Angle} from './angle';
-import {Vector2} from './vector2';
+import { Angle } from './angle';
+import { Vector2 } from './vector2';
 
 /**
  * 3x3 Matrix
@@ -16,7 +16,7 @@ export class Matrix3 extends Observable {
   /**
    * Constructor
    */
-  constructor(
+  public constructor(
     a11?: number, a12?: number, a13?: number,
     a21?: number, a22?: number, a23?: number,
     a31?: number, a32?: number, a33?: number
@@ -46,7 +46,7 @@ export class Matrix3 extends Observable {
     a31: number, a32: number, a33: number
   ): Matrix3 {
     const e = this._elements;
-    // only call observers if something changed
+    // Only call observers if something changed
     if (
     e[ 0 ] !== a11 || e[ 1 ] !== a12 || e[ 2 ] !== a13 ||
     e[ 3 ] !== a21 || e[ 4 ] !== a22 || e[ 5 ] !== a23 ||
@@ -203,7 +203,7 @@ export class Matrix3 extends Observable {
    */
   public setRotation( a: Angle, p?: Vector2 ): Matrix3 {
     if ( p === undefined ) {
-      // rotation around the origin of coordinates
+      // Rotation around the origin of coordinates
       const sin = Math.sin( a.radians );
       const cos = Math.cos( a.radians );
 
@@ -213,7 +213,7 @@ export class Matrix3 extends Observable {
         0, 0, 1
       );
     } else {
-      // rotation around point p
+      // Rotation around point p
       this.setTranslation( p.clone().multiplyScalar( -1 ) );
       this.applyRotation( a );
       this.applyTranslation( p );

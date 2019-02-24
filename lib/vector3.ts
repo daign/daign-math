@@ -1,4 +1,4 @@
-import {Observable} from '@daign/observable';
+import { Observable } from '@daign/observable';
 
 /**
  * 3D vector
@@ -13,7 +13,7 @@ export class Vector3 extends Observable {
   }
 
   public set x( value: number ) {
-    // only call observers if something changed
+    // Only call observers if something changed
     if ( this._x !== value ) {
       this._x = value;
       this.notifyObservers();
@@ -25,7 +25,7 @@ export class Vector3 extends Observable {
   }
 
   public set y( value: number ) {
-    // only call observers if something changed
+    // Only call observers if something changed
     if ( this._y !== value ) {
       this._y = value;
       this.notifyObservers();
@@ -37,7 +37,7 @@ export class Vector3 extends Observable {
   }
 
   public set z( value: number ) {
-    // only call observers if something changed
+    // Only call observers if something changed
     if ( this._z !== value ) {
       this._z = value;
       this.notifyObservers();
@@ -50,7 +50,7 @@ export class Vector3 extends Observable {
    * @param y Second value
    * @param z Third value
    */
-  constructor( x?: number, y?: number, z?: number ) {
+  public constructor( x?: number, y?: number, z?: number ) {
     super();
 
     this._x = x || 0;
@@ -66,7 +66,7 @@ export class Vector3 extends Observable {
    * @returns A reference to itself
    */
   public set( x: number, y: number, z: number ): Vector3 {
-    // only call observers if something changed
+    // Only call observers if something changed
     if ( this._x !== x || this._y !== y || this._z !== z ) {
       this._x = x;
       this._y = y;
@@ -114,7 +114,7 @@ export class Vector3 extends Observable {
    * @returns Whether vectors are equal
    */
   public equals( v: Vector3 ): boolean {
-    return ( ( this.x === v.x ) && ( this.y === v.y ) && ( this.z === v.z ));
+    return ( ( this.x === v.x ) && ( this.y === v.y ) && ( this.z === v.z ) );
   }
 
   /**

@@ -1,143 +1,143 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 import * as sinon from 'sinon';
 
-import {Angle} from '../lib/angle';
+import { Angle } from '../lib/angle';
 
 describe( 'Angle', () => {
   describe( 'getter radians', () => {
     it( 'should get radians', () => {
-      // arrange
+      // Arrange
       const a = new Angle( 1 );
 
-      // act and assert
+      // Act and assert
       expect( a.radians ).to.equal( 1 );
     } );
   } );
 
   describe( 'setter radians', () => {
     it( 'should set radians', () => {
-      // arrange
+      // Arrange
       const a = new Angle();
 
-      // act
+      // Act
       a.radians = 1;
 
-      // assert
+      // Assert
       expect( a.radians ).to.equal( 1 );
     } );
 
     it( 'should call notifyObservers', () => {
-      // arrange
+      // Arrange
       const a = new Angle();
       const spy = sinon.spy( a as any, 'notifyObservers' );
 
-      // act
+      // Act
       a.radians = 1;
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should not call notifyObservers when value does not change', () => {
-      // arrange
+      // Arrange
       const a = new Angle( 1 );
       const spy = sinon.spy( a as any, 'notifyObservers' );
 
-      // act
+      // Act
       a.radians = 1;
 
-      // assert
+      // Assert
       expect( spy.notCalled ).to.be.true;
     } );
   } );
 
   describe( 'getter degrees', () => {
     it( 'should get degrees', () => {
-      // arrange
+      // Arrange
       const a = new Angle( Math.PI );
 
-      // act and assert
+      // Act and assert
       expect( a.degrees ).to.equal( 180 );
     } );
   } );
 
   describe( 'setter degrees', () => {
     it( 'should convert to radians', () => {
-      // arrange
+      // Arrange
       const a = new Angle();
 
-      // act
+      // Act
       a.degrees = 180;
 
-      // assert
+      // Assert
       expect( a.radians ).to.equal( Math.PI );
     } );
 
     it( 'should call notifyObservers', () => {
-      // arrange
+      // Arrange
       const a = new Angle();
       const spy = sinon.spy( a as any, 'notifyObservers' );
 
-      // act
+      // Act
       a.degrees = 180;
 
-      // assert
+      // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
 
     it( 'should not call notifyObservers when value does not change', () => {
-      // arrange
+      // Arrange
       const a = new Angle( Math.PI );
       const spy = sinon.spy( a as any, 'notifyObservers' );
 
-      // act
+      // Act
       a.degrees = 180;
 
-      // assert
+      // Assert
       expect( spy.notCalled ).to.be.true;
     } );
   } );
 
   describe( 'constructor', () => {
     it( 'should set radians', () => {
-      // act
+      // Act
       const a = new Angle( 1 );
 
-      // assert
+      // Assert
       expect( a.radians ).to.equal( 1 );
     } );
 
     it( 'should set zero value if uninitialised', () => {
-      // act
+      // Act
       const a = new Angle();
 
-      // assert
+      // Assert
       expect( a.radians ).to.equal( 0 );
     } );
   } );
 
   describe( 'equals', () => {
     it( 'should return true if values equal', () => {
-      // arrange
+      // Arrange
       const a1 = new Angle( 1 );
       const a2 = new Angle( 1 );
 
-      // act
+      // Act
       const result = a1.equals( a2 );
 
-      // assert
+      // Assert
       expect( result ).to.be.true;
     } );
 
     it( 'should return false if values do not equal', () => {
-      // arrange
+      // Arrange
       const a1 = new Angle( 1 );
       const a2 = new Angle( 2 );
 
-      // act
+      // Act
       const result = a1.equals( a2 );
 
-      // assert
+      // Assert
       expect( result ).to.be.false;
     } );
   } );
