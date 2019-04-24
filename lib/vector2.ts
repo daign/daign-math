@@ -212,6 +212,16 @@ export class Vector2 extends Observable {
   }
 
   /**
+   * Calculate the modulo of all vector elements with a single value
+   * @param s A single value
+   * @returns A reference to itself
+   */
+  public modulo( s: number ): Vector2 {
+    this.set( this.x % s, this.y % s );
+    return this;
+  }
+
+  /**
    * Transform vector with a matrix
    * @param m A matrix
    * @returns A reference to itself

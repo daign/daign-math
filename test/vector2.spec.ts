@@ -576,6 +576,33 @@ describe( 'Vector2', () => {
     } );
   } );
 
+  describe( 'modulo', () => {
+    it( 'should calculate modulo', () => {
+      // Arrange
+      const v = new Vector2( 4, 8 );
+      const scalar = 3;
+      const expected = new Vector2( 1, 2 );
+
+      // Act
+      v.modulo( scalar );
+
+      // Assert
+      expect( v.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should call set', () => {
+      // Arrange
+      const v = new Vector2( 1, 2 );
+      const spy = sinon.spy( v, 'set' );
+
+      // Act
+      v.modulo( 3 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
   describe( 'transform', () => {
     it( 'should return transformed vector', () => {
       // Arrange
