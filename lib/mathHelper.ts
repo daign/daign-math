@@ -23,4 +23,20 @@ export abstract class MathHelper {
   public static lerp( x: number, y: number, t: number ): number {
     return ( 1 - t ) * x + t * y;
   }
+
+  /**
+   * Test whether the difference between two numbers is smaller than a given delta.
+   * If no delta is passed the epsilon value is used.
+   * @param x The first number.
+   * @param y The second number.
+   * @param delta The maximum difference.
+   * @returns The result of the test.
+   */
+  public static closeTo( x: number, y: number, delta?: number ): boolean {
+    const epsilon = 2.220446049250313e-16;
+    if ( delta === undefined ) {
+      delta = epsilon;
+    }
+    return Math.abs( x - y ) < delta;
+  }
 }

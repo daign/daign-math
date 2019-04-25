@@ -46,4 +46,54 @@ describe( 'MathHelper', () => {
       expect( result ).to.equal( 36 );
     } );
   } );
+
+  describe( 'closeTo', () => {
+    it( 'should return true for values close to each other using a given delta', () => {
+      // Act
+      const result = MathHelper.closeTo( 1, 1.001, 0.002 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false for values not close to each other using a given delta', () => {
+      // Act
+      const result = MathHelper.closeTo( 1, 1.003, 0.002 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return true for values close to each other using epsilon delta', () => {
+      // Act
+      const result = MathHelper.closeTo( 0.1 + 0.2, 0.3 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false for values not close to each other using epsilon delta', () => {
+      // Act
+      const result = MathHelper.closeTo( 1, 1.000000001 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return false for values completely equal if delta is zero', () => {
+      // Act
+      const result = MathHelper.closeTo( 1, 1, 0 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return false for values not completely equal if delta is zero', () => {
+      // Act
+      const result = MathHelper.closeTo( 0.1 + 0.2, 0.3, 0 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+  } );
 } );
