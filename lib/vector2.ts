@@ -3,6 +3,7 @@ import { Observable } from '@daign/observable';
 import { Angle } from './angle';
 import { Box2 } from './box2';
 import { Line2 } from './line2';
+import { MathHelper } from './mathHelper';
 import { Matrix3 } from './matrix3';
 
 /**
@@ -149,6 +150,20 @@ export class Vector2 extends Observable {
    */
   public equals( v: Vector2 ): boolean {
     return ( ( this.x === v.x ) && ( this.y === v.y ) );
+  }
+
+  /**
+   * Test whether the difference between two vectors is smaller than a given delta.
+   * If no delta is passed the epsilon value is used.
+   * @param v Another Vector
+   * @param delta The maximum difference.
+   * @returns The result of the test.
+   */
+  public closeTo( v: Vector2, delta?: number ): boolean {
+    return (
+      MathHelper.closeTo( this.x, v.x, delta ) &&
+      MathHelper.closeTo( this.y, v.y, delta )
+    );
   }
 
   /**

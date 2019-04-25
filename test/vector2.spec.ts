@@ -410,6 +410,68 @@ describe( 'Vector2', () => {
     } );
   } );
 
+  describe( 'closeTo', () => {
+    it( 'should return true for values close to each other using a given delta', () => {
+      // Arrange
+      const v1 = new Vector2( 1, 1.999 );
+      const v2 = new Vector2( 1.001, 2 );
+
+      // Act
+      const result = v1.closeTo( v2, 0.002 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false for values not close to each other using a given delta', () => {
+      // Arrange
+      const v1 = new Vector2( 1, 1.997 );
+      const v2 = new Vector2( 1.003, 2 );
+
+      // Act
+      const result = v1.closeTo( v2, 0.002 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return true for values close to each other using epsilon delta', () => {
+      // Arrange
+      const v1 = new Vector2( 0.1 + 0.2, 0.1 );
+      const v2 = new Vector2( 0.3, 0.3 - 0.2 );
+
+      // Act
+      const result = v1.closeTo( v2 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false for values not close to each other using epsilon delta', () => {
+      // Arrange
+      const v1 = new Vector2( 1, 0.999999999 );
+      const v2 = new Vector2( 1.000000001, 1 );
+
+      // Act
+      const result = v1.closeTo( v2 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return false for values completely equal if delta is zero', () => {
+      // Arrange
+      const v1 = new Vector2( 1, 2 );
+      const v2 = new Vector2( 1, 2 );
+
+      // Act
+      const result = v1.closeTo( v2, 0 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+  } );
+
   describe( 'add', () => {
     it( 'should add vectors', () => {
       // Arrange

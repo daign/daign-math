@@ -34,9 +34,8 @@ export abstract class MathHelper {
    */
   public static closeTo( x: number, y: number, delta?: number ): boolean {
     const epsilon = 2.220446049250313e-16;
-    if ( delta === undefined ) {
-      delta = epsilon;
-    }
-    return Math.abs( x - y ) < delta;
+
+    const d = ( delta !== undefined ) ? delta : epsilon;
+    return Math.abs( x - y ) < d;
   }
 }
