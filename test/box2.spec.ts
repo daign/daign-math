@@ -4,9 +4,9 @@ import * as sinon from 'sinon';
 import { Box2 } from '../lib/box2';
 import { Vector2 } from '../lib/vector2';
 
-describe( 'Box2', () => {
-  describe( 'getter min', () => {
-    it( 'should get min', () => {
+describe( 'Box2', (): void => {
+  describe( 'getter min', (): void => {
+    it( 'should get min', (): void => {
       // Arrange
       const min = new Vector2( 1, 2 );
       const max = new Vector2( 3, 4 );
@@ -17,8 +17,8 @@ describe( 'Box2', () => {
     } );
   } );
 
-  describe( 'getter max', () => {
-    it( 'should get max', () => {
+  describe( 'getter max', (): void => {
+    it( 'should get max', (): void => {
       // Arrange
       const min = new Vector2( 1, 2 );
       const max = new Vector2( 3, 4 );
@@ -29,8 +29,8 @@ describe( 'Box2', () => {
     } );
   } );
 
-  describe( 'isEmpty getter', () => {
-    it( 'should return true on uninitialized box', () => {
+  describe( 'isEmpty getter', (): void => {
+    it( 'should return true on uninitialized box', (): void => {
       // Arrange
       const b = new Box2();
 
@@ -41,7 +41,7 @@ describe( 'Box2', () => {
       expect( result ).to.be.true;
     } );
 
-    it( 'should return true on inverted box', () => {
+    it( 'should return true on inverted box', (): void => {
       // Arrange
       const p1 = new Vector2( -3, -4 );
       const p2 = new Vector2( 5, 6 );
@@ -54,7 +54,7 @@ describe( 'Box2', () => {
       expect( result ).to.be.true;
     } );
 
-    it( 'should return false on non-empty box', () => {
+    it( 'should return false on non-empty box', (): void => {
       // Arrange
       const p1 = new Vector2( -3, -4 );
       const p2 = new Vector2( 5, 6 );
@@ -67,7 +67,7 @@ describe( 'Box2', () => {
       expect( result ).to.be.false;
     } );
 
-    it( 'should return false on point-size box', () => {
+    it( 'should return false on point-size box', (): void => {
       // Arrange
       const p1 = new Vector2( 1, 1 );
       const p2 = new Vector2( 1, 1 );
@@ -81,8 +81,8 @@ describe( 'Box2', () => {
     } );
   } );
 
-  describe( 'isArea getter', () => {
-    it( 'should return false on uninitialized box', () => {
+  describe( 'isArea getter', (): void => {
+    it( 'should return false on uninitialized box', (): void => {
       // Arrange
       const b = new Box2();
 
@@ -93,7 +93,7 @@ describe( 'Box2', () => {
       expect( result ).to.be.false;
     } );
 
-    it( 'should return false on inverted box', () => {
+    it( 'should return false on inverted box', (): void => {
       // Arrange
       const p1 = new Vector2( -3, -4 );
       const p2 = new Vector2( 5, 6 );
@@ -106,7 +106,7 @@ describe( 'Box2', () => {
       expect( result ).to.be.false;
     } );
 
-    it( 'should return true on non-empty box', () => {
+    it( 'should return true on non-empty box', (): void => {
       // Arrange
       const p1 = new Vector2( -3, -4 );
       const p2 = new Vector2( 5, 6 );
@@ -119,7 +119,7 @@ describe( 'Box2', () => {
       expect( result ).to.be.true;
     } );
 
-    it( 'should return false on point-size box', () => {
+    it( 'should return false on point-size box', (): void => {
       // Arrange
       const p1 = new Vector2( 1, 1 );
       const p2 = new Vector2( 1, 1 );
@@ -133,8 +133,8 @@ describe( 'Box2', () => {
     } );
   } );
 
-  describe( 'size getter', () => {
-    it( 'should return zero vector on uninitialized box', () => {
+  describe( 'size getter', (): void => {
+    it( 'should return zero vector on uninitialized box', (): void => {
       // Arrange
       const b = new Box2();
       const zero = new Vector2();
@@ -146,7 +146,7 @@ describe( 'Box2', () => {
       expect( result.equals( zero ) ).to.be.true;
     } );
 
-    it( 'should return zero vector on inverted box', () => {
+    it( 'should return zero vector on inverted box', (): void => {
       // Arrange
       const p1 = new Vector2( -3, -4 );
       const p2 = new Vector2( 5, 6 );
@@ -160,7 +160,7 @@ describe( 'Box2', () => {
       expect( result.equals( zero ) ).to.be.true;
     } );
 
-    it( 'should return size on non-empty box', () => {
+    it( 'should return size on non-empty box', (): void => {
       // Arrange
       const p1 = new Vector2( -3, -4 );
       const p2 = new Vector2( 5, 6 );
@@ -174,7 +174,7 @@ describe( 'Box2', () => {
       expect( result.equals( size ) ).to.be.true;
     } );
 
-    it( 'should return zero vector on point-size box', () => {
+    it( 'should return zero vector on point-size box', (): void => {
       // Arrange
       const p1 = new Vector2( 1, 1 );
       const p2 = new Vector2( 1, 1 );
@@ -189,8 +189,8 @@ describe( 'Box2', () => {
     } );
   } );
 
-  describe( 'constructor', () => {
-    it( 'should create with given points', () => {
+  describe( 'constructor', (): void => {
+    it( 'should create with given points', (): void => {
       // Arrange
       const p1 = new Vector2( 1, 2 );
       const p2 = new Vector2( 3, 4 );
@@ -203,7 +203,7 @@ describe( 'Box2', () => {
       expect( b.max.equals( p2 ) ).to.be.true;
     } );
 
-    it( 'should initialize with Infinity if not specified', () => {
+    it( 'should initialize with Infinity if not specified', (): void => {
       // Act
       const b = new Box2();
 
@@ -214,7 +214,7 @@ describe( 'Box2', () => {
       expect( b.max.y === -Infinity ).to.be.true;
     } );
 
-    it( 'should notify observers if min point changes', () => {
+    it( 'should notify observers if min point changes', (): void => {
       // Arrange
       const p1 = new Vector2();
       const p2 = new Vector2();
@@ -228,7 +228,7 @@ describe( 'Box2', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should notify observers if max point changes', () => {
+    it( 'should notify observers if max point changes', (): void => {
       // Arrange
       const p1 = new Vector2();
       const p2 = new Vector2();
@@ -243,8 +243,8 @@ describe( 'Box2', () => {
     } );
   } );
 
-  describe( 'copy', () => {
-    it( 'should copy values from other box', () => {
+  describe( 'copy', (): void => {
+    it( 'should copy values from other box', (): void => {
       // Arrange
       const p1 = new Vector2( 1, 2 );
       const p2 = new Vector2( 3, 4 );
@@ -259,7 +259,7 @@ describe( 'Box2', () => {
       expect( b1.max.equals( p2 ) ).to.be.true;
     } );
 
-    it( 'should call observers twice', () => {
+    it( 'should call observers twice', (): void => {
       // Arrange
       const p1 = new Vector2( 1, 2 );
       const p2 = new Vector2( 3, 4 );
@@ -275,7 +275,7 @@ describe( 'Box2', () => {
       expect( spy.callCount ).to.equal( 2 );
     } );
 
-    it( 'should not call observers if copied vectors change', () => {
+    it( 'should not call observers if copied vectors change', (): void => {
       // Arrange
       const p1 = new Vector2( 1, 2 );
       const p2 = new Vector2( 3, 4 );
@@ -293,8 +293,8 @@ describe( 'Box2', () => {
     } );
   } );
 
-  describe( 'clone', () => {
-    it( 'should return an object with the same values', () => {
+  describe( 'clone', (): void => {
+    it( 'should return an object with the same values', (): void => {
       // Arrange
       const min = new Vector2( 1, 2 );
       const max = new Vector2( 3, 4 );
@@ -308,7 +308,7 @@ describe( 'Box2', () => {
       expect( result.max.equals( max ) ).to.be.true;
     } );
 
-    it( 'should not call observers when original box changes', () => {
+    it( 'should not call observers when original box changes', (): void => {
       // Arrange
       const min = new Vector2( 1, 2 );
       const max = new Vector2( 3, 4 );
@@ -324,8 +324,8 @@ describe( 'Box2', () => {
     } );
   } );
 
-  describe( 'equals', () => {
-    it( 'should return true if values equal', () => {
+  describe( 'equals', (): void => {
+    it( 'should return true if values equal', (): void => {
       // Arrange
       const min = new Vector2( 1, 2 );
       const max = new Vector2( 3, 4 );
@@ -339,7 +339,7 @@ describe( 'Box2', () => {
       expect( result ).to.be.true;
     } );
 
-    it( 'should return false if values do not equal', () => {
+    it( 'should return false if values do not equal', (): void => {
       // Arrange
       const min = new Vector2( 1, 2 );
       const max1 = new Vector2( 3, 4 );
@@ -355,8 +355,8 @@ describe( 'Box2', () => {
     } );
   } );
 
-  describe( 'makeEmpty', () => {
-    it( 'should make box equal to initial box', () => {
+  describe( 'makeEmpty', (): void => {
+    it( 'should make box equal to initial box', (): void => {
       // Arrange
       const min = new Vector2( 3, 4 );
       const max = new Vector2( 5, 6 );
@@ -370,7 +370,7 @@ describe( 'Box2', () => {
       expect( b.equals( bInit ) ).to.be.true;
     } );
 
-    it( 'should call notifyObservers 4 times', () => {
+    it( 'should call notifyObservers 4 times', (): void => {
       // Arrange
       const min = new Vector2( 3, 4 );
       const max = new Vector2( 5, 6 );
@@ -385,8 +385,8 @@ describe( 'Box2', () => {
     } );
   } );
 
-  describe( 'expandByScalar', () => {
-    it( 'should make box equal to initial box', () => {
+  describe( 'expandByScalar', (): void => {
+    it( 'should make box equal to initial box', (): void => {
       // Arrange
       const min = new Vector2( 3, 4 );
       const max = new Vector2( 5, 6 );
@@ -403,7 +403,7 @@ describe( 'Box2', () => {
       expect( b.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should call notifyObservers twice', () => {
+    it( 'should call notifyObservers twice', (): void => {
       // Arrange
       const min = new Vector2( 3, 4 );
       const max = new Vector2( 5, 6 );
@@ -418,8 +418,8 @@ describe( 'Box2', () => {
     } );
   } );
 
-  describe( 'expandByPoint', () => {
-    it( 'should expand to point', () => {
+  describe( 'expandByPoint', (): void => {
+    it( 'should expand to point', (): void => {
       // Arrange
       const p = new Vector2( -1, -2 );
       const min = new Vector2( 3, 4 );
@@ -433,7 +433,7 @@ describe( 'Box2', () => {
       expect( b.min.equals( p ) ).to.be.true;
     } );
 
-    it( 'should not expand if point is inside box', () => {
+    it( 'should not expand if point is inside box', (): void => {
       // Arrange
       const p = new Vector2( 3, 4 );
       const min = new Vector2( 1, 2 );
@@ -450,7 +450,7 @@ describe( 'Box2', () => {
       expect( b.max.equals( maxCopy ) ).to.be.true;
     } );
 
-    it( 'should call notifyObservers twice if both min and max change', () => {
+    it( 'should call notifyObservers twice if both min and max change', (): void => {
       // Arrange
       const p = new Vector2( 1, 8 );
       const min = new Vector2( 3, 4 );
@@ -465,8 +465,8 @@ describe( 'Box2', () => {
       expect( spy.callCount ).to.equal( 2 );
     } );
 
-    describe( 'expandByBox', () => {
-      it( 'should expand to contain both boxes', () => {
+    describe( 'expandByBox', (): void => {
+      it( 'should expand to contain both boxes', (): void => {
         // Arrange
         const b1 = new Box2(
           new Vector2( 1, 3 ),
@@ -485,7 +485,7 @@ describe( 'Box2', () => {
         expect( b1.max.equals( new Vector2( 5, 5 ) ) ).to.be.true;
       } );
 
-      it( 'should not expand if box is inside box', () => {
+      it( 'should not expand if box is inside box', (): void => {
         // Arrange
         const b1 = new Box2(
           new Vector2( 1, 2 ),
@@ -504,7 +504,7 @@ describe( 'Box2', () => {
         expect( b1.max.equals( new Vector2( 5, 6 ) ) ).to.be.true;
       } );
 
-      it( 'should call notifyObservers twice if both min and max change', () => {
+      it( 'should call notifyObservers twice if both min and max change', (): void => {
         // Arrange
         const b1 = new Box2(
           new Vector2( 1, 3 ),
@@ -524,8 +524,8 @@ describe( 'Box2', () => {
       } );
     } );
 
-    describe( 'containsPoint', () => {
-      it( 'should return true if point is contained', () => {
+    describe( 'containsPoint', (): void => {
+      it( 'should return true if point is contained', (): void => {
         // Arrange
         const p = new Vector2( 2, 4 );
         const b = new Box2(
@@ -540,7 +540,7 @@ describe( 'Box2', () => {
         expect( result ).to.be.true;
       } );
 
-      it( 'should return true if point is on the border', () => {
+      it( 'should return true if point is on the border', (): void => {
         // Arrange
         const p = new Vector2( 3, 3 );
         const b = new Box2(
@@ -555,7 +555,7 @@ describe( 'Box2', () => {
         expect( result ).to.be.true;
       } );
 
-      it( 'should return false if point is outside of box', () => {
+      it( 'should return false if point is outside of box', (): void => {
         // Arrange
         const p = new Vector2( 5, 4 );
         const b = new Box2(
@@ -571,8 +571,8 @@ describe( 'Box2', () => {
       } );
     } );
 
-    describe( 'containsBox', () => {
-      it( 'should return true if box is contained', () => {
+    describe( 'containsBox', (): void => {
+      it( 'should return true if box is contained', (): void => {
         // Arrange
         const b1 = new Box2(
           new Vector2( 1, 3 ),
@@ -590,7 +590,7 @@ describe( 'Box2', () => {
         expect( result ).to.be.true;
       } );
 
-      it( 'should return true if box is contained and touches the border', () => {
+      it( 'should return true if box is contained and touches the border', (): void => {
         // Arrange
         const b1 = new Box2(
           new Vector2( 1, 3 ),
@@ -608,7 +608,7 @@ describe( 'Box2', () => {
         expect( result ).to.be.true;
       } );
 
-      it( 'should return false if box is outside of the other box', () => {
+      it( 'should return false if box is outside of the other box', (): void => {
         // Arrange
         const b1 = new Box2(
           new Vector2( 1, 3 ),
@@ -626,7 +626,7 @@ describe( 'Box2', () => {
         expect( result ).to.be.false;
       } );
 
-      it( 'should return false if box intersects the other box', () => {
+      it( 'should return false if box intersects the other box', (): void => {
         // Arrange
         const b1 = new Box2(
           new Vector2( 1, 3 ),

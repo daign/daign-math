@@ -5,9 +5,9 @@ import { Angle } from '../lib/angle';
 import { Matrix3 } from '../lib/matrix3';
 import { Vector2 } from '../lib/vector2';
 
-describe( 'Matrix3', () => {
-  describe( 'getter elements', () => {
-    it( 'should get elements', () => {
+describe( 'Matrix3', (): void => {
+  describe( 'getter elements', (): void => {
+    it( 'should get elements', (): void => {
       // Arrange
       const m = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
 
@@ -28,8 +28,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'constructor', () => {
-    it( 'should set all values', () => {
+  describe( 'constructor', (): void => {
+    it( 'should set all values', (): void => {
       // Act
       const m = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
 
@@ -46,7 +46,7 @@ describe( 'Matrix3', () => {
       expect( e[ 8 ] ).to.equal( 9 );
     } );
 
-    it( 'should set zero values if uninitialised', () => {
+    it( 'should set zero values if uninitialised', (): void => {
       // Act
       const m = new Matrix3();
 
@@ -55,8 +55,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'set', () => {
-    it( 'should set all values', () => {
+  describe( 'set', (): void => {
+    it( 'should set all values', (): void => {
       // Arrange
       const m = new Matrix3();
 
@@ -76,7 +76,7 @@ describe( 'Matrix3', () => {
       expect( e[ 8 ] ).to.equal( 9 );
     } );
 
-    it( 'should call notifyObservers', () => {
+    it( 'should call notifyObservers', (): void => {
       // Arrange
       const m = new Matrix3();
       const spy = sinon.spy( m as any, 'notifyObservers' );
@@ -88,7 +88,7 @@ describe( 'Matrix3', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should not call notifyObservers when value does not change', () => {
+    it( 'should not call notifyObservers when value does not change', (): void => {
       // Arrange
       const m = new Matrix3();
       m.set( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
@@ -102,8 +102,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'copy', () => {
-    it( 'should copy all values', () => {
+  describe( 'copy', (): void => {
+    it( 'should copy all values', (): void => {
       // Arrange
       const m1 = new Matrix3();
       const m2 = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
@@ -115,7 +115,7 @@ describe( 'Matrix3', () => {
       expect( m1.equals( m2 ) ).to.be.true;
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const m1 = new Matrix3();
       const m2 = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
@@ -129,8 +129,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'clone', () => {
-    it( 'should return an object with the same values', () => {
+  describe( 'clone', (): void => {
+    it( 'should return an object with the same values', (): void => {
       // Arrange
       const m = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
 
@@ -141,7 +141,7 @@ describe( 'Matrix3', () => {
       expect( result.equals( m ) ).to.be.true;
     } );
 
-    it( 'should not call observers when original matrix changes', () => {
+    it( 'should not call observers when original matrix changes', (): void => {
       // Arrange
       const m = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
       const result = m.clone();
@@ -155,8 +155,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'equals', () => {
-    it( 'should return true if values equal', () => {
+  describe( 'equals', (): void => {
+    it( 'should return true if values equal', (): void => {
       // Arrange
       const m1 = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
       const m2 = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
@@ -168,7 +168,7 @@ describe( 'Matrix3', () => {
       expect( result ).to.be.true;
     } );
 
-    it( 'should return false if values do not equal', () => {
+    it( 'should return false if values do not equal', (): void => {
       // Arrange
       const m1 = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
       const m2 = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 10 );
@@ -181,8 +181,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'matrixMultiplication', () => {
-    it( 'should calculate the product of the matrices', () => {
+  describe( 'matrixMultiplication', (): void => {
+    it( 'should calculate the product of the matrices', (): void => {
       // Arrange
       const result = new Matrix3();
       const m1 = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
@@ -196,7 +196,7 @@ describe( 'Matrix3', () => {
       expect( result.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const result = new Matrix3();
       const m1 = new Matrix3();
@@ -211,8 +211,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'multiply', () => {
-    it( 'should calculate the product of the matrices', () => {
+  describe( 'multiply', (): void => {
+    it( 'should calculate the product of the matrices', (): void => {
       // Arrange
       const m1 = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
       const m2 = new Matrix3( 5, 1, 6, 2, 7, 3, 8, 4, 9 );
@@ -225,7 +225,7 @@ describe( 'Matrix3', () => {
       expect( m1.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const m1 = new Matrix3();
       const m2 = new Matrix3();
@@ -239,8 +239,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'transform', () => {
-    it( 'should calculate the left sided product of the matrices', () => {
+  describe( 'transform', (): void => {
+    it( 'should calculate the left sided product of the matrices', (): void => {
       // Arrange
       const m1 = new Matrix3( 5, 1, 6, 2, 7, 3, 8, 4, 9 );
       const m2 = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
@@ -253,7 +253,7 @@ describe( 'Matrix3', () => {
       expect( m1.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const m1 = new Matrix3();
       const m2 = new Matrix3();
@@ -267,8 +267,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'setIdentity', () => {
-    it( 'should set the identity matrix', () => {
+  describe( 'setIdentity', (): void => {
+    it( 'should set the identity matrix', (): void => {
       // Arrange
       const m = new Matrix3();
       const expected = new Matrix3( 1, 0, 0, 0, 1, 0, 0, 0, 1 );
@@ -280,7 +280,7 @@ describe( 'Matrix3', () => {
       expect( m.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const m = new Matrix3();
       const spy = sinon.spy( m, 'set' );
@@ -292,7 +292,7 @@ describe( 'Matrix3', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should calculate the identical matrix when used as a transformation', () => {
+    it( 'should calculate the identical matrix when used as a transformation', (): void => {
       // Arrange
       const m1 = new Matrix3().setIdentity();
       const m2 = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
@@ -306,8 +306,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'setTranslation', () => {
-    it( 'should set the translation matrix', () => {
+  describe( 'setTranslation', (): void => {
+    it( 'should set the translation matrix', (): void => {
       // Arrange
       const m = new Matrix3();
       const expected = new Matrix3( 1, 0, 5, 0, 1, 6, 0, 0, 1 );
@@ -319,7 +319,7 @@ describe( 'Matrix3', () => {
       expect( m.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const m = new Matrix3();
       const spy = sinon.spy( m, 'set' );
@@ -331,7 +331,7 @@ describe( 'Matrix3', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should calculate the translated vector when used as a transformation', () => {
+    it( 'should calculate the translated vector when used as a transformation', (): void => {
       // Arrange
       const v = new Vector2( 1, 2 );
       const translation = new Vector2( 3, 4 );
@@ -346,8 +346,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'setScaling', () => {
-    it( 'should set the scaling matrix', () => {
+  describe( 'setScaling', (): void => {
+    it( 'should set the scaling matrix', (): void => {
       // Arrange
       const m = new Matrix3();
       const expected = new Matrix3( 5, 0, 0, 0, 6, 0, 0, 0, 1 );
@@ -359,7 +359,7 @@ describe( 'Matrix3', () => {
       expect( m.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const m = new Matrix3();
       const spy = sinon.spy( m, 'set' );
@@ -371,7 +371,7 @@ describe( 'Matrix3', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should calculate the scaled vector when used as a transformation', () => {
+    it( 'should calculate the scaled vector when used as a transformation', (): void => {
       // Arrange
       const v = new Vector2( 1, 2 );
       const scaling = new Vector2( 3, 4 );
@@ -386,8 +386,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'setRotation', () => {
-    it( 'should call set', () => {
+  describe( 'setRotation', (): void => {
+    it( 'should call set', (): void => {
       // Arrange
       const m = new Matrix3();
       const spy = sinon.spy( m, 'set' );
@@ -399,7 +399,7 @@ describe( 'Matrix3', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should calculate the rotated vector when used as a transformation', () => {
+    it( 'should calculate the rotated vector when used as a transformation', (): void => {
       // Arrange
       const v = new Vector2( 1, 2 );
       const rotation = new Angle( Math.PI / 2 );
@@ -414,25 +414,27 @@ describe( 'Matrix3', () => {
       expect( v.y ).to.be.closeTo( expected.y, 0.001 );
     } );
 
-    it( 'should calculate the rotated vector around a point when used as a transformation', () => {
-      // Arrange
-      const v = new Vector2( 1, 2 );
-      const rotation = new Angle( Math.PI / 2 );
-      const center = new Vector2( 3, 3 );
-      const m = new Matrix3().setRotation( rotation, center );
-      const expected = new Vector2( 4, 1 );
+    it( 'should calculate the rotated vector around a point when used as a transformation',
+      (): void => {
+        // Arrange
+        const v = new Vector2( 1, 2 );
+        const rotation = new Angle( Math.PI / 2 );
+        const center = new Vector2( 3, 3 );
+        const m = new Matrix3().setRotation( rotation, center );
+        const expected = new Vector2( 4, 1 );
 
-      // Act
-      v.transform( m );
+        // Act
+        v.transform( m );
 
-      // Assert
-      expect( v.x ).to.be.closeTo( expected.x, 0.001 );
-      expect( v.y ).to.be.closeTo( expected.y, 0.001 );
-    } );
+        // Assert
+        expect( v.x ).to.be.closeTo( expected.x, 0.001 );
+        expect( v.y ).to.be.closeTo( expected.y, 0.001 );
+      }
+    );
   } );
 
-  describe( 'applyTranslation', () => {
-    it( 'should apply a translation after a scaling', () => {
+  describe( 'applyTranslation', (): void => {
+    it( 'should apply a translation after a scaling', (): void => {
       // Arrange
       const v = new Vector2( 1, 2 );
       const scaling = new Vector2( 3, 2 );
@@ -449,8 +451,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'applyScaling', () => {
-    it( 'should apply a scaling after a translation', () => {
+  describe( 'applyScaling', (): void => {
+    it( 'should apply a scaling after a translation', (): void => {
       // Arrange
       const v = new Vector2( 1, 2 );
       const translation = new Vector2( 2, 1 );
@@ -467,8 +469,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'applyRotation', () => {
-    it( 'should apply rotation to a transformation matrix', () => {
+  describe( 'applyRotation', (): void => {
+    it( 'should apply rotation to a transformation matrix', (): void => {
       // Arrange
       const v = new Vector2();
       const translation = new Vector2( 1, 2 );
@@ -488,7 +490,7 @@ describe( 'Matrix3', () => {
       expect( v.y ).to.be.closeTo( expected.y, 0.001 );
     } );
 
-    it( 'should apply rotation around a point to a transformation matrix', () => {
+    it( 'should apply rotation around a point to a transformation matrix', (): void => {
       // Arrange
       const v = new Vector2();
       const translation = new Vector2( 1, 2 );
@@ -510,8 +512,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'determinant', () => {
-    it( 'should calculate the determinant of a matrix', () => {
+  describe( 'determinant', (): void => {
+    it( 'should calculate the determinant of a matrix', (): void => {
       // Arrange
       const m = new Matrix3( 1, 2, 3, 4, 0, 4, 3, 2, 1 );
 
@@ -523,8 +525,8 @@ describe( 'Matrix3', () => {
     } );
   } );
 
-  describe( 'setToInverse', () => {
-    it( 'should set to the inverse of a matrix', () => {
+  describe( 'setToInverse', (): void => {
+    it( 'should set to the inverse of a matrix', (): void => {
       // Arrange
       const m = new Matrix3( 1, 2, 3, 4, 0, 4, 3, 2, 1 );
       const expected = new Matrix3(
@@ -540,7 +542,7 @@ describe( 'Matrix3', () => {
       expect( result.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should throw error when matrix cannot be inverted', () => {
+    it( 'should throw error when matrix cannot be inverted', (): void => {
       // Arrange
       const m = new Matrix3( 1, 2, 3, 4, 0, 4, 0, 0, 0 );
 
@@ -553,7 +555,7 @@ describe( 'Matrix3', () => {
       expect( badFn ).to.throw( 'Can not invert matrix because determinant is 0.' );
     } );
 
-    it( 'should result in identity matrix when multiplied with original matrix', () => {
+    it( 'should result in identity matrix when multiplied with original matrix', (): void => {
       // Arrange
       const m = new Matrix3( 1, 2, 3, 4, 0, 4, 3, 2, 1 );
       const inverse = new Matrix3().setToInverse( m );

@@ -3,9 +3,9 @@ import * as sinon from 'sinon';
 
 import { Value } from '../lib/value';
 
-describe( 'Value', () => {
-  describe( 'getter x', () => {
-    it( 'should get x', () => {
+describe( 'Value', (): void => {
+  describe( 'getter x', (): void => {
+    it( 'should get x', (): void => {
       // Arrange
       const v = new Value( 1 );
 
@@ -14,8 +14,8 @@ describe( 'Value', () => {
     } );
   } );
 
-  describe( 'setter x', () => {
-    it( 'should set x', () => {
+  describe( 'setter x', (): void => {
+    it( 'should set x', (): void => {
       // Arrange
       const v = new Value();
 
@@ -26,7 +26,7 @@ describe( 'Value', () => {
       expect( v.x ).to.equal( 1 );
     } );
 
-    it( 'should call notifyObservers', () => {
+    it( 'should call notifyObservers', (): void => {
       // Arrange
       const v = new Value();
       const spy = sinon.spy( v as any, 'notifyObservers' );
@@ -38,7 +38,7 @@ describe( 'Value', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should not call notifyObservers when value does not change', () => {
+    it( 'should not call notifyObservers when value does not change', (): void => {
       // Arrange
       const v = new Value( 1 );
       const spy = sinon.spy( v as any, 'notifyObservers' );
@@ -51,8 +51,8 @@ describe( 'Value', () => {
     } );
   } );
 
-  describe( 'constructor', () => {
-    it( 'should set x property', () => {
+  describe( 'constructor', (): void => {
+    it( 'should set x property', (): void => {
       // Act
       const v = new Value( 1 );
 
@@ -60,7 +60,7 @@ describe( 'Value', () => {
       expect( v.x ).to.equal( 1 );
     } );
 
-    it( 'should set zero value if uninitialised', () => {
+    it( 'should set zero value if uninitialised', (): void => {
       // Act
       const v = new Value();
 
@@ -69,8 +69,8 @@ describe( 'Value', () => {
     } );
   } );
 
-  describe( 'setSilent', () => {
-    it( 'should set x property', () => {
+  describe( 'setSilent', (): void => {
+    it( 'should set x property', (): void => {
       // Arrange
       const v = new Value();
 
@@ -81,7 +81,7 @@ describe( 'Value', () => {
       expect( v.x ).to.equal( 1 );
     } );
 
-    it( 'should not call notifyObservers', () => {
+    it( 'should not call notifyObservers', (): void => {
       // Arrange
       const v = new Value();
       const spy = sinon.spy( v as any, 'notifyObservers' );
@@ -94,8 +94,8 @@ describe( 'Value', () => {
     } );
   } );
 
-  describe( 'clone', () => {
-    it( 'should return an object with the same value', () => {
+  describe( 'clone', (): void => {
+    it( 'should return an object with the same value', (): void => {
       // Arrange
       const v = new Value( 2 );
 
@@ -106,7 +106,7 @@ describe( 'Value', () => {
       expect( result.x ).to.equal( v.x );
     } );
 
-    it( 'should not call notifyObservers when original value changes', () => {
+    it( 'should not call notifyObservers when original value changes', (): void => {
       // Arrange
       const v = new Value( 2 );
       const clone = v.clone();
@@ -120,8 +120,8 @@ describe( 'Value', () => {
     } );
   } );
 
-  describe( 'clamp', () => {
-    it( 'should make value smaller if too big', () => {
+  describe( 'clamp', (): void => {
+    it( 'should make value smaller if too big', (): void => {
       // Arrange
       const v = new Value( 8 );
 
@@ -132,7 +132,7 @@ describe( 'Value', () => {
       expect( v.x ).to.equal( 5 );
     } );
 
-    it( 'should make value bigger if too small', () => {
+    it( 'should make value bigger if too small', (): void => {
       // Arrange
       const v = new Value( -5 );
 
@@ -143,7 +143,7 @@ describe( 'Value', () => {
       expect( v.x ).to.equal( -2 );
     } );
 
-    it( 'should not change value that is inside limits', () => {
+    it( 'should not change value that is inside limits', (): void => {
       // Arrange
       const v = new Value( 3 );
 
@@ -155,8 +155,8 @@ describe( 'Value', () => {
     } );
   } );
 
-  describe( 'snap', () => {
-    it( 'should save a snaptshot with the same value', () => {
+  describe( 'snap', (): void => {
+    it( 'should save a snaptshot with the same value', (): void => {
       // Arrange
       const v = new Value( 2 );
 
@@ -167,7 +167,7 @@ describe( 'Value', () => {
       expect( v.snapshot!.x ).to.equal( v.x );
     } );
 
-    it( 'should not call notifyObservers', () => {
+    it( 'should not call notifyObservers', (): void => {
       // Arrange
       const v = new Value( 2 );
       const spy = sinon.spy( v as any, 'notifyObservers' );
@@ -180,8 +180,8 @@ describe( 'Value', () => {
     } );
   } );
 
-  describe( 'drag', () => {
-    it( 'should add to the value of the snapshot', () => {
+  describe( 'drag', (): void => {
+    it( 'should add to the value of the snapshot', (): void => {
       // Arrange
       const v = new Value( 2 );
       v.snap();
@@ -194,7 +194,7 @@ describe( 'Value', () => {
       expect( v.x ).to.equal( 6 );
     } );
 
-    it( 'should call notifyObservers', () => {
+    it( 'should call notifyObservers', (): void => {
       // Arrange
       const v = new Value( 2 );
       v.snap();
@@ -207,7 +207,7 @@ describe( 'Value', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should not change value if value has no snapshot', () => {
+    it( 'should not change value if value has no snapshot', (): void => {
       // Arrange
       const v = new Value( 2 );
 
@@ -218,7 +218,7 @@ describe( 'Value', () => {
       expect( v.x ).to.equal( 2 );
     } );
 
-    it( 'should not call notifyObservers if value has no snapshot', () => {
+    it( 'should not call notifyObservers if value has no snapshot', (): void => {
       // Arrange
       const v = new Value( 2 );
       const spy = sinon.spy( v as any, 'notifyObservers' );

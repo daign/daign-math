@@ -3,9 +3,9 @@ import * as sinon from 'sinon';
 
 import { Angle } from '../lib/angle';
 
-describe( 'Angle', () => {
-  describe( 'getter radians', () => {
-    it( 'should get radians', () => {
+describe( 'Angle', (): void => {
+  describe( 'getter radians', (): void => {
+    it( 'should get radians', (): void => {
       // Arrange
       const a = new Angle( 1 );
 
@@ -14,8 +14,8 @@ describe( 'Angle', () => {
     } );
   } );
 
-  describe( 'setter radians', () => {
-    it( 'should set radians', () => {
+  describe( 'setter radians', (): void => {
+    it( 'should set radians', (): void => {
       // Arrange
       const a = new Angle();
 
@@ -26,7 +26,7 @@ describe( 'Angle', () => {
       expect( a.radians ).to.equal( 1 );
     } );
 
-    it( 'should call notifyObservers', () => {
+    it( 'should call notifyObservers', (): void => {
       // Arrange
       const a = new Angle();
       const spy = sinon.spy( a as any, 'notifyObservers' );
@@ -38,7 +38,7 @@ describe( 'Angle', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should not call notifyObservers when value does not change', () => {
+    it( 'should not call notifyObservers when value does not change', (): void => {
       // Arrange
       const a = new Angle( 1 );
       const spy = sinon.spy( a as any, 'notifyObservers' );
@@ -51,8 +51,8 @@ describe( 'Angle', () => {
     } );
   } );
 
-  describe( 'getter degrees', () => {
-    it( 'should get degrees', () => {
+  describe( 'getter degrees', (): void => {
+    it( 'should get degrees', (): void => {
       // Arrange
       const a = new Angle( Math.PI );
 
@@ -61,8 +61,8 @@ describe( 'Angle', () => {
     } );
   } );
 
-  describe( 'setter degrees', () => {
-    it( 'should convert to radians', () => {
+  describe( 'setter degrees', (): void => {
+    it( 'should convert to radians', (): void => {
       // Arrange
       const a = new Angle();
 
@@ -73,7 +73,7 @@ describe( 'Angle', () => {
       expect( a.radians ).to.equal( Math.PI );
     } );
 
-    it( 'should call notifyObservers', () => {
+    it( 'should call notifyObservers', (): void => {
       // Arrange
       const a = new Angle();
       const spy = sinon.spy( a as any, 'notifyObservers' );
@@ -85,7 +85,7 @@ describe( 'Angle', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should not call notifyObservers when value does not change', () => {
+    it( 'should not call notifyObservers when value does not change', (): void => {
       // Arrange
       const a = new Angle( Math.PI );
       const spy = sinon.spy( a as any, 'notifyObservers' );
@@ -98,8 +98,8 @@ describe( 'Angle', () => {
     } );
   } );
 
-  describe( 'constructor', () => {
-    it( 'should set radians', () => {
+  describe( 'constructor', (): void => {
+    it( 'should set radians', (): void => {
       // Act
       const a = new Angle( 1 );
 
@@ -107,7 +107,7 @@ describe( 'Angle', () => {
       expect( a.radians ).to.equal( 1 );
     } );
 
-    it( 'should set zero value if uninitialised', () => {
+    it( 'should set zero value if uninitialised', (): void => {
       // Act
       const a = new Angle();
 
@@ -116,8 +116,8 @@ describe( 'Angle', () => {
     } );
   } );
 
-  describe( 'equals', () => {
-    it( 'should return true if values equal', () => {
+  describe( 'equals', (): void => {
+    it( 'should return true if values equal', (): void => {
       // Arrange
       const a1 = new Angle( 1 );
       const a2 = new Angle( 1 );
@@ -129,7 +129,7 @@ describe( 'Angle', () => {
       expect( result ).to.be.true;
     } );
 
-    it( 'should return false if values do not equal', () => {
+    it( 'should return false if values do not equal', (): void => {
       // Arrange
       const a1 = new Angle( 1 );
       const a2 = new Angle( 2 );

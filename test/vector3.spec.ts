@@ -3,9 +3,9 @@ import * as sinon from 'sinon';
 
 import { Vector3 } from '../lib/vector3';
 
-describe( 'Vector3', () => {
-  describe( 'getter x', () => {
-    it( 'should get x', () => {
+describe( 'Vector3', (): void => {
+  describe( 'getter x', (): void => {
+    it( 'should get x', (): void => {
       // Arrange
       const v = new Vector3( 1, 0, 0 );
 
@@ -14,8 +14,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'setter x', () => {
-    it( 'should set x', () => {
+  describe( 'setter x', (): void => {
+    it( 'should set x', (): void => {
       // Arrange
       const v = new Vector3();
 
@@ -26,7 +26,7 @@ describe( 'Vector3', () => {
       expect( v.x ).to.equal( 1 );
     } );
 
-    it( 'should call notifyObservers', () => {
+    it( 'should call notifyObservers', (): void => {
       // Arrange
       const v = new Vector3();
       const spy = sinon.spy( v as any, 'notifyObservers' );
@@ -38,7 +38,7 @@ describe( 'Vector3', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should not call notifyObservers when value does not change', () => {
+    it( 'should not call notifyObservers when value does not change', (): void => {
       // Arrange
       const v = new Vector3( 1, 0, 0 );
       const spy = sinon.spy( v as any, 'notifyObservers' );
@@ -51,8 +51,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'getter y', () => {
-    it( 'should get y', () => {
+  describe( 'getter y', (): void => {
+    it( 'should get y', (): void => {
       // Arrange
       const v = new Vector3( 0, 1, 0 );
 
@@ -61,8 +61,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'setter y', () => {
-    it( 'should set y', () => {
+  describe( 'setter y', (): void => {
+    it( 'should set y', (): void => {
       // Arrange
       const v = new Vector3();
 
@@ -73,7 +73,7 @@ describe( 'Vector3', () => {
       expect( v.y ).to.equal( 1 );
     } );
 
-    it( 'should call notifyObservers', () => {
+    it( 'should call notifyObservers', (): void => {
       // Arrange
       const v = new Vector3();
       const spy = sinon.spy( v as any, 'notifyObservers' );
@@ -85,7 +85,7 @@ describe( 'Vector3', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should not call notifyObservers when value does not change', () => {
+    it( 'should not call notifyObservers when value does not change', (): void => {
       // Arrange
       const v = new Vector3( 0, 1, 0 );
       const spy = sinon.spy( v as any, 'notifyObservers' );
@@ -98,8 +98,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'getter z', () => {
-    it( 'should get z', () => {
+  describe( 'getter z', (): void => {
+    it( 'should get z', (): void => {
       // Arrange
       const v = new Vector3( 0, 0, 1 );
 
@@ -108,8 +108,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'setter z', () => {
-    it( 'should set z', () => {
+  describe( 'setter z', (): void => {
+    it( 'should set z', (): void => {
       // Arrange
       const v = new Vector3();
 
@@ -120,7 +120,7 @@ describe( 'Vector3', () => {
       expect( v.z ).to.equal( 1 );
     } );
 
-    it( 'should call notifyObservers', () => {
+    it( 'should call notifyObservers', (): void => {
       // Arrange
       const v = new Vector3();
       const spy = sinon.spy( v as any, 'notifyObservers' );
@@ -132,7 +132,7 @@ describe( 'Vector3', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should not call notifyObservers when value does not change', () => {
+    it( 'should not call notifyObservers when value does not change', (): void => {
       // Arrange
       const v = new Vector3( 0, 0, 1 );
       const spy = sinon.spy( v as any, 'notifyObservers' );
@@ -145,8 +145,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'constructor', () => {
-    it( 'should set x, y and z properties', () => {
+  describe( 'constructor', (): void => {
+    it( 'should set x, y and z properties', (): void => {
       // Act
       const v = new Vector3( 1, 2, 3 );
 
@@ -156,7 +156,7 @@ describe( 'Vector3', () => {
       expect( v.z ).to.equal( 3 );
     } );
 
-    it( 'should set zero values if uninitialised', () => {
+    it( 'should set zero values if uninitialised', (): void => {
       // Act
       const v = new Vector3();
 
@@ -167,8 +167,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'set', () => {
-    it( 'should set x, y and z properties', () => {
+  describe( 'set', (): void => {
+    it( 'should set x, y and z properties', (): void => {
       // Arrange
       const v = new Vector3();
 
@@ -181,7 +181,7 @@ describe( 'Vector3', () => {
       expect( v.z ).to.equal( 3 );
     } );
 
-    it( 'should call notifyObservers', () => {
+    it( 'should call notifyObservers', (): void => {
       // Arrange
       const v = new Vector3();
       const spy = sinon.spy( v as any, 'notifyObservers' );
@@ -193,7 +193,7 @@ describe( 'Vector3', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should not call notifyObservers when value does not change', () => {
+    it( 'should not call notifyObservers when value does not change', (): void => {
       // Arrange
       const v = new Vector3( 1, 2, 3 );
       const spy = sinon.spy( v as any, 'notifyObservers' );
@@ -206,8 +206,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'setSilent', () => {
-    it( 'should set x, y and z properties', () => {
+  describe( 'setSilent', (): void => {
+    it( 'should set x, y and z properties', (): void => {
       // Arrange
       const v = new Vector3();
 
@@ -220,7 +220,7 @@ describe( 'Vector3', () => {
       expect( v.z ).to.equal( 3 );
     } );
 
-    it( 'should not call notifyObservers', () => {
+    it( 'should not call notifyObservers', (): void => {
       // Arrange
       const v = new Vector3();
       const spy = sinon.spy( v as any, 'notifyObservers' );
@@ -233,8 +233,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'copy', () => {
-    it( 'should copy x, y and z properties', () => {
+  describe( 'copy', (): void => {
+    it( 'should copy x, y and z properties', (): void => {
       // Arrange
       const v1 = new Vector3();
       const v2 = new Vector3( 1, 2, 3 );
@@ -248,7 +248,7 @@ describe( 'Vector3', () => {
       expect( v1.z ).to.equal( 3 );
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const v1 = new Vector3();
       const v2 = new Vector3( 1, 2, 3 );
@@ -262,8 +262,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'clone', () => {
-    it( 'should return an object with the same values', () => {
+  describe( 'clone', (): void => {
+    it( 'should return an object with the same values', (): void => {
       // Arrange
       const v = new Vector3( 1, 2, 3 );
 
@@ -276,7 +276,7 @@ describe( 'Vector3', () => {
       expect( result.z ).to.equal( 3 );
     } );
 
-    it( 'should not call observers when original vector changes', () => {
+    it( 'should not call observers when original vector changes', (): void => {
       // Arrange
       const v = new Vector3( 1, 2, 3 );
       const result = v.clone();
@@ -290,8 +290,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'equals', () => {
-    it( 'should return true if values equal', () => {
+  describe( 'equals', (): void => {
+    it( 'should return true if values equal', (): void => {
       // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 1, 2, 3 );
@@ -303,7 +303,7 @@ describe( 'Vector3', () => {
       expect( result ).to.be.true;
     } );
 
-    it( 'should return false if values do not equal', () => {
+    it( 'should return false if values do not equal', (): void => {
       // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 1, 3, 5 );
@@ -316,8 +316,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'add', () => {
-    it( 'should add vectors', () => {
+  describe( 'add', (): void => {
+    it( 'should add vectors', (): void => {
       // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 2, 5 );
@@ -330,7 +330,7 @@ describe( 'Vector3', () => {
       expect( v1.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 5, 6 );
@@ -344,8 +344,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'sub', () => {
-    it( 'should subtract vectors', () => {
+  describe( 'sub', (): void => {
+    it( 'should subtract vectors', (): void => {
       // Arrange
       const v1 = new Vector3( 4, 2, 5 );
       const v2 = new Vector3( 1, 2, 3 );
@@ -358,7 +358,7 @@ describe( 'Vector3', () => {
       expect( v1.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 5, 6 );
@@ -372,8 +372,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'multiply', () => {
-    it( 'should multiply vectors', () => {
+  describe( 'multiply', (): void => {
+    it( 'should multiply vectors', (): void => {
       // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 2, 5 );
@@ -386,7 +386,7 @@ describe( 'Vector3', () => {
       expect( v1.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 5, 6 );
@@ -400,8 +400,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'divide', () => {
-    it( 'should divide vectors', () => {
+  describe( 'divide', (): void => {
+    it( 'should divide vectors', (): void => {
       // Arrange
       const v1 = new Vector3( 4, 6, 9 );
       const v2 = new Vector3( 4, 3, 3 );
@@ -414,7 +414,7 @@ describe( 'Vector3', () => {
       expect( v1.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 5, 6 );
@@ -428,8 +428,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'addScalar', () => {
-    it( 'should add scalar', () => {
+  describe( 'addScalar', (): void => {
+    it( 'should add scalar', (): void => {
       // Arrange
       const v = new Vector3( 1, 2, 3 );
       const scalar = 3;
@@ -442,7 +442,7 @@ describe( 'Vector3', () => {
       expect( v.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const v = new Vector3( 1, 2, 3 );
       const spy = sinon.spy( v, 'set' );
@@ -455,8 +455,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'multiplyScalar', () => {
-    it( 'should multipy scalar', () => {
+  describe( 'multiplyScalar', (): void => {
+    it( 'should multipy scalar', (): void => {
       // Arrange
       const v = new Vector3( 1, 2, 3 );
       const scalar = 3;
@@ -469,7 +469,7 @@ describe( 'Vector3', () => {
       expect( v.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const v = new Vector3( 1, 2, 3 );
       const spy = sinon.spy( v, 'set' );
@@ -482,8 +482,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'min', () => {
-    it( 'should set to the elementwise minimum of two vectors', () => {
+  describe( 'min', (): void => {
+    it( 'should set to the elementwise minimum of two vectors', (): void => {
       // Arrange
       const v1 = new Vector3( 1, 5, 4 );
       const v2 = new Vector3( 2, 3, 4 );
@@ -496,7 +496,7 @@ describe( 'Vector3', () => {
       expect( v1.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 5, 6 );
@@ -510,8 +510,8 @@ describe( 'Vector3', () => {
     } );
   } );
 
-  describe( 'max', () => {
-    it( 'should set to the elementwise maximum of two vectors', () => {
+  describe( 'max', (): void => {
+    it( 'should set to the elementwise maximum of two vectors', (): void => {
       // Arrange
       const v1 = new Vector3( 1, 5, 4 );
       const v2 = new Vector3( 2, 3, 4 );
@@ -524,7 +524,7 @@ describe( 'Vector3', () => {
       expect( v1.equals( expected ) ).to.be.true;
     } );
 
-    it( 'should call set', () => {
+    it( 'should call set', (): void => {
       // Arrange
       const v1 = new Vector3( 1, 2, 3 );
       const v2 = new Vector3( 4, 5, 6 );

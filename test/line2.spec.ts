@@ -4,9 +4,9 @@ import * as sinon from 'sinon';
 import { Line2 } from '../lib/line2';
 import { Vector2 } from '../lib/vector2';
 
-describe( 'Line2', () => {
-  describe( 'getter start', () => {
-    it( 'should get start vector', () => {
+describe( 'Line2', (): void => {
+  describe( 'getter start', (): void => {
+    it( 'should get start vector', (): void => {
       // Arrange
       const start = new Vector2( 1, 2 );
       const end = new Vector2( 3, 4 );
@@ -17,8 +17,8 @@ describe( 'Line2', () => {
     } );
   } );
 
-  describe( 'getter end', () => {
-    it( 'should get end vector', () => {
+  describe( 'getter end', (): void => {
+    it( 'should get end vector', (): void => {
       // Arrange
       const start = new Vector2( 1, 2 );
       const end = new Vector2( 3, 4 );
@@ -29,8 +29,8 @@ describe( 'Line2', () => {
     } );
   } );
 
-  describe( 'direction getter', () => {
-    it( 'should return the direction', () => {
+  describe( 'direction getter', (): void => {
+    it( 'should return the direction', (): void => {
       // Arrange
       const l = new Line2( new Vector2( 1, 1 ), new Vector2( 4, 3 ) );
 
@@ -43,8 +43,8 @@ describe( 'Line2', () => {
     } );
   } );
 
-  describe( 'constructor', () => {
-    it( 'should create with given points', () => {
+  describe( 'constructor', (): void => {
+    it( 'should create with given points', (): void => {
       // Arrange
       const p1 = new Vector2( 1, 2 );
       const p2 = new Vector2( 3, 4 );
@@ -57,7 +57,7 @@ describe( 'Line2', () => {
       expect( l.end.equals( p2 ) ).to.be.true;
     } );
 
-    it( 'should initialize with zero vectors if not specified', () => {
+    it( 'should initialize with zero vectors if not specified', (): void => {
       // Arrange
       const p = new Vector2( 0, 0 );
 
@@ -69,7 +69,7 @@ describe( 'Line2', () => {
       expect( l.end.equals( p ) ).to.be.true;
     } );
 
-    it( 'should notify observers if start point changes', () => {
+    it( 'should notify observers if start point changes', (): void => {
       // Arrange
       const p1 = new Vector2();
       const p2 = new Vector2();
@@ -83,7 +83,7 @@ describe( 'Line2', () => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should notify observers if end point changes', () => {
+    it( 'should notify observers if end point changes', (): void => {
       // Arrange
       const p1 = new Vector2();
       const p2 = new Vector2();
@@ -98,8 +98,8 @@ describe( 'Line2', () => {
     } );
   } );
 
-  describe( 'copy', () => {
-    it( 'should copy values from other line', () => {
+  describe( 'copy', (): void => {
+    it( 'should copy values from other line', (): void => {
       // Arrange
       const p1 = new Vector2( 1, 2 );
       const p2 = new Vector2( 3, 4 );
@@ -114,7 +114,7 @@ describe( 'Line2', () => {
       expect( l1.end.equals( p2 ) ).to.be.true;
     } );
 
-    it( 'should call observers twice', () => {
+    it( 'should call observers twice', (): void => {
       // Arrange
       const p1 = new Vector2( 1, 2 );
       const p2 = new Vector2( 3, 4 );
@@ -130,7 +130,7 @@ describe( 'Line2', () => {
       expect( spy.callCount ).to.equal( 2 );
     } );
 
-    it( 'should not call observers if copied vectors change', () => {
+    it( 'should not call observers if copied vectors change', (): void => {
       // Arrange
       const p1 = new Vector2( 1, 2 );
       const p2 = new Vector2( 3, 4 );
@@ -148,8 +148,8 @@ describe( 'Line2', () => {
     } );
   } );
 
-  describe( 'clone', () => {
-    it( 'should return an object with the same values', () => {
+  describe( 'clone', (): void => {
+    it( 'should return an object with the same values', (): void => {
       // Arrange
       const start = new Vector2( 1, 2 );
       const end = new Vector2( 3, 4 );
@@ -163,7 +163,7 @@ describe( 'Line2', () => {
       expect( result.end.equals( end ) ).to.be.true;
     } );
 
-    it( 'should not call observers when original line changes', () => {
+    it( 'should not call observers when original line changes', (): void => {
       // Arrange
       const start = new Vector2( 1, 2 );
       const end = new Vector2( 3, 4 );
@@ -179,8 +179,8 @@ describe( 'Line2', () => {
     } );
   } );
 
-  describe( 'equals', () => {
-    it( 'should return true if values equal', () => {
+  describe( 'equals', (): void => {
+    it( 'should return true if values equal', (): void => {
       // Arrange
       const start = new Vector2( 1, 2 );
       const end = new Vector2( 3, 4 );
@@ -194,7 +194,7 @@ describe( 'Line2', () => {
       expect( result ).to.be.true;
     } );
 
-    it( 'should return false if values do not equal', () => {
+    it( 'should return false if values do not equal', (): void => {
       // Arrange
       const start = new Vector2( 1, 2 );
       const end1 = new Vector2( 3, 4 );
@@ -210,8 +210,8 @@ describe( 'Line2', () => {
     } );
   } );
 
-  describe( 'getCenter', () => {
-    it( 'should return the center point', () => {
+  describe( 'getCenter', (): void => {
+    it( 'should return the center point', (): void => {
       // Arrange
       const l = new Line2( new Vector2( 0, 0 ), new Vector2( 6, 4 ) );
 
@@ -224,8 +224,8 @@ describe( 'Line2', () => {
     } );
   } );
 
-  describe( 'interpolate', () => {
-    it( 'should return the interpolated point', () => {
+  describe( 'interpolate', (): void => {
+    it( 'should return the interpolated point', (): void => {
       // Arrange
       const l = new Line2( new Vector2( 0, 0 ), new Vector2( 9, 6 ) );
 
@@ -238,8 +238,8 @@ describe( 'Line2', () => {
     } );
   } );
 
-  describe( 'isParallel', () => {
-    it( 'should return true for parallel lines', () => {
+  describe( 'isParallel', (): void => {
+    it( 'should return true for parallel lines', (): void => {
       // Arrange
       const l1 = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
       const l2 = new Line2( new Vector2( 1, 2 ), new Vector2( 4, 4 ) );
@@ -248,7 +248,7 @@ describe( 'Line2', () => {
       expect( l1.isParallel( l2 ) ).to.be.true;
     } );
 
-    it( 'should return false if lines are not parallel', () => {
+    it( 'should return false if lines are not parallel', (): void => {
       // Arrange
       const l1 = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
       const l2 = new Line2( new Vector2( 1, 2 ), new Vector2( 4, 5 ) );
@@ -258,8 +258,8 @@ describe( 'Line2', () => {
     } );
   } );
 
-  describe( 'isPerpendicular', () => {
-    it( 'should return true for perpendicular lines', () => {
+  describe( 'isPerpendicular', (): void => {
+    it( 'should return true for perpendicular lines', (): void => {
       // Arrange
       const l1 = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
       const l2 = new Line2( new Vector2( 3, 1 ), new Vector2( 1, 4 ) );
@@ -268,7 +268,7 @@ describe( 'Line2', () => {
       expect( l1.isPerpendicular( l2 ) ).to.be.true;
     } );
 
-    it( 'should return false if lines are not perpendicular', () => {
+    it( 'should return false if lines are not perpendicular', (): void => {
       // Arrange
       const l1 = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
       const l2 = new Line2( new Vector2( 3, 1 ), new Vector2( 2, 4 ) );
@@ -278,8 +278,8 @@ describe( 'Line2', () => {
     } );
   } );
 
-  describe( 'getIntersection', () => {
-    it( 'should return the intersection point', () => {
+  describe( 'getIntersection', (): void => {
+    it( 'should return the intersection point', (): void => {
       // Arrange
       const l1 = new Line2( new Vector2( 0, 0 ), new Vector2( 6, 4 ) );
       const l2 = new Line2( new Vector2( 5, -1 ), new Vector2( 1, 5 ) );
@@ -292,7 +292,7 @@ describe( 'Line2', () => {
       expect( result!.y ).to.be.closeTo( 2, 0.001 );
     } );
 
-    it( 'should return the intersection point even if outside of segments', () => {
+    it( 'should return the intersection point even if outside of segments', (): void => {
       // Arrange
       const l1 = new Line2( new Vector2( 0, 0 ), new Vector2( 6, 4 ) );
       const l2 = new Line2( new Vector2( 1, 5 ), new Vector2( -1, 8 ) );
@@ -305,7 +305,7 @@ describe( 'Line2', () => {
       expect( result!.y ).to.be.closeTo( 2, 0.001 );
     } );
 
-    it( 'should return null for parallel lines', () => {
+    it( 'should return null for parallel lines', (): void => {
       // Arrange
       const l1 = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
       const l2 = new Line2( new Vector2( 1, 2 ), new Vector2( 4, 4 ) );
@@ -318,8 +318,8 @@ describe( 'Line2', () => {
     } );
   } );
 
-  describe( 'getSegmentIntersection', () => {
-    it( 'should return the intersection point', () => {
+  describe( 'getSegmentIntersection', (): void => {
+    it( 'should return the intersection point', (): void => {
       // Arrange
       const l1 = new Line2( new Vector2( 0, 0 ), new Vector2( 6, 4 ) );
       const l2 = new Line2( new Vector2( 5, -1 ), new Vector2( 1, 5 ) );
@@ -332,7 +332,7 @@ describe( 'Line2', () => {
       expect( result!.y ).to.be.closeTo( 2, 0.001 );
     } );
 
-    it( 'should return null if intersection is outside of segments', () => {
+    it( 'should return null if intersection is outside of segments', (): void => {
       // Arrange
       const l1 = new Line2( new Vector2( 0, 0 ), new Vector2( 6, 4 ) );
       const l2 = new Line2( new Vector2( 1, 5 ), new Vector2( -1, 8 ) );
@@ -344,7 +344,7 @@ describe( 'Line2', () => {
       expect( result ).to.be.null;
     } );
 
-    it( 'should return null for parallel lines', () => {
+    it( 'should return null for parallel lines', (): void => {
       // Arrange
       const l1 = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
       const l2 = new Line2( new Vector2( 1, 2 ), new Vector2( 4, 4 ) );
@@ -357,8 +357,8 @@ describe( 'Line2', () => {
     } );
   } );
 
-  describe( 'getSideOfPoint', () => {
-    it( 'should return 1 if left of line', () => {
+  describe( 'getSideOfPoint', (): void => {
+    it( 'should return 1 if left of line', (): void => {
       // Arrange
       const l = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
       const p = new Vector2( 1, 2 );
@@ -370,7 +370,7 @@ describe( 'Line2', () => {
       expect( result ).to.equal( 1 );
     } );
 
-    it( 'should return -1 if right of line', () => {
+    it( 'should return -1 if right of line', (): void => {
       // Arrange
       const l = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
       const p = new Vector2( 2, 1 );
@@ -382,7 +382,7 @@ describe( 'Line2', () => {
       expect( result ).to.equal( -1 );
     } );
 
-    it( 'should return 0 if point is on line', () => {
+    it( 'should return 0 if point is on line', (): void => {
       // Arrange
       const l = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
       const p = new Vector2( 3, 2 );
