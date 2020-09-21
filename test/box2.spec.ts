@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 
 import { Box2 } from '../lib/box2';
+import { Matrix3 } from '../lib/matrix3';
 import { Vector2 } from '../lib/vector2';
 
 describe( 'Box2', (): void => {
@@ -353,6 +354,18 @@ describe( 'Box2', (): void => {
       // Assert
       expect( result ).to.be.false;
     } );
+
+    it( 'should return true if both boxes are empty', (): void => {
+      // Arrange
+      const b1 = new Box2();
+      const b2 = new Box2();
+
+      // Act
+      const result = b1.equals( b2 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
   } );
 
   describe( 'makeEmpty', (): void => {
@@ -386,7 +399,7 @@ describe( 'Box2', (): void => {
   } );
 
   describe( 'expandByScalar', (): void => {
-    it( 'should make box equal to initial box', (): void => {
+    it( 'should make box equal to expected box', (): void => {
       // Arrange
       const min = new Vector2( 3, 4 );
       const max = new Vector2( 5, 6 );
@@ -416,12 +429,24 @@ describe( 'Box2', (): void => {
       // Assert
       expect( spy.callCount ).to.equal( 2 );
     } );
+
+    it( 'should not change an empty box', (): void => {
+      // Arrange
+      const b = new Box2();
+      const expected = new Box2();
+
+      // Act
+      b.expandByScalar( 1 );
+
+      // Assert
+      expect( b.equals( expected ) ).to.be.true;
+    } );
   } );
 
   describe( 'expandByPoint', (): void => {
     it( 'should expand to point', (): void => {
       // Arrange
-      const p = new Vector2( -1, -2 );
+      const p = new Vector2( -1, 8 );
       const min = new Vector2( 3, 4 );
       const max = new Vector2( 5, 6 );
       const b = new Box2( min, max );
@@ -430,7 +455,21 @@ describe( 'Box2', (): void => {
       b.expandByPoint( p );
 
       // Assert
+      expect( b.min.equals( new Vector2( -1, 4 ) ) ).to.be.true;
+      expect( b.max.equals( new Vector2( 5, 8 ) ) ).to.be.true;
+    } );
+
+    it( 'should equal the point to expand to when box was empty', (): void => {
+      // Arrange
+      const p = new Vector2( 1, 2 );
+      const b = new Box2();
+
+      // Act
+      b.expandByPoint( p );
+
+      // Assert
       expect( b.min.equals( p ) ).to.be.true;
+      expect( b.max.equals( p ) ).to.be.true;
     } );
 
     it( 'should not expand if point is inside box', (): void => {
@@ -464,185 +503,301 @@ describe( 'Box2', (): void => {
       // Assert
       expect( spy.callCount ).to.equal( 2 );
     } );
+  } );
 
-    describe( 'expandByBox', (): void => {
-      it( 'should expand to contain both boxes', (): void => {
-        // Arrange
-        const b1 = new Box2(
-          new Vector2( 1, 3 ),
-          new Vector2( 4, 5 )
-        );
-        const b2 = new Box2(
-          new Vector2( 3, 1 ),
-          new Vector2( 5, 4 )
-        );
+  describe( 'expandByBox', (): void => {
+    it( 'should expand to contain both boxes', (): void => {
+      // Arrange
+      const b1 = new Box2(
+        new Vector2( 1, 3 ),
+        new Vector2( 4, 5 )
+      );
+      const b2 = new Box2(
+        new Vector2( 3, 1 ),
+        new Vector2( 5, 4 )
+      );
 
-        // Act
-        b1.expandByBox( b2 );
+      // Act
+      b1.expandByBox( b2 );
 
-        // Assert
-        expect( b1.min.equals( new Vector2( 1, 1 ) ) ).to.be.true;
-        expect( b1.max.equals( new Vector2( 5, 5 ) ) ).to.be.true;
-      } );
-
-      it( 'should not expand if box is inside box', (): void => {
-        // Arrange
-        const b1 = new Box2(
-          new Vector2( 1, 2 ),
-          new Vector2( 5, 6 )
-        );
-        const b2 = new Box2(
-          new Vector2( 2, 3 ),
-          new Vector2( 4, 5 )
-        );
-
-        // Act
-        b1.expandByBox( b2 );
-
-        // Assert
-        expect( b1.min.equals( new Vector2( 1, 2 ) ) ).to.be.true;
-        expect( b1.max.equals( new Vector2( 5, 6 ) ) ).to.be.true;
-      } );
-
-      it( 'should call notifyObservers twice if both min and max change', (): void => {
-        // Arrange
-        const b1 = new Box2(
-          new Vector2( 1, 3 ),
-          new Vector2( 4, 5 )
-        );
-        const b2 = new Box2(
-          new Vector2( 3, 1 ),
-          new Vector2( 5, 4 )
-        );
-        const spy = sinon.spy( b1 as any, 'notifyObservers' );
-
-        // Act
-        b1.expandByBox( b2 );
-
-        // Assert
-        expect( spy.callCount ).to.equal( 2 );
-      } );
+      // Assert
+      expect( b1.min.equals( new Vector2( 1, 1 ) ) ).to.be.true;
+      expect( b1.max.equals( new Vector2( 5, 5 ) ) ).to.be.true;
     } );
 
-    describe( 'containsPoint', (): void => {
-      it( 'should return true if point is contained', (): void => {
-        // Arrange
-        const p = new Vector2( 2, 4 );
-        const b = new Box2(
-          new Vector2( 1, 3 ),
-          new Vector2( 4, 5 )
-        );
+    it( 'should not expand if box is inside box', (): void => {
+      // Arrange
+      const b1 = new Box2(
+        new Vector2( 1, 2 ),
+        new Vector2( 5, 6 )
+      );
+      const b2 = new Box2(
+        new Vector2( 2, 3 ),
+        new Vector2( 4, 5 )
+      );
 
-        // Act
-        const result = b.containsPoint( p );
+      // Act
+      b1.expandByBox( b2 );
 
-        // Assert
-        expect( result ).to.be.true;
-      } );
-
-      it( 'should return true if point is on the border', (): void => {
-        // Arrange
-        const p = new Vector2( 3, 3 );
-        const b = new Box2(
-          new Vector2( 1, 3 ),
-          new Vector2( 4, 5 )
-        );
-
-        // Act
-        const result = b.containsPoint( p );
-
-        // Assert
-        expect( result ).to.be.true;
-      } );
-
-      it( 'should return false if point is outside of box', (): void => {
-        // Arrange
-        const p = new Vector2( 5, 4 );
-        const b = new Box2(
-          new Vector2( 1, 3 ),
-          new Vector2( 4, 5 )
-        );
-
-        // Act
-        const result = b.containsPoint( p );
-
-        // Assert
-        expect( result ).to.be.false;
-      } );
+      // Assert
+      expect( b1.min.equals( new Vector2( 1, 2 ) ) ).to.be.true;
+      expect( b1.max.equals( new Vector2( 5, 6 ) ) ).to.be.true;
     } );
 
-    describe( 'containsBox', (): void => {
-      it( 'should return true if box is contained', (): void => {
-        // Arrange
-        const b1 = new Box2(
-          new Vector2( 1, 3 ),
-          new Vector2( 4, 6 )
-        );
-        const b2 = new Box2(
-          new Vector2( 2, 4 ),
-          new Vector2( 3, 5 )
-        );
+    it( 'should not expand if box to expand to is empty', (): void => {
+      // Arrange
+      const b1 = new Box2(
+        new Vector2( 1, 2 ),
+        new Vector2( 5, 6 )
+      );
+      const b2 = new Box2();
 
-        // Act
-        const result = b1.containsBox( b2 );
+      // Act
+      b1.expandByBox( b2 );
 
-        // Assert
-        expect( result ).to.be.true;
-      } );
+      // Assert
+      expect( b1.min.equals( new Vector2( 1, 2 ) ) ).to.be.true;
+      expect( b1.max.equals( new Vector2( 5, 6 ) ) ).to.be.true;
+    } );
 
-      it( 'should return true if box is contained and touches the border', (): void => {
-        // Arrange
-        const b1 = new Box2(
-          new Vector2( 1, 3 ),
-          new Vector2( 4, 6 )
-        );
-        const b2 = new Box2(
-          new Vector2( 2, 3 ),
-          new Vector2( 4, 5 )
-        );
+    it( 'should call notifyObservers twice if both min and max change', (): void => {
+      // Arrange
+      const b1 = new Box2(
+        new Vector2( 1, 3 ),
+        new Vector2( 4, 5 )
+      );
+      const b2 = new Box2(
+        new Vector2( 3, 1 ),
+        new Vector2( 5, 4 )
+      );
+      const spy = sinon.spy( b1 as any, 'notifyObservers' );
 
-        // Act
-        const result = b1.containsBox( b2 );
+      // Act
+      b1.expandByBox( b2 );
 
-        // Assert
-        expect( result ).to.be.true;
-      } );
+      // Assert
+      expect( spy.callCount ).to.equal( 2 );
+    } );
+  } );
 
-      it( 'should return false if box is outside of the other box', (): void => {
-        // Arrange
-        const b1 = new Box2(
-          new Vector2( 1, 3 ),
-          new Vector2( 4, 6 )
-        );
-        const b2 = new Box2(
-          new Vector2( 7, 7 ),
-          new Vector2( 8, 8 )
-        );
+  describe( 'transform', (): void => {
+    it( 'should transform min and max points', (): void => {
+      // Arrange
+      const b = new Box2(
+        new Vector2( 1, 3 ),
+        new Vector2( 4, 5 )
+      );
+      const m = new Matrix3().setTranslation( new Vector2( 2, 4 ) );
 
-        // Act
-        const result = b1.containsBox( b2 );
+      // Act
+      b.transform( m );
 
-        // Assert
-        expect( result ).to.be.false;
-      } );
+      // Assert
+      expect( b.min.equals( new Vector2( 3, 7 ) ) ).to.be.true;
+      expect( b.max.equals( new Vector2( 6, 9 ) ) ).to.be.true;
+    } );
 
-      it( 'should return false if box intersects the other box', (): void => {
-        // Arrange
-        const b1 = new Box2(
-          new Vector2( 1, 3 ),
-          new Vector2( 4, 6 )
-        );
-        const b2 = new Box2(
-          new Vector2( 2, 1 ),
-          new Vector2( 4, 8 )
-        );
+    it( 'should not change an empty box', (): void => {
+      // Arrange
+      const b = new Box2();
+      const m = new Matrix3().setTranslation( new Vector2( 2, 4 ) );
 
-        // Act
-        const result = b1.containsBox( b2 );
+      // Act
+      b.transform( m );
 
-        // Assert
-        expect( result ).to.be.false;
-      } );
+      // Assert
+      expect( b.equals( new Box2() ) ).to.be.true;
+    } );
+
+    it( 'should mirror min and max points with negative scaling transformation', (): void => {
+      // Arrange
+      const b = new Box2(
+        new Vector2( 1, 3 ),
+        new Vector2( 4, 5 )
+      );
+      const m = new Matrix3().setScaling( new Vector2( -1, -1 ) );
+
+      // Act
+      b.transform( m );
+
+      // Assert
+      expect( b.min.equals( new Vector2( -4, -5 ) ) ).to.be.true;
+      expect( b.max.equals( new Vector2( -1, -3 ) ) ).to.be.true;
+    } );
+  } );
+
+  describe( 'containsPoint', (): void => {
+    it( 'should return true if point is contained', (): void => {
+      // Arrange
+      const p = new Vector2( 2, 4 );
+      const b = new Box2(
+        new Vector2( 1, 3 ),
+        new Vector2( 4, 5 )
+      );
+
+      // Act
+      const result = b.containsPoint( p );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return true if point is on the border', (): void => {
+      // Arrange
+      const p = new Vector2( 3, 3 );
+      const b = new Box2(
+        new Vector2( 1, 3 ),
+        new Vector2( 4, 5 )
+      );
+
+      // Act
+      const result = b.containsPoint( p );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false if point is outside of box', (): void => {
+      // Arrange
+      const p = new Vector2( 5, 4 );
+      const b = new Box2(
+        new Vector2( 1, 3 ),
+        new Vector2( 4, 5 )
+      );
+
+      // Act
+      const result = b.containsPoint( p );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return false if box is empty', (): void => {
+      // Arrange
+      const p = new Vector2( 5, 4 );
+      const b = new Box2();
+
+      // Act
+      const result = b.containsPoint( p );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+  } );
+
+  describe( 'containsBox', (): void => {
+    it( 'should return true if box is contained', (): void => {
+      // Arrange
+      const b1 = new Box2(
+        new Vector2( 1, 3 ),
+        new Vector2( 4, 6 )
+      );
+      const b2 = new Box2(
+        new Vector2( 2, 4 ),
+        new Vector2( 3, 5 )
+      );
+
+      // Act
+      const result = b1.containsBox( b2 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return true if box is contained and touches the border', (): void => {
+      // Arrange
+      const b1 = new Box2(
+        new Vector2( 1, 3 ),
+        new Vector2( 4, 6 )
+      );
+      const b2 = new Box2(
+        new Vector2( 2, 3 ),
+        new Vector2( 4, 5 )
+      );
+
+      // Act
+      const result = b1.containsBox( b2 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false if box is outside of the other box', (): void => {
+      // Arrange
+      const b1 = new Box2(
+        new Vector2( 1, 3 ),
+        new Vector2( 4, 6 )
+      );
+      const b2 = new Box2(
+        new Vector2( 7, 7 ),
+        new Vector2( 8, 8 )
+      );
+
+      // Act
+      const result = b1.containsBox( b2 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return false if box intersects the other box', (): void => {
+      // Arrange
+      const b1 = new Box2(
+        new Vector2( 1, 3 ),
+        new Vector2( 4, 6 )
+      );
+      const b2 = new Box2(
+        new Vector2( 2, 1 ),
+        new Vector2( 4, 8 )
+      );
+
+      // Act
+      const result = b1.containsBox( b2 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return false if box is empty', (): void => {
+      // Arrange
+      const b1 = new Box2();
+      const b2 = new Box2(
+        new Vector2( 7, 7 ),
+        new Vector2( 8, 8 )
+      );
+
+      // Act
+      const result = b1.containsBox( b2 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return true if box to contain is empty', (): void => {
+      // Arrange
+      const b1 = new Box2(
+        new Vector2( 1, 3 ),
+        new Vector2( 4, 6 )
+      );
+      const b2 = new Box2();
+
+      // Act
+      const result = b1.containsBox( b2 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return true if both boxes are empty', (): void => {
+      // Arrange
+      const b1 = new Box2();
+      const b2 = new Box2();
+
+      // Act
+      const result = b1.containsBox( b2 );
+
+      // Assert
+      expect( result ).to.be.true;
     } );
   } );
 } );

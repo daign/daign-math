@@ -1,5 +1,6 @@
 import { Observable } from '@daign/observable';
 
+import { Matrix3 } from './matrix3';
 import { Vector2 } from './vector2';
 
 /**
@@ -135,6 +136,28 @@ export class Box2 extends Observable {
   }
 
   /**
+   * Transform the box with a matrix by transforming the min and max points.
+   * @param m A matrix
+   * @returns A reference to itself
+   */
+  public transform( m: Matrix3 ): Box2 {
+    // Don't calculate transformation if box is empty.
+    if ( this.isEmpty ) {
+      return this;
+    }
+
+    const minTransformed = this.min.clone().transform( m );
+    const maxTransformed = this.max.clone().transform( m );
+
+    // Min and max can switch through the transformation, so they have to be recalculated.
+    const newMin = minTransformed.clone().min( maxTransformed );
+    const newMax = maxTransformed.clone().max( minTransformed );
+    this.min.copy( newMin );
+    this.max.copy( newMax );
+    return this;
+  }
+
+  /**
    * Test whether point lies inside of box including the border
    * @param p The point
    * @returns Whether point lies inside of box
@@ -147,7 +170,8 @@ export class Box2 extends Observable {
   }
 
   /**
-   * Test whether another box lies inside of box including the border
+   * Test whether another box lies inside of box including the border.
+   * An empty box is contained by all boxes.
    * @param b The other box
    * @returns Whether box lies inside of box
    */
