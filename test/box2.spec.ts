@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 
+import { Angle } from '../lib/angle';
 import { Box2 } from '../lib/box2';
 import { Matrix3 } from '../lib/matrix3';
 import { Vector2 } from '../lib/vector2';
@@ -623,6 +624,32 @@ describe( 'Box2', (): void => {
       // Assert
       expect( b.min.equals( new Vector2( -4, -5 ) ) ).to.be.true;
       expect( b.max.equals( new Vector2( -1, -3 ) ) ).to.be.true;
+    } );
+
+    it( 'should contain all previously contained points after a rotation', (): void => {
+      // Arrange
+      const point1 = new Vector2( 1, 0 );
+      const point2 = new Vector2( 0, 1 );
+      const point3 = new Vector2( -1, 0 );
+      const point4 = new Vector2( 0, -1 );
+
+      const b = new Box2();
+      b.expandByPoint( point1 );
+      b.expandByPoint( point2 );
+      b.expandByPoint( point3 );
+      b.expandByPoint( point4 );
+      const angle = new Angle();
+      angle.degrees = 45;
+      const m = new Matrix3().setRotation( angle );
+
+      // Act
+      b.transform( m );
+
+      // Assert
+      expect( b.containsPoint( point1 ) ).to.be.true;
+      expect( b.containsPoint( point2 ) ).to.be.true;
+      expect( b.containsPoint( point3 ) ).to.be.true;
+      expect( b.containsPoint( point4 ) ).to.be.true;
     } );
   } );
 

@@ -146,14 +146,19 @@ export class Box2 extends Observable {
       return this;
     }
 
-    const minTransformed = this.min.clone().transform( m );
-    const maxTransformed = this.max.clone().transform( m );
+    /* Transform all 4 corners of the box, to make sure that after a rotation all previously
+     * contained points are still contained. */
+    const corner1 = this.min.clone().transform( m );
+    const corner2 = this.max.clone().transform( m );
+    const corner3 = new Vector2( this.min.x, this.max.y ).transform( m );
+    const corner4 = new Vector2( this.max.x, this.min.y ).transform( m );
 
-    // Min and max can switch through the transformation, so they have to be recalculated.
-    const newMin = minTransformed.clone().min( maxTransformed );
-    const newMax = maxTransformed.clone().max( minTransformed );
-    this.min.copy( newMin );
-    this.max.copy( newMax );
+    // Empty the box and expand by all 4 transformed corner points.
+    this.makeEmpty();
+    this.expandByPoint( corner1 );
+    this.expandByPoint( corner2 );
+    this.expandByPoint( corner3 );
+    this.expandByPoint( corner4 );
     return this;
   }
 
