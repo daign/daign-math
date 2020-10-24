@@ -1,20 +1,22 @@
 import { Observable } from '@daign/observable';
 
 /**
- * Angle
+ * Angle.
  */
 export class Angle extends Observable {
   private _radians: number;
 
   /**
-   * Get angle in radians
+   * Get angle in radians.
+   * @returns The angle in radians.
    */
   public get radians(): number {
     return this._radians;
   }
 
   /**
-   * Set angle in radians
+   * Set angle in radians.
+   * @param value - The value in radians.
    */
   public set radians( value: number ) {
     // Only call observers if something changed
@@ -25,22 +27,24 @@ export class Angle extends Observable {
   }
 
   /**
-   * Get angle in degrees
+   * Get angle in degrees.
+   * @returns The angle in degrees.
    */
   public get degrees(): number {
     return ( this.radians * 180 / Math.PI );
   }
 
   /**
-   * Set angle in degrees
+   * Set angle in degrees.
+   * @param value - The value in degrees.
    */
   public set degrees( value: number ) {
     this.radians = value * Math.PI / 180;
   }
 
   /**
-   * Constructor
-   * @param rad The angle in radians
+   * Constructor.
+   * @param rad - The angle in radians.
    */
   public constructor( radians?: number ) {
     super();
@@ -49,9 +53,9 @@ export class Angle extends Observable {
   }
 
   /**
-   * Test equality of values for two angles
-   * @param v Another angle
-   * @returns Whether angles are equal
+   * Test equality of values for two angles.
+   * @param v - Another angle.
+   * @returns Whether angles are equal.
    */
   public equals( a: Angle ): boolean {
     return ( this.radians === a.radians );

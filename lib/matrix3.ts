@@ -4,17 +4,21 @@ import { Angle } from './angle';
 import { Vector2 } from './vector2';
 
 /**
- * 3x3 Matrix
+ * 3x3 Matrix.
  */
 export class Matrix3 extends Observable {
   private _elements: number[];
 
+  /**
+   * Get the matrix entries as a one-dimensional array.
+   * @returns The matrix entries.
+   */
   public get elements(): number[] {
-    return this._elements;
+    return [ ...this._elements ];
   }
 
   /**
-   * Constructor
+   * Constructor.
    */
   public constructor(
     a11?: number, a12?: number, a13?: number,
@@ -37,8 +41,8 @@ export class Matrix3 extends Observable {
   }
 
   /**
-   * Set the values
-   * @returns A reference to itself
+   * Set the values.
+   * @returns A reference to itself.
    */
   public set(
     a11: number, a12: number, a13: number,
@@ -46,12 +50,12 @@ export class Matrix3 extends Observable {
     a31: number, a32: number, a33: number
   ): Matrix3 {
     const e = this._elements;
-    // Only call observers if something changed
+    // Only call observers if something changed.
     if (
-    e[ 0 ] !== a11 || e[ 1 ] !== a12 || e[ 2 ] !== a13 ||
-    e[ 3 ] !== a21 || e[ 4 ] !== a22 || e[ 5 ] !== a23 ||
-    e[ 6 ] !== a31 || e[ 7 ] !== a32 || e[ 8 ] !== a33
-   ) {
+      e[ 0 ] !== a11 || e[ 1 ] !== a12 || e[ 2 ] !== a13 ||
+      e[ 3 ] !== a21 || e[ 4 ] !== a22 || e[ 5 ] !== a23 ||
+      e[ 6 ] !== a31 || e[ 7 ] !== a32 || e[ 8 ] !== a33
+    ) {
       e[ 0 ] = a11;
       e[ 1 ] = a12;
       e[ 2 ] = a13;
@@ -67,9 +71,9 @@ export class Matrix3 extends Observable {
   }
 
   /**
-   * Set from the values of another matrix
-   * @param m Another matrix
-   * @returns A reference to itself
+   * Set from the values of another matrix.
+   * @param m - Another matrix.
+   * @returns A reference to itself.
    */
   public copy( m: Matrix3 ): Matrix3 {
     const e = m.elements;
@@ -82,8 +86,8 @@ export class Matrix3 extends Observable {
   }
 
   /**
-   * Create a new matrix with the same values
-   * @returns A new matrix
+   * Create a new matrix with the same values.
+   * @returns A new matrix.
    */
   public clone(): Matrix3 {
     const e = this.elements;
@@ -95,25 +99,25 @@ export class Matrix3 extends Observable {
   }
 
   /**
-   * Test equality of values for two matrices
-   * @param m Another matrix
-   * @returns Whether matrices are equal
+   * Test equality of values for two matrices.
+   * @param m - Another matrix.
+   * @returns Whether matrices are equal.
    */
   public equals( m: Matrix3 ): boolean {
-      const e1 = this.elements;
-      const e2 = m.elements;
-      return (
-        ( e1[ 0 ] === e2[ 0 ] ) && ( e1[ 1 ] === e2[ 1 ] ) && ( e1[ 2 ] === e2[ 2 ] ) &&
-        ( e1[ 3 ] === e2[ 3 ] ) && ( e1[ 4 ] === e2[ 4 ] ) && ( e1[ 5 ] === e2[ 5 ] ) &&
-        ( e1[ 6 ] === e2[ 6 ] ) && ( e1[ 7 ] === e2[ 7 ] ) && ( e1[ 8 ] === e2[ 8 ] )
+    const e1 = this.elements;
+    const e2 = m.elements;
+    return (
+      ( e1[ 0 ] === e2[ 0 ] ) && ( e1[ 1 ] === e2[ 1 ] ) && ( e1[ 2 ] === e2[ 2 ] ) &&
+      ( e1[ 3 ] === e2[ 3 ] ) && ( e1[ 4 ] === e2[ 4 ] ) && ( e1[ 5 ] === e2[ 5 ] ) &&
+      ( e1[ 6 ] === e2[ 6 ] ) && ( e1[ 7 ] === e2[ 7 ] ) && ( e1[ 8 ] === e2[ 8 ] )
     );
   }
 
   /**
-   * Set the matrix to the result of the matrix multiplication m1 * m2
-   * @param m1 The first matrix
-   * @param m2 The second matrix
-   * @returns A reference to itself
+   * Set the matrix to the result of the matrix multiplication m1 * m2.
+   * @param m1 - The first matrix.
+   * @param m2 - The second matrix.
+   * @returns A reference to itself.
    */
   public matrixMultiplication( m1: Matrix3, m2: Matrix3 ): Matrix3 {
     const a = m1.elements;
@@ -134,9 +138,9 @@ export class Matrix3 extends Observable {
   }
 
   /**
-   * Mutiply with another matrix
-   * @param m The other matrix
-   * @returns A reference to itself
+   * Mutiply with another matrix.
+   * @param m - The other matrix.
+   * @returns A reference to itself.
    */
   public multiply( m: Matrix3 ): Matrix3 {
     this.matrixMultiplication( this, m );
@@ -146,8 +150,8 @@ export class Matrix3 extends Observable {
   /**
    * Combine two transformation matrices.
    * The transformation of the other matrix m is second in the order of transformations.
-   * @param m The other matrix
-   * @returns A reference to itself
+   * @param m - The other matrix.
+   * @returns A reference to itself.
    */
   public transform( m: Matrix3 ): Matrix3 {
     this.matrixMultiplication( m, this );
@@ -155,8 +159,8 @@ export class Matrix3 extends Observable {
   }
 
   /**
-   * Set the identity transformation matrix
-   * @returns A reference to itself
+   * Set the identity transformation matrix.
+   * @returns A reference to itself.
    */
   public setIdentity(): Matrix3 {
     this.set(
@@ -168,9 +172,9 @@ export class Matrix3 extends Observable {
   }
 
   /**
-   * Set the translation transformation matrix
-   * @param t The translation vector
-   * @returns A reference to itself
+   * Set the translation transformation matrix.
+   * @param t - The translation vector.
+   * @returns A reference to itself.
    */
   public setTranslation( t: Vector2 ): Matrix3 {
     this.set(
@@ -182,9 +186,9 @@ export class Matrix3 extends Observable {
   }
 
   /**
-   * Set the scaling transformation matrix
-   * @param s The scaling vector
-   * @returns A reference to itself
+   * Set the scaling transformation matrix.
+   * @param s - The scaling vector.
+   * @returns A reference to itself.
    */
   public setScaling( s: Vector2 ): Matrix3 {
     this.set(
@@ -196,14 +200,14 @@ export class Matrix3 extends Observable {
   }
 
   /**
-   * Set the rotation transformation matrix
-   * @param a The rotation angle
-   * @param p The center of rotation, or the origin of coordinates if missing
-   * @returns A reference to itself
+   * Set the rotation transformation matrix.
+   * @param a - The rotation angle.
+   * @param p - The center of rotation, or the origin of coordinates if missing.
+   * @returns A reference to itself.
    */
   public setRotation( a: Angle, p?: Vector2 ): Matrix3 {
     if ( p === undefined ) {
-      // Rotation around the origin of coordinates
+      // Rotation around the origin of coordinates.
       const sin = Math.sin( a.radians );
       const cos = Math.cos( a.radians );
 
@@ -213,7 +217,7 @@ export class Matrix3 extends Observable {
         0, 0, 1
       );
     } else {
-      // Rotation around point p
+      // Rotation around point p.
       this.setTranslation( p.clone().multiplyScalar( -1 ) );
       this.applyRotation( a );
       this.applyTranslation( p );
@@ -223,9 +227,9 @@ export class Matrix3 extends Observable {
   }
 
   /**
-   * Apply a translation transformation to the matrix
-   * @param t The translation vector
-   * @returns A reference to itself
+   * Apply a translation transformation to the matrix.
+   * @param t - The translation vector.
+   * @returns A reference to itself.
    */
   public applyTranslation( t: Vector2 ): Matrix3 {
     this.transform( new Matrix3().setTranslation( t ) );
@@ -233,9 +237,9 @@ export class Matrix3 extends Observable {
   }
 
   /**
-   * Apply a scaling transformation to the matrix
-   * @param s The scaling vector
-   * @returns A reference to itself
+   * Apply a scaling transformation to the matrix.
+   * @param s - The scaling vector.
+   * @returns A reference to itself.
    */
   public applyScaling( s: Vector2 ): Matrix3 {
     this.transform( new Matrix3().setScaling( s ) );
@@ -243,10 +247,10 @@ export class Matrix3 extends Observable {
   }
 
   /**
-   * Apply a rotation transformation to the matrix
-   * @param a The rotation angle
-   * @param p The center of rotation, or the origin of coordinates if missing
-   * @returns A reference to itself
+   * Apply a rotation transformation to the matrix.
+   * @param a - The rotation angle.
+   * @param p - The center of rotation, or the origin of coordinates if missing.
+   * @returns A reference to itself.
    */
   public applyRotation( a: Angle, p?: Vector2 ): Matrix3 {
     this.transform( new Matrix3().setRotation( a, p ) );
@@ -254,8 +258,8 @@ export class Matrix3 extends Observable {
   }
 
   /**
-   * Calculate the determinant of a matrix
-   * @returns The determinant of the matrix
+   * Calculate the determinant of a matrix.
+   * @returns The determinant of the matrix.
    */
   public determinant(): number {
     const el = this.elements;
@@ -276,8 +280,8 @@ export class Matrix3 extends Observable {
    * Set to the inverse of the passed matrix.
    * Will throw error if matrix cannot be inverted because determinant is 0.
    * Based on: https://github.com/mrdoob/three.js/blob/dev/src/math/Matrix3.js
-   * @param m The matrix to invert.
-   * @returns A reference to itself
+   * @param m - The matrix to invert.
+   * @returns A reference to itself.
    */
   public setToInverse( m: Matrix3 ): Matrix3 {
     const det = m.determinant();

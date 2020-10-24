@@ -1,43 +1,67 @@
 import { Observable } from '@daign/observable';
 
 /**
- * 3D vector
+ * 3D vector.
  */
 export class Vector3 extends Observable {
   private _x: number;
   private _y: number;
   private _z: number;
 
+  /**
+   * Get the x value.
+   * @returns The x value.
+   */
   public get x(): number {
     return this._x;
   }
 
+  /**
+   * Set the x value.
+   * @param value - The numeric x value.
+   */
   public set x( value: number ) {
-    // Only call observers if something changed
+    // Only call observers if something changed.
     if ( this._x !== value ) {
       this._x = value;
       this.notifyObservers();
     }
   }
 
+  /**
+   * Get the y value.
+   * @returns The y value.
+   */
   public get y(): number {
     return this._y;
   }
 
+  /**
+   * Set the y value.
+   * @param value - The numeric y value.
+   */
   public set y( value: number ) {
-    // Only call observers if something changed
+    // Only call observers if something changed.
     if ( this._y !== value ) {
       this._y = value;
       this.notifyObservers();
     }
   }
 
+  /**
+   * Get the z value.
+   * @returns The z value.
+   */
   public get z(): number {
     return this._z;
   }
 
+  /**
+   * Set the z value.
+   * @param value - The numeric z value.
+   */
   public set z( value: number ) {
-    // Only call observers if something changed
+    // Only call observers if something changed.
     if ( this._z !== value ) {
       this._z = value;
       this.notifyObservers();
@@ -45,10 +69,10 @@ export class Vector3 extends Observable {
   }
 
   /**
-   * Constructor
-   * @param x First Value
-   * @param y Second value
-   * @param z Third value
+   * Constructor.
+   * @param x - First value.
+   * @param y - Second value.
+   * @param z - Third value.
    */
   public constructor( x?: number, y?: number, z?: number ) {
     super();
@@ -59,14 +83,14 @@ export class Vector3 extends Observable {
   }
 
   /**
-   * Set the values
-   * @param x First Value
-   * @param y Second value
-   * @param z Third value
-   * @returns A reference to itself
+   * Set the values.
+   * @param x - First value.
+   * @param y - Second value.
+   * @param z - Third value.
+   * @returns A reference to itself.
    */
   public set( x: number, y: number, z: number ): Vector3 {
-    // Only call observers if something changed
+    // Only call observers if something changed.
     if ( this._x !== x || this._y !== y || this._z !== z ) {
       this._x = x;
       this._y = y;
@@ -77,11 +101,11 @@ export class Vector3 extends Observable {
   }
 
   /**
-   * Set the values without notifying observers
-   * @param x First value
-   * @param y Second value
-   * @param z Third value
-   * @returns A reference to itself
+   * Set the values without notifying observers.
+   * @param x - First value.
+   * @param y - Second value.
+   * @param z - Third value.
+   * @returns A reference to itself.
    */
   public setSilent( x: number, y: number, z: number ): Vector3 {
     this._x = x;
@@ -91,9 +115,9 @@ export class Vector3 extends Observable {
   }
 
   /**
-   * Set from the values of another vector
-   * @param v Another Vector
-   * @returns A reference to itself
+   * Set from the values of another vector.
+   * @param v - Another Vector.
+   * @returns A reference to itself.
    */
   public copy( v: Vector3 ): Vector3 {
     this.set( v.x, v.y, v.z );
@@ -101,26 +125,26 @@ export class Vector3 extends Observable {
   }
 
   /**
-   * Create a new vector with the same values
-   * @returns A new vector
+   * Create a new vector with the same values.
+   * @returns A new vector.
    */
   public clone(): Vector3 {
     return new Vector3( this.x, this.y, this.z );
   }
 
   /**
-   * Test equality of values for two vectors
-   * @param v Another Vector
-   * @returns Whether vectors are equal
+   * Test equality of values for two vectors.
+   * @param v - Another Vector.
+   * @returns Whether vectors are equal.
    */
   public equals( v: Vector3 ): boolean {
     return ( ( this.x === v.x ) && ( this.y === v.y ) && ( this.z === v.z ) );
   }
 
   /**
-   * Add another vector
-   * @param v Another Vector
-   * @returns A reference to itself
+   * Add another vector.
+   * @param v - Another Vector.
+   * @returns A reference to itself.
    */
   public add( v: Vector3 ): Vector3 {
     this.set( this.x + v.x, this.y + v.y, this.z + v.z );
@@ -128,9 +152,9 @@ export class Vector3 extends Observable {
   }
 
   /**
-   * Subtract another vector
-   * @param v Another Vector
-   * @returns A reference to itself
+   * Subtract another vector.
+   * @param v - Another Vector.
+   * @returns A reference to itself.
    */
   public sub( v: Vector3 ): Vector3 {
     this.set( this.x - v.x, this.y - v.y, this.z - v.z );
@@ -138,9 +162,9 @@ export class Vector3 extends Observable {
   }
 
   /**
-   * Mutiply with another vector elementwise
-   * @param v Another Vector
-   * @returns A reference to itself
+   * Mutiply with another vector elementwise.
+   * @param v - Another Vector.
+   * @returns A reference to itself.
    */
   public multiply( v: Vector3 ): Vector3 {
     this.set( this.x * v.x, this.y * v.y, this.z * v.z );
@@ -148,9 +172,9 @@ export class Vector3 extends Observable {
   }
 
   /**
-   * Divide with another vector elementwise
-   * @param v Another Vector
-   * @returns A reference to itself
+   * Divide with another vector elementwise.
+   * @param v - Another Vector.
+   * @returns A reference to itself.
    */
   public divide( v: Vector3 ): Vector3 {
     this.set( this.x / v.x, this.y / v.y, this.z / v.z );
@@ -158,9 +182,9 @@ export class Vector3 extends Observable {
   }
 
   /**
-   * Add a single value to all vector elements
-   * @param s A single value
-   * @returns A reference to itself
+   * Add a single value to all vector elements.
+   * @param s - A single value.
+   * @returns A reference to itself.
    */
   public addScalar( s: number ): Vector3 {
     this.set( this.x + s, this.y + s, this.z + s );
@@ -168,9 +192,9 @@ export class Vector3 extends Observable {
   }
 
   /**
-   * Multiply all vector elements with a single value
-   * @param s A single value
-   * @returns A reference to itself
+   * Multiply all vector elements with a single value.
+   * @param s - A single value.
+   * @returns A reference to itself.
    */
   public multiplyScalar( s: number ): Vector3 {
     this.set( this.x * s, this.y * s, this.z * s );
@@ -178,9 +202,9 @@ export class Vector3 extends Observable {
   }
 
   /**
-   * Set to the elementwise minimum of two vectors
-   * @param v Another vector to compare with
-   * @returns A reference to itself
+   * Set to the elementwise minimum of two vectors.
+   * @param v - Another vector to compare with.
+   * @returns A reference to itself.
    */
   public min( v: Vector3 ): Vector3 {
     this.set( Math.min( this.x, v.x ), Math.min( this.y, v.y ), Math.min( this.z, v.z ) );
@@ -188,9 +212,9 @@ export class Vector3 extends Observable {
   }
 
   /**
-   * Set to the elementwise maximum of two vectors
-   * @param v Another vector to compare with
-   * @returns A reference to itself
+   * Set to the elementwise maximum of two vectors.
+   * @param v - Another vector to compare with.
+   * @returns A reference to itself.
    */
   public max( v: Vector3 ): Vector3 {
     this.set( Math.max( this.x, v.x ), Math.max( this.y, v.y ), Math.max( this.z, v.z ) );

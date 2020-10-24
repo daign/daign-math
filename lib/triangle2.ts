@@ -5,40 +5,52 @@ import { Vector2 } from './vector2';
 import { Vector3 } from './vector3';
 
 /**
- * 2D triangle
+ * 2D triangle.
  */
 export class Triangle2 extends Observable {
   private _a: Vector2;
   private _b: Vector2;
   private _c: Vector2;
 
+  /**
+   * Get the first point of the triangle.
+   * @returns The point a.
+   */
   public get a(): Vector2 {
     return this._a;
   }
 
+  /**
+   * Get the second point of the triangle.
+   * @returns The point b.
+   */
   public get b(): Vector2 {
     return this._b;
   }
 
+  /**
+   * Get the third point of the triangle.
+   * @returns The point c.
+   */
   public get c(): Vector2 {
     return this._c;
   }
 
   /**
    * Constructor
-   * @param a First point
-   * @param b Second point
-   * @param c Third point
+   * @param a - First point.
+   * @param b - Second point.
+   * @param c - Third point.
    */
   public constructor( a?: Vector2, b?: Vector2, c?: Vector2 ) {
     super();
 
-    // Passed points are used directly, not cloned
+    // Passed points are used directly, not cloned.
     this._a = a || new Vector2();
     this._b = b || new Vector2();
     this._c = c || new Vector2();
 
-    // Notify observers when one of the points has changes
+    // Notify observers when one of the points has changes.
     const callback = (): void => {
       this.notifyObservers();
     };
@@ -48,9 +60,9 @@ export class Triangle2 extends Observable {
   }
 
   /**
-   * Set from the values of another triangle
-   * @param t Another triangle
-   * @returns A reference to itself
+   * Set from the values of another triangle.
+   * @param t - Another triangle.
+   * @returns A reference to itself.
    */
   public copy( t: Triangle2 ): Triangle2 {
     this.a.copy( t.a );
@@ -60,17 +72,17 @@ export class Triangle2 extends Observable {
   }
 
   /**
-   * Create a new trianlge with the same values
-   * @returns A new triangle
+   * Create a new trianlge with the same values.
+   * @returns A new triangle.
    */
   public clone(): Triangle2 {
     return new Triangle2( this.a.clone(), this.b.clone(), this.c.clone() );
   }
 
   /**
-   * Test equality of values for two triangles
-   * @param t Another triangle
-   * @returns Whether triangles are equal
+   * Test equality of values for two triangles.
+   * @param t - Another triangle.
+   * @returns Whether triangles are equal.
    */
   public equals( t: Triangle2 ): boolean {
     return this.a.equals( t.a ) && this.b.equals( t.b ) && this.c.equals( t.c );
@@ -79,8 +91,8 @@ export class Triangle2 extends Observable {
   /**
    * Calculates the barycentric coordinates for a point relative to the triangle.
    * Based on: https://github.com/mrdoob/three.js/blob/dev/src/math/Triangle.js
-   * @param p The point
-   * @returns 3D vector with barycentric coordinates or null if triangle is collinear
+   * @param p - The point.
+   * @returns 3D vector with barycentric coordinates or null if triangle is collinear.
    */
   public getBarycoord( p: Vector2 ): Vector3 | null {
     const v0 = this.b.clone().sub( this.a );
@@ -95,7 +107,7 @@ export class Triangle2 extends Observable {
 
     const denom = ( dot00 * dot11 - dot01 * dot01 );
 
-    // Collinear or singular triangle
+    // Collinear or singular triangle.
     if ( denom === 0 ) {
       return null;
     }
@@ -108,9 +120,9 @@ export class Triangle2 extends Observable {
   }
 
   /**
-   * Test whether a point is contained in the triangle including the border
-   * @param p The point
-   * @returns Whether point is contained in triangle or null if triangle is collinear
+   * Test whether a point is contained in the triangle including the border.
+   * @param p - The point.
+   * @returns Whether point is contained in triangle or null if triangle is collinear.
    */
   public containsPoint( p: Vector2 ): boolean | null {
     const barycoord = this.getBarycoord( p );
@@ -121,8 +133,8 @@ export class Triangle2 extends Observable {
   }
 
   /**
-   * Get the circumcenter point of the triangle
-   * @returns The circumcenter point or null if triangle is collinear
+   * Get the circumcenter point of the triangle.
+   * @returns The circumcenter point or null if triangle is collinear.
    */
   public getCircumcenter(): Vector2 | null {
     const side1 = this.b.clone().sub( this.a );

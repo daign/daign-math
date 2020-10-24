@@ -7,35 +7,46 @@ import { Vector2 } from './vector2';
  * Rectangle shape that is defined by a min and max point. Used to represent bounding boxes.
  */
 export class Box2 extends Observable {
-  // Min coordinates, has the smaller x and y values
+  // Min coordinates, has the smaller x and y values.
   private _min: Vector2;
-  // Max coodinates, has the greater x and y values
+  // Max coodinates, has the greater x and y values.
   private _max: Vector2;
 
+  /**
+   * Get the coorindates of the minimum point.
+   * @returns The minimum point.
+   */
   public get min(): Vector2 {
     return this._min;
   }
 
+  /**
+   * Get the coorindates of the maximum point.
+   * @returns The maximum point.
+   */
   public get max(): Vector2 {
     return this._max;
   }
 
   /**
-   * Returns true if the box contains no points
+   * Returns true if the box contains no points.
+   * @returns The boolean result.
    */
   public get isEmpty(): boolean {
     return ( this.max.x < this.min.x ) || ( this.max.y < this.min.y );
   }
 
   /**
-   * Returns true if the box contains more than one point on both axes
+   * Returns true if the box contains more than one point on both axes.
+   * @returns The boolean result.
    */
   public get isArea(): boolean {
     return ( this.max.x > this.min.x ) && ( this.max.y > this.min.y );
   }
 
   /**
-   * Returns the size of the box
+   * Returns the size of the box.
+   * @returns The size vector.
    */
   public get size(): Vector2 {
     if ( this.isEmpty ) {
@@ -45,9 +56,9 @@ export class Box2 extends Observable {
   }
 
   /**
-   * Constructor
-   * @param min The minimum vector
-   * @param max The maximum vector
+   * Constructor.
+   * @param min - The minimum vector.
+   * @param max - The maximum vector.
    */
   public constructor( min?: Vector2, max?: Vector2 ) {
     super();
@@ -56,7 +67,7 @@ export class Box2 extends Observable {
     this._min = min || new Vector2( +Infinity, +Infinity );
     this._max = max || new Vector2( -Infinity, -Infinity );
 
-    // Notify observers when start or end point has changes
+    // Notify observers when start or end point has changes.
     const callback = (): void => {
       this.notifyObservers();
     };
@@ -65,9 +76,9 @@ export class Box2 extends Observable {
   }
 
   /**
-   * Set from the values of another box
-   * @param b Another box
-   * @returns A reference to itself
+   * Set from the values of another box.
+   * @param b - Another box.
+   * @returns A reference to itself.
    */
   public copy( b: Box2 ): Box2 {
     this.min.copy( b.min );
@@ -76,25 +87,25 @@ export class Box2 extends Observable {
   }
 
   /**
-   * Create a new box with the same values
-   * @returns A new box
+   * Create a new box with the same values.
+   * @returns A new box.
    */
   public clone(): Box2 {
     return new Box2( this.min.clone(), this.max.clone() );
   }
 
   /**
-   * Test equality of values for two boxes
-   * @param b Another box
-   * @returns Whether boxes are equal
+   * Test equality of values for two boxes.
+   * @param b - Another box.
+   * @returns Whether boxes are equal.
    */
   public equals( b: Box2 ): boolean {
     return this.min.equals( b.min ) && this.max.equals( b.max );
   }
 
   /**
-   * Makes the box empty
-   * @returns A reference to itself
+   * Makes the box empty.
+   * @returns A reference to itself.
    */
   public makeEmpty(): Box2 {
     this.min.x = this.min.y = +Infinity;
@@ -103,9 +114,9 @@ export class Box2 extends Observable {
   }
 
   /**
-   * Expands the box by a value given into every direction
-   * @param s The distance to expand
-   * @returns A reference to itself
+   * Expands the box by a value given into every direction.
+   * @param s - The distance to expand.
+   * @returns A reference to itself.
    */
   public expandByScalar( s: number ): Box2 {
     this.min.addScalar( -s );
@@ -114,9 +125,9 @@ export class Box2 extends Observable {
   }
 
   /**
-   * Expand by including at least the given point
-   * @param p The point by which to expand
-   * @returns A reference to itself
+   * Expand by including at least the given point.
+   * @param p - The point by which to expand.
+   * @returns A reference to itself.
    */
   public expandByPoint( p: Vector2 ): Box2 {
     this.min.min( p );
@@ -125,9 +136,9 @@ export class Box2 extends Observable {
   }
 
   /**
-   * Expand by including at least the given box
-   * @param b The box by which to expand
-   * @returns A reference to itself
+   * Expand by including at least the given box.
+   * @param b - The box by which to expand.
+   * @returns A reference to itself.
    */
   public expandByBox( b: Box2 ): Box2 {
     this.min.min( b.min );
@@ -137,8 +148,8 @@ export class Box2 extends Observable {
 
   /**
    * Transform the box with a matrix by transforming the min and max points.
-   * @param m A matrix
-   * @returns A reference to itself
+   * @param m - A matrix.
+   * @returns A reference to itself.
    */
   public transform( m: Matrix3 ): Box2 {
     // Don't calculate transformation if box is empty.
@@ -163,9 +174,9 @@ export class Box2 extends Observable {
   }
 
   /**
-   * Test whether point lies inside of box including the border
-   * @param p The point
-   * @returns Whether point lies inside of box
+   * Test whether point lies inside of box including the border.
+   * @param p - The point.
+   * @returns Whether point lies inside of box.
    */
   public containsPoint( p: Vector2 ): boolean {
     return !(
@@ -177,8 +188,8 @@ export class Box2 extends Observable {
   /**
    * Test whether another box lies inside of box including the border.
    * An empty box is contained by all boxes.
-   * @param b The other box
-   * @returns Whether box lies inside of box
+   * @param b - The other box.
+   * @returns Whether box lies inside of box.
    */
   public containsBox( b: Box2 ): boolean {
     return (

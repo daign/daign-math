@@ -3,40 +3,49 @@ import { Observable } from '@daign/observable';
 import { Vector2 } from './vector2';
 
 /**
- * 2D line
+ * 2D line.
  */
 export class Line2 extends Observable {
   private _start: Vector2;
   private _end: Vector2;
 
+  /**
+   * Get the start point of the line.
+   * @returns The start point.
+   */
   public get start(): Vector2 {
     return this._start;
   }
 
+  /**
+   * Get the end point of the line.
+   * @returns The end point.
+   */
   public get end(): Vector2 {
     return this._end;
   }
 
   /**
-   * Get a directional vector for the line
+   * Get a directional vector for the line.
+   * @returns The directional vector.
    */
   public get direction(): Vector2 {
     return this.end.clone().sub( this.start );
   }
 
   /**
-   * Constructor
-   * @param start The start point
-   * @param end The end point
+   * Constructor.
+   * @param start - The start point.
+   * @param end - The end point.
    */
   public constructor( start?: Vector2, end?: Vector2 ) {
     super();
 
-    // Passed points are used directly, not cloned
+    // Passed points are used directly, not cloned.
     this._start = start || new Vector2();
     this._end = end || new Vector2();
 
-    // Notify observers when start or end point has changes
+    // Notify observers when start or end point has changes.
     const callback = (): void => {
       this.notifyObservers();
     };
@@ -45,9 +54,9 @@ export class Line2 extends Observable {
   }
 
   /**
-   * Set from the values of another line
-   * @param l Another line
-   * @returns A reference to itself
+   * Set from the values of another line.
+   * @param l - Another line.
+   * @returns A reference to itself.
    */
   public copy( l: Line2 ): Line2 {
     this.start.copy( l.start );
@@ -56,43 +65,43 @@ export class Line2 extends Observable {
   }
 
   /**
-   * Create a new line with the same values
-   * @returns A new line
+   * Create a new line with the same values.
+   * @returns A new line.
    */
   public clone(): Line2 {
     return new Line2( this.start.clone(), this.end.clone() );
   }
 
   /**
-   * Test equality of values for two lines
-   * @param l Another line
-   * @returns Whether lines are equal
+   * Test equality of values for two lines.
+   * @param l - Another line.
+   * @returns Whether lines are equal.
    */
   public equals( l: Line2 ): boolean {
     return this.start.equals( l.start ) && this.end.equals( l.end );
   }
 
   /**
-   * Get the center of the line
-   * @returns The center point
+   * Get the center of the line.
+   * @returns The center point.
    */
   public getCenter(): Vector2 {
     return this.start.clone().add( this.end ).multiplyScalar( 0.5 );
   }
 
   /**
-   * Get the point at a position interpolated along the line segment
-   * @param t The interpolation value, from 0 to 1 will give points on the line segment
-   * @returns The interpolated point
+   * Get the point at a position interpolated along the line segment.
+   * @param t - The interpolation value, from 0 to 1 will give points on the line segment.
+   * @returns The interpolated point.
    */
   public interpolate( t: number ): Vector2 {
     return this.direction.multiplyScalar( t ).add( this.start );
   }
 
   /**
-   * Test parallelity of two lines
-   * @param l Another line
-   * @returns Whether lines are parallel
+   * Test parallelity of two lines.
+   * @param l - Another line.
+   * @returns Whether lines are parallel.
    */
   public isParallel( l: Line2 ): boolean {
     const direction1 = this.direction;
@@ -101,9 +110,9 @@ export class Line2 extends Observable {
   }
 
   /**
-   * Test perpendicularity of two lines
-   * @param l Another line
-   * @returns Whether lines are perpendicular
+   * Test perpendicularity of two lines.
+   * @param l - Another line.
+   * @returns Whether lines are perpendicular.
    */
   public isPerpendicular( l: Line2 ): boolean {
     const direction1 = this.direction;
@@ -112,9 +121,9 @@ export class Line2 extends Observable {
   }
 
   /**
-   * Returns the intersection of both lines, when the lines are infinite straight lines
-   * @param l Another line
-   * @returns The intersection point or null if lines are parallel
+   * Returns the intersection of both lines, when the lines are infinite straight lines.
+   * @param l - Another line.
+   * @returns The intersection point or null if lines are parallel.
    */
   public getIntersection( l: Line2 ): Vector2 | null {
     const ax = this.start.x;
@@ -136,14 +145,14 @@ export class Line2 extends Observable {
       return new Vector2( x, y );
     }
 
-    return null; // Returns null if lines are parallel
+    return null; // Returns null if lines are parallel.
   }
 
   /**
    * Returns the intersection of line segments.
-   * The intersection point must lie between the end of both line segments
-   * @param l Another line
-   * @returns The intersection point or null if lines don't intersect
+   * The intersection point must lie between the end of both line segments.
+   * @param l - Another line.
+   * @returns The intersection point or null if lines don't intersect.
    */
   public getSegmentIntersection( l: Line2 ): Vector2 | null {
     const ax = this.start.x;
@@ -168,13 +177,13 @@ export class Line2 extends Observable {
       }
     }
 
-    return null; // Returns null if lines are parallel or intersection is outside of segment limits
+    return null; // Returns null if lines are parallel or intersection is outside of segment limits.
   }
 
   /**
-   * Determines on which side of the line a point lies
-   * @param p The point
-   * @returns -1 or 1 for the sides, or 0 if on the line
+   * Determines on which side of the line a point lies.
+   * @param p - The point.
+   * @returns -1 or 1 for the sides, or 0 if on the line.
    */
   public getSideOfPoint( p: Vector2 ): number {
     const d = this.direction.cross( p.clone().sub( this.start ) );
