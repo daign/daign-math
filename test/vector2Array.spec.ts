@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 
 import { Box2 } from '../lib/box2';
+import { Matrix3 } from '../lib/matrix3';
 import { Vector2 } from '../lib/vector2';
 import { Vector2Array } from '../lib/vector2Array';
 
@@ -75,6 +76,110 @@ describe( 'Vector2Array', (): void => {
 
       // Assert
       expect( spy.notCalled ).to.be.true;
+    } );
+
+    it( 'should call observers when original element changes', (): void => {
+      // Arrange
+      const point1 = new Vector2( 1, 2 );
+      const point2 = new Vector2( 3, 4 );
+      const array1 = new Vector2Array();
+      array1.elements = [ point1, point2 ];
+
+      const array2 = array1.clone();
+      const spy = sinon.spy( array2 as any, 'notifyObservers' );
+
+      // Act
+      point1.set( 5, 6 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
+  describe( 'cloneDeep', (): void => {
+    it( 'should return an array with equal elements', (): void => {
+      // Arrange
+      const point1 = new Vector2( 1, 2 );
+      const point2 = new Vector2( 3, 4 );
+      const array1 = new Vector2Array();
+      array1.elements = [ point1, point2 ];
+
+      // Act
+      const array2 = array1.cloneDeep();
+
+      // Assert
+      expect( array2.elements.length ).to.equal( 2 );
+      expect( array2.elements[ 0 ].equals( point1 ) ).to.be.true;
+      expect( array2.elements[ 1 ].equals( point2 ) ).to.be.true;
+    } );
+
+    it( 'should not call observers when original array changes', (): void => {
+      // Arrange
+      const point1 = new Vector2( 1, 2 );
+      const point2 = new Vector2( 3, 4 );
+      const array1 = new Vector2Array();
+      array1.elements = [ point1, point2 ];
+
+      const array2 = array1.cloneDeep();
+      const spy = sinon.spy( array2 as any, 'notifyObservers' );
+
+      // Act
+      const point3 = new Vector2( 5, 6 );
+      array1.push( point3 );
+
+      // Assert
+      expect( spy.notCalled ).to.be.true;
+    } );
+
+    it( 'should not call observers when original element changes', (): void => {
+      // Arrange
+      const point1 = new Vector2( 1, 2 );
+      const point2 = new Vector2( 3, 4 );
+      const array1 = new Vector2Array();
+      array1.elements = [ point1, point2 ];
+
+      const array2 = array1.cloneDeep();
+      const spy = sinon.spy( array2 as any, 'notifyObservers' );
+
+      // Act
+      point1.set( 5, 6 );
+
+      // Assert
+      expect( spy.notCalled ).to.be.true;
+    } );
+  } );
+
+  describe( 'transform', (): void => {
+    it( 'should transform every vector in the array', (): void => {
+      // Arrange
+      const point1 = new Vector2( 1, 2 );
+      const point2 = new Vector2( 3, 4 );
+      const array = new Vector2Array();
+      array.elements = [ point1, point2 ];
+      const m = new Matrix3().setTranslation( new Vector2( 5, 6 ) );
+
+      // Act
+      array.transform( m );
+
+      // Assert
+      expect( array.elements[ 0 ].equals( new Vector2( 6, 8 ) ) ).to.be.true;
+      expect( array.elements[ 1 ].equals( new Vector2( 8, 10 ) ) ).to.be.true;
+    } );
+
+    it( 'should notify observers', (): void => {
+      // Arrange
+      const point1 = new Vector2( 1, 2 );
+      const point2 = new Vector2( 3, 4 );
+      const array = new Vector2Array();
+      array.elements = [ point1, point2 ];
+      const m = new Matrix3().setTranslation( new Vector2( 5, 6 ) );
+      const spy = sinon.spy( array as any, 'notifyObservers' );
+
+      // Act
+      array.transform( m );
+
+      // Assert
+      expect( spy.calledTwice ).to.be.true;
     } );
   } );
 

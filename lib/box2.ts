@@ -147,8 +147,8 @@ export class Box2 extends Observable {
   }
 
   /**
-   * Transform the box with a matrix by transforming the min and max points.
-   * @param m - A matrix.
+   * Apply a matrix transformation on the box.
+   * @param m - The transformation matrix.
    * @returns A reference to itself.
    */
   public transform( m: Matrix3 ): Box2 {

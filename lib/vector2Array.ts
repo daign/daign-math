@@ -1,5 +1,6 @@
 import { Box2 } from './box2';
 import { GenericArray } from './genericArray';
+import { Matrix3 } from './matrix3';
 import { Vector2 } from './vector2';
 
 /**
@@ -35,6 +36,28 @@ export class Vector2Array extends GenericArray<Vector2> {
     const arr = new Vector2Array();
     arr.elements = this.elements;
     return arr;
+  }
+
+  /**
+   * Create an array with copies of the elements.
+   * @returns A new array.
+   */
+  public cloneDeep(): Vector2Array {
+    const arr = new Vector2Array();
+    arr.elements = this.elements.map( ( element: Vector2 ): Vector2 => element.clone() );
+    return arr;
+  }
+
+  /**
+   * Apply a matrix transformation on every vector in the array.
+   * @param m - The transformation matrix.
+   * @returns A reference to itself.
+   */
+  public transform( m: Matrix3 ): Vector2Array {
+    this.iterate( ( element: Vector2 ): void => {
+      element.transform( m );
+    } );
+    return this;
   }
 
   /**
