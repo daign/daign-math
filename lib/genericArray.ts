@@ -41,6 +41,14 @@ export abstract class GenericArray<T extends Observable> extends Observable {
   }
 
   /**
+   * Get the number of elements in the array.
+   * @returns The number of elements in the array.
+   */
+  public get length(): number {
+    return this._elements.length;
+  }
+
+  /**
    * Constructor.
    */
   public constructor() {
@@ -105,9 +113,9 @@ export abstract class GenericArray<T extends Observable> extends Observable {
    * @param callback - The function to call the elements with.
    * @returns A reference to itself.
    */
-  public iterate( callback: ( element: T ) => void ): GenericArray<T> {
-    this._elements.forEach( ( element: T ): void => {
-      callback( element );
+  public iterate( callback: ( element: T, index: number ) => void ): GenericArray<T> {
+    this._elements.forEach( ( element: T, index: number ): void => {
+      callback( element, index );
     } );
 
     return this;
@@ -118,9 +126,11 @@ export abstract class GenericArray<T extends Observable> extends Observable {
    * @param callback - The function to call the elements with.
    * @returns A reference to itself.
    */
-  public iteratePairwise( callback: ( element1: T, element2: T ) => void ): GenericArray<T> {
+  public iteratePairwise(
+    callback: ( element1: T, element2: T, index: number ) => void
+  ): GenericArray<T> {
     for ( let i = 0; i < this._elements.length - 1; i += 1 ) {
-      callback( this._elements[ i ], this._elements[ i + 1 ] );
+      callback( this._elements[ i ], this._elements[ i + 1 ], i );
     }
 
     return this;

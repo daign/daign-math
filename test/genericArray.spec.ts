@@ -140,6 +140,33 @@ describe( 'GenericArray', (): void => {
     } );
   } );
 
+  describe( 'get length', (): void => {
+    it( 'should return the number of elements', (): void => {
+      // Arrange
+      const value1 = new Value( 1 );
+      const value2 = new Value( 2 );
+      const array = new TestClass();
+      array.elements = [ value1, value2, value1 ];
+
+      // Act
+      const result = array.length;
+
+      // Assert
+      expect( result ).to.equal( 3 );
+    } );
+
+    it( 'should return 0 if the array is empty', (): void => {
+      // Arrange
+      const array = new TestClass();
+
+      // Act
+      const result = array.length;
+
+      // Assert
+      expect( result ).to.equal( 0 );
+    } );
+  } );
+
   describe( 'copy', (): void => {
     it( 'should set the elements from another array', (): void => {
       // Arrange
@@ -378,8 +405,8 @@ describe( 'GenericArray', (): void => {
   describe( 'iterate', (): void => {
     it( 'should call the function with every element', (): void => {
       // Arrange
-      const value1 = new Value( 1 );
-      const value2 = new Value( 2 );
+      const value1 = new Value( 3 );
+      const value2 = new Value( 4 );
       const array = new TestClass();
       array.elements = [ value1, value2 ];
       const spy = sinon.spy();
@@ -389,8 +416,12 @@ describe( 'GenericArray', (): void => {
 
       // Assert
       expect( spy.calledTwice ).to.be.true;
-      expect( spy.getCall( 0 ).args[ 0 ].x ).to.equal( 1 );
-      expect( spy.getCall( 1 ).args[ 0 ].x ).to.equal( 2 );
+      // Values:
+      expect( spy.getCall( 0 ).args[ 0 ].x ).to.equal( 3 );
+      expect( spy.getCall( 1 ).args[ 0 ].x ).to.equal( 4 );
+      // Indices:
+      expect( spy.getCall( 0 ).args[ 1 ] ).to.equal( 0 );
+      expect( spy.getCall( 1 ).args[ 1 ] ).to.equal( 1 );
     } );
 
     it( 'should not call the function if array is empty', (): void => {
@@ -421,10 +452,14 @@ describe( 'GenericArray', (): void => {
 
       // Assert
       expect( spy.calledTwice ).to.be.true;
+      // Values:
       expect( spy.getCall( 0 ).args[ 0 ].x ).to.equal( 1 );
       expect( spy.getCall( 0 ).args[ 1 ].x ).to.equal( 2 );
       expect( spy.getCall( 1 ).args[ 0 ].x ).to.equal( 2 );
       expect( spy.getCall( 1 ).args[ 1 ].x ).to.equal( 3 );
+      // Indices:
+      expect( spy.getCall( 0 ).args[ 2 ] ).to.equal( 0 );
+      expect( spy.getCall( 1 ).args[ 2 ] ).to.equal( 1 );
     } );
 
     it( 'should not call the function if array is empty', (): void => {
