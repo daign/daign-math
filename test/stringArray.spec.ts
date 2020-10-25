@@ -1,8 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 
-import { StringArray } from '../lib/stringArray';
-import { StringValue } from '../lib/stringValue';
+import { StringArray, StringValue } from '../lib';
 
 describe( 'StringArray', (): void => {
   describe( 'clone', (): void => {

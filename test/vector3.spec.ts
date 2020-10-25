@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 
-import { Vector3 } from '../lib/vector3';
+import { Vector3 } from '../lib';
 
 describe( 'Vector3', (): void => {
   describe( 'getter x', (): void => {

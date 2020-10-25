@@ -4,6 +4,7 @@ export { GenericArray } from './genericArray';
 export { Line2 } from './line2';
 export { MathHelper } from './mathHelper';
 export { Matrix3 } from './matrix3';
+export { StringArray } from './stringArray';
 export { StringValue } from './stringValue';
 export { Triangle2 } from './triangle2';
 export { Value } from './value';

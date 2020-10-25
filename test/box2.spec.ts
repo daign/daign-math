@@ -1,10 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 
-import { Angle } from '../lib/angle';
-import { Box2 } from '../lib/box2';
-import { Matrix3 } from '../lib/matrix3';
-import { Vector2 } from '../lib/vector2';
+import { Angle, Box2, Matrix3, Vector2 } from '../lib';
 
 describe( 'Box2', (): void => {
   describe( 'getter min', (): void => {

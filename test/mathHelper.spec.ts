@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { MathHelper } from '../lib/mathHelper';
+import { MathHelper } from '../lib';
 
 describe( 'MathHelper', (): void => {
   describe( 'clamp', (): void => {

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 
-import { StringValue } from '../lib/stringValue';
+import { StringValue } from '../lib';
 
 describe( 'StringValue', (): void => {
   describe( 'getter value', (): void => {

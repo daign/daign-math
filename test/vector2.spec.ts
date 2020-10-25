@@ -3,10 +3,7 @@ import * as sinon from 'sinon';
 
 import { MockEvent, MockNode } from '@daign/mock-dom';
 
-import { Box2 } from '../lib/box2';
-import { Line2 } from '../lib/line2';
-import { Matrix3 } from '../lib/matrix3';
-import { Vector2 } from '../lib/vector2';
+import { Box2, Line2, Matrix3, Vector2 } from '../lib';
 
 describe( 'Vector2', (): void => {
   describe( 'getter x', (): void => {

@@ -1,10 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 
-import { Box2 } from '../lib/box2';
-import { Matrix3 } from '../lib/matrix3';
-import { Vector2 } from '../lib/vector2';
-import { Vector2Array } from '../lib/vector2Array';
+import { Box2, Matrix3, Vector2, Vector2Array } from '../lib';
 
 describe( 'Vector2Array', (): void => {
   describe( 'initializeElements', (): void => {

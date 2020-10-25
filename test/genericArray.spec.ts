@@ -1,8 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 
-import { GenericArray } from '../lib/genericArray';
-import { Value } from '../lib/value';
+import { GenericArray, Value } from '../lib';
 
 class TestClass extends GenericArray<Value> {
   public constructor() {
