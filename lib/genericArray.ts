@@ -10,8 +10,8 @@ export abstract class GenericArray<T extends Observable> extends Observable {
   // The callbacks to remove the subscriptions on the elements.
   private subscriptionRemovers: ( () => void )[] = [];
 
-  // The array elements optionally referenced by key.
-  private keyMapping: { [ key: string ]: T } = {};
+  // The array elements optionally referenced by name.
+  private namedMapping: { [ key: string ]: T } = {};
 
   /**
    * Get the elements.
@@ -31,8 +31,8 @@ export abstract class GenericArray<T extends Observable> extends Observable {
       remover();
     } );
 
-    // Remove all key mappings.
-    this.keyMapping = {};
+    // Remove all named mappings.
+    this.namedMapping = {};
 
     // Assign the new elements and subscribe to changes on them.
     this._elements = [ ...elements ];
@@ -55,11 +55,11 @@ export abstract class GenericArray<T extends Observable> extends Observable {
   }
 
   /**
-   * Get all keys form the named mapping.
-   * @returns Array of mapping keys.
+   * Get all names form the named mapping.
+   * @returns Array of mapping names.
    */
-  public get keys(): string[] {
-    return Object.keys( this.keyMapping );
+  public get names(): string[] {
+    return Object.keys( this.namedMapping );
   }
 
   /**
@@ -70,17 +70,17 @@ export abstract class GenericArray<T extends Observable> extends Observable {
   }
 
   /**
-   * Check whether a key exists in the key mapping.
-   * @param key - The key name.
-   * @returns Whether the key exists in the key mapping.
+   * Check whether a name exists in the named mapping.
+   * @param name - The name.
+   * @returns Whether the name exists in the named mapping.
    */
-  public hasKey( key: string ): boolean {
-    return ( key in this.keyMapping );
+  public containsName( name: string ): boolean {
+    return ( name in this.namedMapping );
   }
 
   /**
    * Copy the elements of another array.
-   * Does not copy the key mapping.
+   * Does not copy the named mapping.
    * @param arr - Another array.
    * @returns A reference to itself.
    */
@@ -99,36 +99,52 @@ export abstract class GenericArray<T extends Observable> extends Observable {
   }
 
   /**
-   * Get an element by its name in the key mapping.
-   * Will throw an error if an element with this key does not exist.
-   * @param name - The key name of the element.
+   * Get an element by its name in the named mapping.
+   * Will throw an error if an element with this name does not exist.
+   * @param name - The name of the element.
    * @returns The element.
    */
   public getByName( name: string ): T {
-    if ( !this.hasKey( name ) ) {
+    if ( !this.containsName( name ) ) {
       throw new Error( 'No element exists for the given name.' );
     }
 
-    return this.keyMapping[ name ];
+    return this.namedMapping[ name ];
   }
 
   /**
-   * Assign a name for the key mapping to an element by index.
-   * Will throw an error if the key name is not unique.
+   * Assign a name for the named mapping to an element by index.
+   * Will throw an error if the name is not unique.
    * Will throw an error if the index is out of bounds.
-   * @param name - The new key name of the element.
+   * @param name - The new name of the element.
    * @param index - The index of the element to be named.
    * @returns A reference to itself.
    */
   public assignName( name: string, index: number ): GenericArray<T> {
-    if ( this.hasKey( name ) ) {
+    if ( this.containsName( name ) ) {
       throw new Error( 'Name is not unique.' );
     }
     if ( index >= this.length ) {
       throw new Error( 'The index of the element to be named is out of bounds.' );
     }
 
-    this.keyMapping[ name ] = this._elements[ index ];
+    this.namedMapping[ name ] = this._elements[ index ];
+    return this;
+  }
+
+  /**
+   * Remove a name from the named mapping.
+   * Does not remove the named element from the array.
+   * Will throw an error if the name does not exist.
+   * @param name - The name to remove.
+   * @returns A reference to itself.
+   */
+  public removeName( name: string ): GenericArray<T> {
+    if ( !this.containsName( name ) ) {
+      throw new Error( 'Name does not exist in mapping.' );
+    }
+
+    delete this.namedMapping[ name ];
     return this;
   }
 
@@ -136,18 +152,18 @@ export abstract class GenericArray<T extends Observable> extends Observable {
    * Add an element to the end of the array.
    * Will throw an error if the name is not unique.
    * @param element - The element to add.
-   * @param name - The name of the element for the key mapping. Optional.
+   * @param name - The name of the element for the named mapping. Optional.
    * @returns A reference to itself.
    */
   public push( element: T, name?: string ): GenericArray<T> {
-    if ( name && this.hasKey( name ) ) {
+    if ( name && this.containsName( name ) ) {
       throw new Error( 'Name is not unique.' );
     }
 
     this._elements.push( element );
 
     if ( name ) {
-      this.keyMapping[ name ] = element;
+      this.namedMapping[ name ] = element;
     }
 
     const subscriptionRemover = element.subscribeToChanges( (): void => {
@@ -161,7 +177,7 @@ export abstract class GenericArray<T extends Observable> extends Observable {
 
   /**
    * Remove and return the last element.
-   * Does not remove the element from the key mapping, because the element can still exist in the
+   * Does not remove the element from the named mapping, because the element can still exist in the
    * array at a different index.
    * @returns The last element or undefined if array is empty.
    */

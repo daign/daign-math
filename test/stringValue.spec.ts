@@ -119,4 +119,30 @@ describe( 'StringValue', (): void => {
       expect( spy.notCalled ).to.be.true;
     } );
   } );
+
+  describe( 'equals', (): void => {
+    it( 'should return true if values equal', (): void => {
+      // Arrange
+      const s1 = new StringValue( 'one' );
+      const s2 = new StringValue( 'one' );
+
+      // Act
+      const result = s1.equals( s2 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false if values do not equal', (): void => {
+      // Arrange
+      const s1 = new StringValue( 'one' );
+      const s2 = new StringValue( 'two' );
+
+      // Act
+      const result = s1.equals( s2 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+  } );
 } );

@@ -52,4 +52,13 @@ export class StringValue extends Observable {
   public clone(): StringValue {
     return new StringValue( this.value );
   }
+
+  /**
+   * Test equality of values for string value objects.
+   * @param s - Another StringValue.
+   * @returns Whether values are equal.
+   */
+  public equals( s: StringValue ): boolean {
+    return ( this.value === s.value );
+  }
 }
