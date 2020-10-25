@@ -10,6 +10,9 @@ export abstract class GenericArray<T extends Observable> extends Observable {
   // The callbacks to remove the subscriptions on the elements.
   private subscriptionRemovers: ( () => void )[] = [];
 
+  // The array elements optionally referenced by key.
+  private keyMapping: { [ key: string ]: T } = {};
+
   /**
    * Get the elements.
    * @returns An array of elements.
@@ -27,6 +30,9 @@ export abstract class GenericArray<T extends Observable> extends Observable {
     this.subscriptionRemovers.forEach( ( remover: () => void ): void => {
       remover();
     } );
+
+    // Remove all key mappings.
+    this.keyMapping = {};
 
     // Assign the new elements and subscribe to changes on them.
     this._elements = [ ...elements ];
@@ -49,6 +55,14 @@ export abstract class GenericArray<T extends Observable> extends Observable {
   }
 
   /**
+   * Get all keys form the named mapping.
+   * @returns Array of mapping keys.
+   */
+  public get keys(): string[] {
+    return Object.keys( this.keyMapping );
+  }
+
+  /**
    * Constructor.
    */
   public constructor() {
@@ -56,11 +70,21 @@ export abstract class GenericArray<T extends Observable> extends Observable {
   }
 
   /**
-   * Set from the elements of another array.
+   * Check whether a key exists in the key mapping.
+   * @param key - The key name.
+   * @returns Whether the key exists in the key mapping.
+   */
+  public hasKey( key: string ): boolean {
+    return ( key in this.keyMapping );
+  }
+
+  /**
+   * Copy the elements of another array.
+   * Does not copy the key mapping.
    * @param arr - Another array.
    * @returns A reference to itself.
    */
-  public copy( arr: GenericArray<T> ): GenericArray<T> {
+  public copyElements( arr: GenericArray<T> ): GenericArray<T> {
     this.elements = arr.elements;
     return this;
   }
@@ -75,12 +99,56 @@ export abstract class GenericArray<T extends Observable> extends Observable {
   }
 
   /**
-   * Add an element to the end of the array.
-   * @param element - The element to add.
+   * Get an element by its name in the key mapping.
+   * Will throw an error if an element with this key does not exist.
+   * @param name - The key name of the element.
+   * @returns The element.
+   */
+  public getByName( name: string ): T {
+    if ( !this.hasKey( name ) ) {
+      throw new Error( 'No element exists for the given name.' );
+    }
+
+    return this.keyMapping[ name ];
+  }
+
+  /**
+   * Assign a name for the key mapping to an element by index.
+   * Will throw an error if the key name is not unique.
+   * Will throw an error if the index is out of bounds.
+   * @param name - The new key name of the element.
+   * @param index - The index of the element to be named.
    * @returns A reference to itself.
    */
-  public push( element: T ): GenericArray<T> {
+  public assignName( name: string, index: number ): GenericArray<T> {
+    if ( this.hasKey( name ) ) {
+      throw new Error( 'Name is not unique.' );
+    }
+    if ( index >= this.length ) {
+      throw new Error( 'The index of the element to be named is out of bounds.' );
+    }
+
+    this.keyMapping[ name ] = this._elements[ index ];
+    return this;
+  }
+
+  /**
+   * Add an element to the end of the array.
+   * Will throw an error if the name is not unique.
+   * @param element - The element to add.
+   * @param name - The name of the element for the key mapping. Optional.
+   * @returns A reference to itself.
+   */
+  public push( element: T, name?: string ): GenericArray<T> {
+    if ( name && this.hasKey( name ) ) {
+      throw new Error( 'Name is not unique.' );
+    }
+
     this._elements.push( element );
+
+    if ( name ) {
+      this.keyMapping[ name ] = element;
+    }
 
     const subscriptionRemover = element.subscribeToChanges( (): void => {
       this.notifyObservers();
@@ -93,6 +161,8 @@ export abstract class GenericArray<T extends Observable> extends Observable {
 
   /**
    * Remove and return the last element.
+   * Does not remove the element from the key mapping, because the element can still exist in the
+   * array at a different index.
    * @returns The last element or undefined if array is empty.
    */
   public pop(): T | undefined {

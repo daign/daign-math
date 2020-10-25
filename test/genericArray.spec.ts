@@ -98,6 +98,19 @@ describe( 'GenericArray', (): void => {
       expect( ( array as any ).subscriptionRemovers.length ).to.equal( 0 );
     } );
 
+    it( 'should remove key mappings for all previous elements', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.push( value, 'TestName' );
+
+      // Act
+      array.elements = [];
+
+      // Assert
+      expect( array.keys.length ).to.equal( 0 );
+    } );
+
     it( 'should not change internal array when input array is changed', (): void => {
       // Arrange
       const value = new Value();
@@ -167,7 +180,81 @@ describe( 'GenericArray', (): void => {
     } );
   } );
 
-  describe( 'copy', (): void => {
+  describe( 'get keys', (): void => {
+    it( 'should return array of keys', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.push( value, 'TestName1' );
+      array.push( value, 'TestName2' );
+
+      // Act
+      const result = array.keys;
+
+      // Assert
+      expect( result.length ).to.equal( 2 );
+      expect( result.indexOf( 'TestName1' ) !== -1 ).to.be.true;
+      expect( result.indexOf( 'TestName2' ) !== -1 ).to.be.true;
+    } );
+
+    it( 'should return empty array if there are no key mappings', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.push( value );
+
+      // Act
+      const result = array.keys;
+
+      // Assert
+      expect( result.length ).to.equal( 0 );
+    } );
+  } );
+
+  describe( 'hasKey', (): void => {
+    it( 'should return true if the key is in the mapping', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.push( value, 'TestName1' );
+      array.push( value, 'TestName12' );
+
+      // Act
+      const result = array.hasKey( 'TestName1' );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false if the key is not in the mapping', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.push( value, 'TestName12' );
+      array.push( value, 'TestName123' );
+
+      // Act
+      const result = array.hasKey( 'TestName1' );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return false if the key mapping is empty', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.push( value );
+
+      // Act
+      const result = array.hasKey( 'TestName1' );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+  } );
+
+  describe( 'copyElements', (): void => {
     it( 'should set the elements from another array', (): void => {
       // Arrange
       const value1 = new Value( 1 );
@@ -177,7 +264,7 @@ describe( 'GenericArray', (): void => {
       const array2 = new TestClass();
 
       // Act
-      array2.copy( array1 );
+      array2.copyElements( array1 );
 
       // Assert
       expect( array2.elements.length ).to.equal( 2 );
@@ -194,7 +281,7 @@ describe( 'GenericArray', (): void => {
       const array2 = new TestClass();
 
       // Act
-      array2.copy( array1 );
+      array2.copyElements( array1 );
       const value3 = new Value( 3 );
       array1.push( value3 );
 
@@ -213,10 +300,25 @@ describe( 'GenericArray', (): void => {
       const spy = sinon.spy( array2, 'elements', [ 'set' ] );
 
       // Act
-      array2.copy( array1 );
+      array2.copyElements( array1 );
 
       // Assert
       expect( spy.set.calledOnce ).to.be.true;
+    } );
+
+    it( 'should not copy the key mapping', (): void => {
+      // Arrange
+      const value = new Value();
+      const array1 = new TestClass();
+      array1.push( value, 'TestName' );
+      const array2 = new TestClass();
+
+      // Act
+      array2.copyElements( array1 );
+
+      // Assert
+      expect( array1.keys.length ).to.equal( 1 );
+      expect( array2.keys.length ).to.equal( 0 );
     } );
   } );
 
@@ -247,6 +349,100 @@ describe( 'GenericArray', (): void => {
 
       // Assert
       expect( result ).to.be.undefined;
+    } );
+  } );
+
+  describe( 'getByName', (): void => {
+    it( 'should get the element with the key name', (): void => {
+      // Arrange
+      const value1 = new Value( 1 );
+      const value2 = new Value( 2 );
+      const array = new TestClass();
+      array.push( value1, 'TestName1' );
+      array.push( value2, 'TestName2' );
+
+      // Act
+      const result = array.getByName( 'TestName1' );
+
+      // Assert
+      expect( result.x ).to.equal( 1 );
+    } );
+
+    it( 'should throw error if the name is not in the key mapping', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.push( value, 'TestName12' );
+
+      // Act
+      const badFn = (): void => {
+        array.getByName( 'TestName1' );
+      };
+
+      // Assert
+      expect( badFn ).to.throw( 'No element exists for the given name.' );
+    } );
+  } );
+
+  describe( 'assignName', (): void => {
+    it( 'should add the element to the key mapping', (): void => {
+      // Arrange
+      const value1 = new Value( 1 );
+      const value2 = new Value( 2 );
+      const array = new TestClass();
+      array.elements = [ value1, value2 ];
+
+      // Act
+      array.assignName( 'TestName1', 0 );
+
+      // Assert
+      expect( array.keys.length ).to.equal( 1 );
+      expect( array.getByName( 'TestName1' ).x ).to.equal( 1 );
+    } );
+
+    it( 'should throw error if the name is not unique', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.push( value );
+      array.push( value, 'TestName1' );
+
+      // Act
+      const badFn = (): void => {
+        array.assignName( 'TestName1', 0 );
+      };
+
+      // Assert
+      expect( badFn ).to.throw( 'Name is not unique.' );
+    } );
+
+    it( 'should throw error if index is out of bounds', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.elements = [ value, value ];
+
+      // Act
+      const badFn = (): void => {
+        array.assignName( 'TestName1', 2 );
+      };
+
+      // Assert
+      expect( badFn ).to.throw( 'The index of the element to be named is out of bounds.' );
+    } );
+
+    it( 'should not call notifyObservers', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.elements = [ value, value ];
+      const spy = sinon.spy( array as any, 'notifyObservers' );
+
+      // Act
+      array.assignName( 'TestName1', 0 );
+
+      // Assert
+      expect( spy.notCalled ).to.be.true;
     } );
   } );
 
@@ -304,6 +500,35 @@ describe( 'GenericArray', (): void => {
 
       // Assert
       expect( spy.calledOnce ).to.be.true;
+    } );
+
+    it( 'should add the element to the key mapping if name is passed', (): void => {
+      // Arrange
+      const value = new Value( 1 );
+      const array = new TestClass();
+
+      // Act
+      array.push( value, 'TestName1' );
+
+      // Assert
+      expect( array.keys.length ).to.equal( 1 );
+      expect( array.getByName( 'TestName1' ).x ).to.equal( 1 );
+    } );
+
+    it( 'should throw error if the name is not unique', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.push( value );
+      array.push( value, 'TestName1' );
+
+      // Act
+      const badFn = (): void => {
+        array.push( value, 'TestName1' );
+      };
+
+      // Assert
+      expect( badFn ).to.throw( 'Name is not unique.' );
     } );
   } );
 
