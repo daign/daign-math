@@ -594,6 +594,140 @@ describe( 'GenericArray', (): void => {
     } );
   } );
 
+  describe( 'insert', (): void => {
+    it( 'should add the element at the specified index', (): void => {
+      // Arrange
+      const value1 = new Value( 1 );
+      const value2 = new Value( 2 );
+      const array = new TestClass();
+      array.elements = [ value1, value2 ];
+
+      // Act
+      const value3 = new Value( 3 );
+      array.insert( value3, 1 );
+
+      // Assert
+      expect( array.elements.length ).to.equal( 3 );
+      expect( array.elements[ 1 ].x ).to.equal( 3 );
+    } );
+
+    it( 'should shift all following elements', (): void => {
+      // Arrange
+      const value1 = new Value( 1 );
+      const value2 = new Value( 2 );
+      const array = new TestClass();
+      array.elements = [ value1, value2 ];
+
+      // Act
+      const value3 = new Value( 3 );
+      array.insert( value3, 0 );
+
+      // Assert
+      expect( array.elements.length ).to.equal( 3 );
+      expect( array.elements[ 1 ].x ).to.equal( 1 );
+      expect( array.elements[ 2 ].x ).to.equal( 2 );
+    } );
+
+    it( 'should allow adding the element at the first unused index', (): void => {
+      // Arrange
+      const value1 = new Value( 1 );
+      const value2 = new Value( 2 );
+      const array = new TestClass();
+      array.elements = [ value1, value2 ];
+
+      // Act
+      const value3 = new Value( 3 );
+      array.insert( value3, 2 );
+
+      // Assert
+      expect( array.elements.length ).to.equal( 3 );
+      expect( array.elements[ 2 ].x ).to.equal( 3 );
+    } );
+
+    it( 'should add a subscription remover function', (): void => {
+      // Arrange
+      const array = new TestClass();
+
+      // Act
+      const value = new Value();
+      array.insert( value, 0 );
+
+      // Assert
+      expect( ( array as any ).subscriptionRemovers.length ).to.equal( 1 );
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const array = new TestClass();
+      const spy = sinon.spy( array as any, 'notifyObservers' );
+
+      // Act
+      const value = new Value();
+      array.insert( value, 0 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+
+    it( 'should call notifyObservers when the added element changes', (): void => {
+      // Arrange
+      const value = new Value( 1 );
+      const array = new TestClass();
+      array.insert( value, 0 );
+      const spy = sinon.spy( array as any, 'notifyObservers' );
+
+      // Act
+      value.x = 2;
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+
+    it( 'should add the element to the named mapping if name is passed', (): void => {
+      // Arrange
+      const value = new Value( 1 );
+      const array = new TestClass();
+
+      // Act
+      array.insert( value, 0, 'TestName1' );
+
+      // Assert
+      expect( array.names.length ).to.equal( 1 );
+      expect( array.getByName( 'TestName1' ).x ).to.equal( 1 );
+    } );
+
+    it( 'should throw error if the name is not unique', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.push( value );
+      array.push( value, 'TestName1' );
+
+      // Act
+      const badFn = (): void => {
+        array.insert( value, 0, 'TestName1' );
+      };
+
+      // Assert
+      expect( badFn ).to.throw( 'Name is not unique.' );
+    } );
+
+    it( 'should throw error if the index is out of bounds', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.push( value );
+
+      // Act
+      const badFn = (): void => {
+        array.insert( value, 2 );
+      };
+
+      // Assert
+      expect( badFn ).to.throw( 'The index is out of bounds for array insertion.' );
+    } );
+  } );
+
   describe( 'pop', (): void => {
     it( 'should remove and return the last element', (): void => {
       // Arrange

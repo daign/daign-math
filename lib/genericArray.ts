@@ -176,6 +176,39 @@ export abstract class GenericArray<T extends Observable> extends Observable {
   }
 
   /**
+   * Add an element at a specific index position to the array, shifting all following elements.
+   * Will throw an error if the name is not unique.
+   * Will throw an error if the index is out of bounds.
+   * @param element - The element to add.
+   * @param index - The position to insert the element.
+   * @param name - The name of the element for the named mapping. Optional.
+   * @returns A reference to itself.
+   */
+  public insert( element: T, index: number, name?: string ): GenericArray<T> {
+    if ( name && this.containsName( name ) ) {
+      throw new Error( 'Name is not unique.' );
+    }
+
+    if ( index < 0 || index > this._elements.length ) {
+      throw new Error( 'The index is out of bounds for array insertion.' );
+    }
+
+    this._elements.splice( index, 0, element );
+
+    if ( name ) {
+      this.namedMapping[ name ] = element;
+    }
+
+    const subscriptionRemover = element.subscribeToChanges( (): void => {
+      this.notifyObservers();
+    } );
+    this.subscriptionRemovers.push( subscriptionRemover );
+
+    this.notifyObservers();
+    return this;
+  }
+
+  /**
    * Remove and return the last element.
    * Does not remove the element from the named mapping, because the element can still exist in the
    * array at a different index.
