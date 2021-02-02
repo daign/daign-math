@@ -821,6 +821,169 @@ describe( 'GenericArray', (): void => {
       // Assert
       expect( spy.notCalled ).to.be.true;
     } );
+
+    it( 'should not remove the element from the named mapping', (): void => {
+      // Arrange
+      const value = new Value( 1 );
+      const array = new TestClass();
+      array.push( value, 'TestName' );
+
+      // Act
+      array.pop();
+
+      // Assert
+      expect( array.elements.length ).to.equal( 0 );
+      expect( array.getByName( 'TestName' ).x ).to.equal( 1 );
+    } );
+  } );
+
+  describe( 'remove', (): void => {
+    it( 'should remove and return the element at the index position', (): void => {
+      // Arrange
+      const value1 = new Value( 1 );
+      const value2 = new Value( 2 );
+      const value3 = new Value( 3 );
+      const array = new TestClass();
+      array.elements = [ value1, value2, value3 ];
+
+      // Act
+      const result = array.remove( 1 );
+
+      // Assert
+      expect( array.elements.length ).to.equal( 2 );
+      expect( result.x ).to.equal( 2 );
+    } );
+
+    it( 'should shift all following elements', (): void => {
+      // Arrange
+      const value1 = new Value( 1 );
+      const value2 = new Value( 2 );
+      const value3 = new Value( 3 );
+      const array = new TestClass();
+      array.elements = [ value1, value2, value3 ];
+
+      // Act
+      array.remove( 1 );
+
+      // Assert
+      expect( array.elements.length ).to.equal( 2 );
+      expect( array.elements[ 0 ].x ).to.equal( 1 );
+      expect( array.elements[ 1 ].x ).to.equal( 3 );
+    } );
+
+    it( 'should allow removing the element at the last index', (): void => {
+      // Arrange
+      const value1 = new Value( 1 );
+      const value2 = new Value( 2 );
+      const value3 = new Value( 3 );
+      const array = new TestClass();
+      array.elements = [ value1, value2, value3 ];
+
+      // Act
+      const result = array.remove( 2 );
+
+      // Assert
+      expect( array.elements.length ).to.equal( 2 );
+      expect( result.x ).to.equal( 3 );
+    } );
+
+    it( 'should allow removing the only element of the array', (): void => {
+      // Arrange
+      const value = new Value( 1 );
+      const array = new TestClass();
+      array.elements = [ value ];
+
+      // Act
+      const result = array.remove( 0 );
+
+      // Assert
+      expect( array.elements.length ).to.equal( 0 );
+      expect( result.x ).to.equal( 1 );
+    } );
+
+    it( 'should call the subscription remover function', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.push( value );
+
+      // Act
+      array.remove( 0 );
+
+      // Assert
+      expect( ( value as any ).listeners.length ).to.equal( 0 );
+    } );
+
+    it( 'should remove the subscription remover function', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.push( value );
+
+      // Act
+      array.remove( 0 );
+
+      // Assert
+      expect( ( array as any ).subscriptionRemovers.length ).to.equal( 0 );
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.push( value );
+      const spy = sinon.spy( array as any, 'notifyObservers' );
+
+      // Act
+      array.remove( 0 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+
+    it( 'should not call notifyObservers when the removed element changes', (): void => {
+      // Arrange
+      const value = new Value( 1 );
+      const array = new TestClass();
+      array.push( value );
+      array.remove( 0 );
+      const spy = sinon.spy( array as any, 'notifyObservers' );
+
+      // Act
+      value.x = 2;
+
+      // Assert
+      expect( spy.notCalled ).to.be.true;
+    } );
+
+    it( 'should throw error if the index is out of bounds', (): void => {
+      // Arrange
+      const value = new Value();
+      const array = new TestClass();
+      array.push( value );
+
+      // Act
+      const badFn = (): void => {
+        array.remove( 1 );
+      };
+
+      // Assert
+      expect( badFn ).to.throw( 'The index is out of bounds for removal from array.' );
+    } );
+
+    it( 'should not remove the element from the named mapping', (): void => {
+      // Arrange
+      const value = new Value( 1 );
+      const array = new TestClass();
+      array.push( value, 'TestName' );
+
+      // Act
+      array.remove( 0 );
+
+      // Assert
+      expect( array.elements.length ).to.equal( 0 );
+      expect( array.getByName( 'TestName' ).x ).to.equal( 1 );
+    } );
   } );
 
   describe( 'iterate', (): void => {

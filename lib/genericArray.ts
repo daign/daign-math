@@ -228,6 +228,29 @@ export abstract class GenericArray<T extends Observable> extends Observable {
   }
 
   /**
+   * Remove and return an element at a specific index position in the array, shifting all following
+   * elements.
+   * Does not remove the element from the named mapping, because the element can still exist in the
+   * array at a different index.
+   * Will throw an error if the index is out of bounds.
+   * @param index - The position of the element to remove.
+   * @returns The removed element.
+   */
+  public remove( index: number ): T {
+    if ( index < 0 || index >= this._elements.length ) {
+      throw new Error( 'The index is out of bounds for removal from array.' );
+    }
+
+    const result = this._elements.splice( index, 1 )[ 0 ];
+
+    const subscriptionRemover = this.subscriptionRemovers.splice( index, 1 )[ 0 ];
+    subscriptionRemover();
+
+    this.notifyObservers();
+    return result;
+  }
+
+  /**
    * Call a function with every element of the array.
    * @param callback - The function to call the elements with.
    * @returns A reference to itself.
