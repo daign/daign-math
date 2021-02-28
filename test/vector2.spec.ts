@@ -796,6 +796,30 @@ describe( 'Vector2', (): void => {
       // Assert
       expect( spy.calledOnce ).to.be.true;
     } );
+
+    it( 'should round with given precision', (): void => {
+      // Arrange
+      const v = new Vector2( 1.005, 2.005 );
+      const expected = new Vector2( 1.01, 2.01 );
+
+      // Act
+      v.round( 2 );
+
+      // Assert
+      expect( v.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should round with given negative precision', (): void => {
+      // Arrange
+      const v = new Vector2( 1005, 2005 );
+      const expected = new Vector2( 1010, 2010 );
+
+      // Act
+      v.round( -1 );
+
+      // Assert
+      expect( v.equals( expected ) ).to.be.true;
+    } );
   } );
 
   describe( 'floor', (): void => {

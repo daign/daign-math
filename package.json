@@ -1,6 +1,6 @@
 {
   "name": "@daign/math",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Math library in Typescript",
   "keywords": [
     "math",

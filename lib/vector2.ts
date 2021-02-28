@@ -297,10 +297,18 @@ export class Vector2 extends Observable {
 
   /**
    * Round vector elementwise.
+   * @param precision - The number of decimal places to round to. Optional.
    * @returns A reference to itself.
    */
-  public round(): Vector2 {
-    this.set( Math.round( this.x ), Math.round( this.y ) );
+  public round( precision?: number ): Vector2 {
+    if ( precision ) {
+      const factor = Math.pow( 10, precision );
+      const x = Math.round( ( this.x + Number.EPSILON ) * factor ) / factor;
+      const y = Math.round( ( this.y + Number.EPSILON ) * factor ) / factor;
+      this.set( x, y );
+    } else {
+      this.set( Math.round( this.x ), Math.round( this.y ) );
+    }
     return this;
   }
 
