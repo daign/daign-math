@@ -173,7 +173,7 @@ describe( 'Box2', (): void => {
       expect( result.equals( size ) ).to.be.true;
     } );
 
-    it( 'should return zero vector on point-size box', (): void => {
+    it( 'should return zero vector on point-sized box', (): void => {
       // Arrange
       const p1 = new Vector2( 1, 1 );
       const p2 = new Vector2( 1, 1 );
@@ -185,6 +185,62 @@ describe( 'Box2', (): void => {
 
       // Assert
       expect( result.equals( zero ) ).to.be.true;
+    } );
+  } );
+
+  describe( 'center getter', (): void => {
+    it( 'should return zero vector on uninitialized box', (): void => {
+      // Arrange
+      const b = new Box2();
+      const zero = new Vector2();
+
+      // Act
+      const result = b.center;
+
+      // Assert
+      expect( result.equals( zero ) ).to.be.true;
+    } );
+
+    it( 'should return zero vector on inverted box', (): void => {
+      // Arrange
+      const p1 = new Vector2( -3, -4 );
+      const p2 = new Vector2( 5, 6 );
+      const b = new Box2( p2, p1 );
+      const zero = new Vector2();
+
+      // Act
+      const result = b.center;
+
+      // Assert
+      expect( result.equals( zero ) ).to.be.true;
+    } );
+
+    it( 'should return center of non-empty box', (): void => {
+      // Arrange
+      const p1 = new Vector2( -3, -4 );
+      const p2 = new Vector2( 5, 6 );
+      const b = new Box2( p1, p2 );
+      const center = new Vector2( 1, 1 );
+
+      // Act
+      const result = b.center;
+
+      // Assert
+      expect( result.equals( center ) ).to.be.true;
+    } );
+
+    it( 'should return center of point-sized box', (): void => {
+      // Arrange
+      const p1 = new Vector2( 1, 1 );
+      const p2 = new Vector2( 1, 1 );
+      const b = new Box2( p1, p2 );
+      const center = new Vector2( 1, 1 );
+
+      // Act
+      const result = b.center;
+
+      // Assert
+      expect( result.equals( center ) ).to.be.true;
     } );
   } );
 

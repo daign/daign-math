@@ -13,7 +13,7 @@ export class Box2 extends Observable {
   private _max: Vector2;
 
   /**
-   * Get the coorindates of the minimum point.
+   * Get the coordinates of the minimum point.
    * @returns The minimum point.
    */
   public get min(): Vector2 {
@@ -21,7 +21,7 @@ export class Box2 extends Observable {
   }
 
   /**
-   * Get the coorindates of the maximum point.
+   * Get the coordinates of the maximum point.
    * @returns The maximum point.
    */
   public get max(): Vector2 {
@@ -53,6 +53,17 @@ export class Box2 extends Observable {
       return new Vector2( 0, 0 );
     }
     return this._max.clone().sub( this._min );
+  }
+
+  /**
+   * Get the coordinates of the center point.
+   * @returns The center point.
+   */
+  public get center(): Vector2 {
+    if ( this.isEmpty ) {
+      return new Vector2( 0, 0 );
+    }
+    return this._min.clone().add( this.size.multiplyScalar( 0.5 ) );
   }
 
   /**
