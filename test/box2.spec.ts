@@ -397,7 +397,7 @@ describe( 'Box2', (): void => {
   } );
 
   describe( 'expandByScalar', (): void => {
-    it( 'should make box equal to expected box', (): void => {
+    it( 'should enlarge the box for positive values', (): void => {
       // Arrange
       const min = new Vector2( 3, 4 );
       const max = new Vector2( 5, 6 );
@@ -412,6 +412,77 @@ describe( 'Box2', (): void => {
 
       // Assert
       expect( b.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should shrink the box for negative values', (): void => {
+      // Arrange
+      const min = new Vector2( 2, 3 );
+      const max = new Vector2( 6, 7 );
+      const b = new Box2( min, max );
+      const expected = new Box2(
+        new Vector2( 3, 4 ),
+        new Vector2( 5, 6 )
+      );
+
+      // Act
+      b.expandByScalar( -1 );
+
+      // Assert
+      expect( b.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should shrink the box to a point', (): void => {
+      // Arrange
+      const min = new Vector2( 3, 4 );
+      const max = new Vector2( 5, 6 );
+      const b = new Box2( min, max );
+      const expected = new Box2(
+        new Vector2( 4, 5 ),
+        new Vector2( 4, 5 )
+      );
+
+      // Act
+      b.expandByScalar( -1 );
+
+      // Assert
+      expect( b.equals( expected ) ).to.be.true;
+      expect( b.isArea ).to.be.false;
+    } );
+
+    it( 'should shrink the box to a line', (): void => {
+      // Arrange
+      const min = new Vector2( -1, -2 );
+      const max = new Vector2( 3, 4 );
+      const b = new Box2( min, max );
+      const expected = new Box2(
+        new Vector2( 1, 0 ),
+        new Vector2( 1, 2 )
+      );
+
+      // Act
+      b.expandByScalar( -2 );
+
+      // Assert
+      expect( b.equals( expected ) ).to.be.true;
+      expect( b.isArea ).to.be.false;
+    } );
+
+    it( 'should not shrink the box beyond a point', (): void => {
+      // Arrange
+      const min = new Vector2( -1, -2 );
+      const max = new Vector2( 3, 4 );
+      const b = new Box2( min, max );
+      const expected = new Box2(
+        new Vector2( 1, 1 ),
+        new Vector2( 1, 1 )
+      );
+
+      // Act
+      b.expandByScalar( -4 );
+
+      // Assert
+      expect( b.equals( expected ) ).to.be.true;
+      expect( b.isArea ).to.be.false;
     } );
 
     it( 'should call notifyObservers twice', (): void => {
@@ -438,6 +509,105 @@ describe( 'Box2', (): void => {
 
       // Assert
       expect( b.equals( expected ) ).to.be.true;
+    } );
+  } );
+
+  describe( 'scale', (): void => {
+    it( 'should enlarge the box for scale > 1', (): void => {
+      // Arrange
+      const min = new Vector2( 1, -5 );
+      const max = new Vector2( 9, 7 );
+      const b = new Box2( min, max );
+      const expected = new Box2(
+        new Vector2( -1, -8 ),
+        new Vector2( 11, 10 )
+      );
+
+      // Act
+      b.scale( 1.5 );
+
+      // Assert
+      expect( b.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should shrink the box for scale < 1', (): void => {
+      // Arrange
+      const min = new Vector2( 1, -5 );
+      const max = new Vector2( 9, 7 );
+      const b = new Box2( min, max );
+      const expected = new Box2(
+        new Vector2( 3, -2 ),
+        new Vector2( 7, 4 )
+      );
+
+      // Act
+      b.scale( 0.5 );
+
+      // Assert
+      expect( b.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should shrink to point with scale 0', (): void => {
+      // Arrange
+      const min = new Vector2( 1, -5 );
+      const max = new Vector2( 9, 7 );
+      const b = new Box2( min, max );
+      const expected = new Box2(
+        new Vector2( 5, 1 ),
+        new Vector2( 5, 1 )
+      );
+
+      // Act
+      b.scale( 0 );
+
+      // Assert
+      expect( b.equals( expected ) ).to.be.true;
+      expect( b.isArea ).to.be.false;
+      expect( b.isEmpty ).to.be.false;
+    } );
+
+    it( 'should have the same result for a negative scale as for a positive scale', (): void => {
+      // Arrange
+      const min = new Vector2( 1, -5 );
+      const max = new Vector2( 9, 7 );
+      const b = new Box2( min, max );
+      const expected = new Box2(
+        new Vector2( 3, -2 ),
+        new Vector2( 7, 4 )
+      );
+
+      // Act
+      b.scale( -0.5 );
+
+      // Assert
+      expect( b.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should call notifyObservers twice', (): void => {
+      // Arrange
+      const min = new Vector2( 3, 4 );
+      const max = new Vector2( 5, 6 );
+      const b = new Box2( min, max );
+      const spy = sinon.spy( b as any, 'notifyObservers' );
+
+      // Act
+      b.scale( 1.5 );
+
+      // Assert
+      expect( spy.callCount ).to.equal( 2 );
+    } );
+
+    it( 'should not change an empty box', (): void => {
+      // Arrange
+      const b = new Box2();
+      const expected = new Box2();
+
+      // Act
+      b.scale( 1.5 );
+
+      // Assert
+      expect( b.equals( expected ) ).to.be.true;
+      expect( b.isEmpty ).to.be.true;
     } );
   } );
 

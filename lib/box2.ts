@@ -17,7 +17,7 @@ export class Box2 extends Observable {
    * @returns The minimum point.
    */
   public get min(): Vector2 {
-    return this._min;
+    return this._min.clone();
   }
 
   /**
@@ -25,7 +25,7 @@ export class Box2 extends Observable {
    * @returns The maximum point.
    */
   public get max(): Vector2 {
-    return this._max;
+    return this._max.clone();
   }
 
   /**
@@ -33,7 +33,7 @@ export class Box2 extends Observable {
    * @returns The boolean result.
    */
   public get isEmpty(): boolean {
-    return ( this.max.x < this.min.x ) || ( this.max.y < this.min.y );
+    return ( this._max.x < this._min.x ) || ( this._max.y < this._min.y );
   }
 
   /**
@@ -41,7 +41,7 @@ export class Box2 extends Observable {
    * @returns The boolean result.
    */
   public get isArea(): boolean {
-    return ( this.max.x > this.min.x ) && ( this.max.y > this.min.y );
+    return ( this._max.x > this._min.x ) && ( this._max.y > this._min.y );
   }
 
   /**
@@ -52,7 +52,7 @@ export class Box2 extends Observable {
     if ( this.isEmpty ) {
       return new Vector2( 0, 0 );
     }
-    return this.max.clone().sub( this.min );
+    return this._max.clone().sub( this._min );
   }
 
   /**
@@ -81,8 +81,8 @@ export class Box2 extends Observable {
    * @returns A reference to itself.
    */
   public copy( b: Box2 ): Box2 {
-    this.min.copy( b.min );
-    this.max.copy( b.max );
+    this._min.copy( b.min );
+    this._max.copy( b.max );
     return this;
   }
 
@@ -91,7 +91,7 @@ export class Box2 extends Observable {
    * @returns A new box.
    */
   public clone(): Box2 {
-    return new Box2( this.min.clone(), this.max.clone() );
+    return new Box2( this.min, this.max );
   }
 
   /**
@@ -108,19 +108,35 @@ export class Box2 extends Observable {
    * @returns A reference to itself.
    */
   public makeEmpty(): Box2 {
-    this.min.x = this.min.y = +Infinity;
-    this.max.x = this.max.y = -Infinity;
+    this._min.x = this._min.y = +Infinity;
+    this._max.x = this._max.y = -Infinity;
     return this;
   }
 
   /**
-   * Expands the box by a value given into every direction.
+   * Expand or shrink the box by the given offset.
    * @param s - The distance to expand.
    * @returns A reference to itself.
    */
   public expandByScalar( s: number ): Box2 {
-    this.min.addScalar( -s );
-    this.max.addScalar( s );
+    const offset = new Vector2( s, s );
+    const minimumOffset = this.size.multiplyScalar( -0.5 );
+    offset.max( minimumOffset );
+
+    this._min.sub( offset );
+    this._max.add( offset );
+    return this;
+  }
+
+  /**
+   * Scale the box relative to its current size while keeping its center.
+   * @param s - The relative scale value to apply.
+   * @returns A reference to itself.
+   */
+  public scale( s: number ): Box2 {
+    const difference = this.size.multiplyScalar( ( Math.abs( s ) - 1 ) / 2 );
+    this._min.sub( difference );
+    this._max.add( difference );
     return this;
   }
 
@@ -130,8 +146,8 @@ export class Box2 extends Observable {
    * @returns A reference to itself.
    */
   public expandByPoint( p: Vector2 ): Box2 {
-    this.min.min( p );
-    this.max.max( p );
+    this._min.min( p );
+    this._max.max( p );
     return this;
   }
 
@@ -141,8 +157,8 @@ export class Box2 extends Observable {
    * @returns A reference to itself.
    */
   public expandByBox( b: Box2 ): Box2 {
-    this.min.min( b.min );
-    this.max.max( b.max );
+    this._min.min( b.min );
+    this._max.max( b.max );
     return this;
   }
 
@@ -159,8 +175,8 @@ export class Box2 extends Observable {
 
     /* Transform all 4 corners of the box, to make sure that after a rotation all previously
      * contained points are still contained. */
-    const corner1 = this.min.clone().transform( m );
-    const corner2 = this.max.clone().transform( m );
+    const corner1 = this.min.transform( m );
+    const corner2 = this.max.transform( m );
     const corner3 = new Vector2( this.min.x, this.max.y ).transform( m );
     const corner4 = new Vector2( this.max.x, this.min.y ).transform( m );
 
