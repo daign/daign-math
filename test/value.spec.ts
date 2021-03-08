@@ -120,6 +120,53 @@ describe( 'Value', (): void => {
     } );
   } );
 
+  describe( 'round', (): void => {
+    it( 'should round the value', (): void => {
+      // Arrange
+      const v = new Value( 2.5 );
+
+      // Act
+      v.round();
+
+      // Assert
+      expect( v.x ).to.equal( 3 );
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const v = new Value( 2.5 );
+      const spy = sinon.spy( v as any, 'notifyObservers' );
+
+      // Act
+      v.round();
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+
+    it( 'should round with given precision', (): void => {
+      // Arrange
+      const v = new Value( 1.005 );
+
+      // Act
+      v.round( 2 );
+
+      // Assert
+      expect( v.x ).to.equal( 1.01 );
+    } );
+
+    it( 'should round with given negative precision', (): void => {
+      // Arrange
+      const v = new Value( 1005 );
+
+      // Act
+      v.round( -1 );
+
+      // Assert
+      expect( v.x ).to.equal( 1010 );
+    } );
+  } );
+
   describe( 'clamp', (): void => {
     it( 'should make value smaller if too big', (): void => {
       // Arrange

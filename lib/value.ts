@@ -58,6 +58,22 @@ export class Value extends Observable {
   }
 
   /**
+   * Round the value.
+   * @param precision - The number of decimal places to round to. Optional.
+   * @returns A reference to itself.
+   */
+  public round( precision?: number ): Value {
+    if ( precision ) {
+      const factor = Math.pow( 10, precision );
+      const x = Math.round( ( this.x + Number.EPSILON ) * factor ) / factor;
+      this.x = x;
+    } else {
+      this.x = Math.round( this.x );
+    }
+    return this;
+  }
+
+  /**
    * Limit a value by lower and upper bounds.
    * @param min - The lower limit.
    * @param max - The upper limit.
