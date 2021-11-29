@@ -119,6 +119,26 @@ export class Vector2 extends Observable {
   }
 
   /**
+   * Set the values from the delta values of a scroll event.
+   * @param event - The event to use.
+   * @returns A reference to itself.
+   */
+  public setFromScrollEvent( event: any ): Vector2 {
+    const delta = new Vector2();
+
+    if ( event.deltaX !== undefined ) {
+      delta.x = event.deltaX;
+    }
+
+    if ( event.deltaY !== undefined ) {
+      delta.y = event.deltaY;
+    }
+
+    this.copy( delta );
+    return this;
+  }
+
+  /**
    * Set the values from the mouse or touch position of an event relative to the events target.
    * @param event - The event to use.
    * @returns A reference to itself.

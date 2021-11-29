@@ -326,6 +326,47 @@ describe( 'Vector2', (): void => {
     } );
   } );
 
+  describe( 'setFromScrollEvent', (): void => {
+    it( 'should set x and y properties from event', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const event = new MockEvent().setScrollDelta( 1, 2 );
+
+      // Act
+      v.setFromScrollEvent( event );
+
+      // Assert
+      expect( v.x ).to.equal( 1 );
+      expect( v.y ).to.equal( 2 );
+    } );
+
+    it( 'should call set when called with event', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const event = new MockEvent().setScrollDelta( 1, 2 );
+      const spy = sinon.spy( v, 'set' );
+
+      // Act
+      v.setFromScrollEvent( event );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+
+    it( 'should set to zero vector when event is missing coordinates', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const event = new MockEvent();
+
+      // Act
+      v.setFromScrollEvent( event );
+
+      // Assert
+      expect( v.x ).to.equal( 0 );
+      expect( v.y ).to.equal( 0 );
+    } );
+  } );
+
   describe( 'copy', (): void => {
     it( 'should copy x and y properties', (): void => {
       // Arrange

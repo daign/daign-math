@@ -40,7 +40,7 @@
     "tslint": "^6.1.3",
     "tslint-no-unused-expression-chai": "^0.1.4",
     "typescript": "^4.0.2",
-    "@daign/mock-dom": "1.0.5"
+    "@daign/mock-dom": "1.0.6"
   },
   "dependencies": {
     "@daign/observable": "1.0.3"
