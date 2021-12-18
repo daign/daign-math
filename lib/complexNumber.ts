@@ -50,6 +50,22 @@ export class ComplexNumber extends Observable {
   }
 
   /**
+   * Get the absolute value.
+   * @returns The absolute value.
+   */
+  public get absolute(): number {
+    return Math.sqrt( Math.pow( this.real, 2 ) + Math.pow( this.imaginary, 2 ) );
+  }
+
+  /**
+   * Get the argument (or angle) value.
+   * @returns The argument value.
+   */
+  public get argument(): number {
+    return Math.atan2( this.imaginary, this.real );
+  }
+
+  /**
    * Constructor.
    * @param real - Real value.
    * @param imaginary - Imaginary value.
@@ -181,6 +197,18 @@ export class ComplexNumber extends Observable {
 
     const real = ( a * c + b * d ) / ( Math.pow( c, 2 ) + Math.pow( d, 2 ) );
     const imaginary = ( b * c - a * d ) / ( Math.pow( c, 2 ) + Math.pow( d, 2 ) );
+
+    this.set( real, imaginary );
+    return this;
+  }
+
+  /**
+   * Calculate the natural logarithm.
+   * @returns A reference to itself.
+   */
+  public log(): ComplexNumber {
+    const real = Math.log( this.absolute );
+    const imaginary = this.argument;
 
     this.set( real, imaginary );
     return this;

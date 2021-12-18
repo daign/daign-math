@@ -3,6 +3,8 @@ import * as sinon from 'sinon';
 
 import { ComplexNumber } from '../lib';
 
+const tolerance = 0.0000001;
+
 describe( 'ComplexNumber', (): void => {
   describe( 'getter real', (): void => {
     it( 'should get real', (): void => {
@@ -95,6 +97,42 @@ describe( 'ComplexNumber', (): void => {
 
       // Assert
       expect( spy.notCalled ).to.be.true;
+    } );
+  } );
+
+  describe( 'getter absolute', (): void => {
+    it( 'should get the absolute value', (): void => {
+      // Arrange
+      const c = new ComplexNumber( 1, 2 );
+
+      // Act and assert
+      expect( c.absolute ).to.be.closeTo( 2.23606797749979, tolerance );
+    } );
+  } );
+
+  describe( 'getter argument', (): void => {
+    it( 'should get the argument value', (): void => {
+      // Arrange
+      const c = new ComplexNumber( 1, 2 );
+
+      // Act and assert
+      expect( c.argument ).to.be.closeTo( 1.1071487177940904, tolerance );
+    } );
+
+    it( 'should equal pi for negative real and zero imaginary values', (): void => {
+      // Arrange
+      const c = new ComplexNumber( -1, 0 );
+
+      // Act and assert
+      expect( c.argument ).to.be.closeTo( Math.PI, tolerance );
+    } );
+
+    it( 'should return 0 when both values are zero', (): void => {
+      // Arrange
+      const c = new ComplexNumber( 0, 0 );
+
+      // Act and assert
+      expect( c.argument ).to.equal( 0 );
     } );
   } );
 
@@ -431,6 +469,32 @@ describe( 'ComplexNumber', (): void => {
 
       // Act
       c1.divide( c2 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
+  describe( 'log', (): void => {
+    it( 'should calculate the natural logarithm', (): void => {
+      // Arrange
+      const c = new ComplexNumber( 1, 2 );
+      const expected = new ComplexNumber( 0.8047189562170503, 1.1071487177940904 );
+
+      // Act
+      c.log();
+
+      // Assert
+      expect( c.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should call set', (): void => {
+      // Arrange
+      const c = new ComplexNumber( 1, 2 );
+      const spy = sinon.spy( c, 'set' );
+
+      // Act
+      c.log();
 
       // Assert
       expect( spy.calledOnce ).to.be.true;
