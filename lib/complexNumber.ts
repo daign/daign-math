@@ -213,4 +213,32 @@ export class ComplexNumber extends Observable {
     this.set( real, imaginary );
     return this;
   }
+
+  /**
+   * Calculate the arctangent.
+   * @returns A reference to itself.
+   */
+  public atan(): ComplexNumber {
+    const a = new ComplexNumber( 1, 0 );
+    const b = new ComplexNumber( 0, 2 );
+    a.divide( b );
+
+    const c = new ComplexNumber( 1, 0 );
+    const d = new ComplexNumber( 0, 1 );
+    d.multiply( this );
+    c.add( d );
+
+    const e = new ComplexNumber( 1, 0 );
+    const f = new ComplexNumber( 0, 1 );
+    f.multiply( this );
+    e.sub( f );
+
+    c.divide( e );
+    c.log();
+
+    a.multiply( c );
+
+    this.copy( a );
+    return this;
+  }
 }

@@ -488,6 +488,42 @@ describe( 'ComplexNumber', (): void => {
       expect( c.closeTo( expected ) ).to.be.true;
     } );
 
+    it( 'should calculate the natural logarithm of a real number', (): void => {
+      // Arrange
+      const c = new ComplexNumber( 2, 0 );
+      const expected = new ComplexNumber( Math.log( 2 ), 0 );
+
+      // Act
+      c.log();
+
+      // Assert
+      expect( c.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should return imaginary pi value for -1 real and 0 imaginary values', (): void => {
+      // Arrange
+      const c = new ComplexNumber( -1, 0 );
+      const expected = new ComplexNumber( 0, Math.PI );
+
+      // Act
+      c.log();
+
+      // Assert
+      expect( c.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should return Infinity when both values are zero', (): void => {
+      // Arrange
+      const c = new ComplexNumber( 0, 0 );
+      const expected = new ComplexNumber( -Infinity, 0 );
+
+      // Act
+      c.log();
+
+      // Assert
+      expect( c.equals( expected ) ).to.be.true;
+    } );
+
     it( 'should call set', (): void => {
       // Arrange
       const c = new ComplexNumber( 1, 2 );
@@ -495,6 +531,56 @@ describe( 'ComplexNumber', (): void => {
 
       // Act
       c.log();
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
+  describe( 'atan', (): void => {
+    it( 'should calculate the arctangent', (): void => {
+      // Arrange
+      const c = new ComplexNumber( 1, 2 );
+      const expected = new ComplexNumber( 1.3389725222944935, 0.402359478108525 );
+
+      // Act
+      c.atan();
+
+      // Assert
+      expect( c.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should calculate the arctangent of a real number', (): void => {
+      // Arrange
+      const c = new ComplexNumber( 1, 0 );
+      const expected = new ComplexNumber( Math.atan( 1 ), 0 );
+
+      // Act
+      c.atan();
+
+      // Assert
+      expect( c.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should return 0 values when both values are zero', (): void => {
+      // Arrange
+      const c = new ComplexNumber( 0, 0 );
+      const expected = new ComplexNumber( 0, 0 );
+
+      // Act
+      c.atan();
+
+      // Assert
+      expect( c.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should call set', (): void => {
+      // Arrange
+      const c = new ComplexNumber( 1, 2 );
+      const spy = sinon.spy( c, 'set' );
+
+      // Act
+      c.atan();
 
       // Assert
       expect( spy.calledOnce ).to.be.true;
