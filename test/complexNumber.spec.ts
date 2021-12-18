@@ -324,4 +324,116 @@ describe( 'ComplexNumber', (): void => {
       expect( result ).to.be.false;
     } );
   } );
+
+  describe( 'add', (): void => {
+    it( 'should add complex numbers', (): void => {
+      // Arrange
+      const c1 = new ComplexNumber( 1, 2 );
+      const c2 = new ComplexNumber( 4, 2 );
+      const expected = new ComplexNumber( 5, 4 );
+
+      // Act
+      c1.add( c2 );
+
+      // Assert
+      expect( c1.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should call set', (): void => {
+      // Arrange
+      const c1 = new ComplexNumber( 1, 2 );
+      const c2 = new ComplexNumber( 4, 2 );
+      const spy = sinon.spy( c1, 'set' );
+
+      // Act
+      c1.add( c2 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
+  describe( 'sub', (): void => {
+    it( 'should subtract complex numbers', (): void => {
+      // Arrange
+      const c1 = new ComplexNumber( 4, 2 );
+      const c2 = new ComplexNumber( 1, 2 );
+      const expected = new ComplexNumber( 3, 0 );
+
+      // Act
+      c1.sub( c2 );
+
+      // Assert
+      expect( c1.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should call set', (): void => {
+      // Arrange
+      const c1 = new ComplexNumber( 4, 2 );
+      const c2 = new ComplexNumber( 1, 2 );
+      const spy = sinon.spy( c1, 'set' );
+
+      // Act
+      c1.sub( c2 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
+  describe( 'multiply', (): void => {
+    it( 'should multiply complex numbers', (): void => {
+      // Arrange
+      const c1 = new ComplexNumber( 2, 3 );
+      const c2 = new ComplexNumber( 4, 5 );
+      const expected = new ComplexNumber( -7, 22 );
+
+      // Act
+      c1.multiply( c2 );
+
+      // Assert
+      expect( c1.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should call set', (): void => {
+      // Arrange
+      const c1 = new ComplexNumber( 2, 3 );
+      const c2 = new ComplexNumber( 4, 5 );
+      const spy = sinon.spy( c1, 'set' );
+
+      // Act
+      c1.multiply( c2 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
+  describe( 'divide', (): void => {
+    it( 'should divide complex numbers', (): void => {
+      // Arrange
+      const c1 = new ComplexNumber( 1, 2 );
+      const c2 = new ComplexNumber( 3, 4 );
+      const expected = new ComplexNumber( 0.44, 0.08 );
+
+      // Act
+      c1.divide( c2 );
+
+      // Assert
+      expect( c1.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should call set', (): void => {
+      // Arrange
+      const c1 = new ComplexNumber( 1, 2 );
+      const c2 = new ComplexNumber( 3, 4 );
+      const spy = sinon.spy( c1, 'set' );
+
+      // Act
+      c1.divide( c2 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
 } );

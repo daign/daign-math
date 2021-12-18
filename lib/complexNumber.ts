@@ -129,4 +129,60 @@ export class ComplexNumber extends Observable {
       MathHelper.closeTo( this.imaginary, c.imaginary, delta )
     );
   }
+
+  /**
+   * Add another complex number.
+   * @param c - Another complex number.
+   * @returns A reference to itself.
+   */
+  public add( c: ComplexNumber ): ComplexNumber {
+    this.set( this.real + c.real, this.imaginary + c.imaginary );
+    return this;
+  }
+
+  /**
+   * Subtract another complex number.
+   * @param c - Another complex number.
+   * @returns A reference to itself.
+   */
+  public sub( c: ComplexNumber ): ComplexNumber {
+    this.set( this.real - c.real, this.imaginary - c.imaginary );
+    return this;
+  }
+
+  /**
+   * Multiply with another complex number.
+   * @param cn - Another complex number.
+   * @returns A reference to itself.
+   */
+  public multiply( cn: ComplexNumber ): ComplexNumber {
+    const a = this.real;
+    const b = this.imaginary;
+    const c = cn.real;
+    const d = cn.imaginary;
+
+    const real = a * c - b * d;
+    const imaginary = b * c + a * d;
+
+    this.set( real, imaginary );
+    return this;
+  }
+
+  /**
+   * Divide with another complex number.
+   * @param cn - Another complex number.
+   * @returns A reference to itself.
+   */
+  public divide( cn: ComplexNumber ): ComplexNumber {
+    const a = this.real;
+    const b = this.imaginary;
+    const c = cn.real;
+    const d = cn.imaginary;
+
+    const real = ( a * c + b * d ) / ( Math.pow( c, 2 ) + Math.pow( d, 2 ) );
+    const imaginary = ( b * c - a * d ) / ( Math.pow( c, 2 ) + Math.pow( d, 2 ) );
+
+    this.set( real, imaginary );
+    return this;
+  }
 }

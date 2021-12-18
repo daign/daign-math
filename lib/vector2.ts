@@ -223,7 +223,7 @@ export class Vector2 extends Observable {
   }
 
   /**
-   * Mutiply with another vector elementwise.
+   * Multiply with another vector elementwise.
    * @param v - Another vector.
    * @returns A reference to itself.
    */
