@@ -586,4 +586,87 @@ describe( 'ComplexNumber', (): void => {
       expect( spy.calledOnce ).to.be.true;
     } );
   } );
+
+  describe( 'fromSqrt', (): void => {
+    it( 'should return the complex result from the square root of a negative number', (): void => {
+      // Arrange
+      const expected = new ComplexNumber( 0, 2 );
+
+      // Act
+      const result = ComplexNumber.fromSqrt( -4 );
+
+      // Assert
+      expect( result.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should return the square root of a positive number', (): void => {
+      // Arrange
+      const expected = new ComplexNumber( 2, 0 );
+
+      // Act
+      const result = ComplexNumber.fromSqrt( 4 );
+
+      // Assert
+      expect( result.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should return the square root of zero', (): void => {
+      // Arrange
+      const expected = new ComplexNumber( 0, 0 );
+
+      // Act
+      const result = ComplexNumber.fromSqrt( 0 );
+
+      // Assert
+      expect( result.equals( expected ) ).to.be.true;
+    } );
+  } );
+
+  describe( 'fromAsin', (): void => {
+    it( 'should return the complex result from the arcsine of a number > 1', (): void => {
+      // Arrange
+      const expected = new ComplexNumber( 1.5707963267948966, -0.9624236501192069 );
+
+      // Act
+      const result = ComplexNumber.fromAsin( 1.5 );
+
+      // Assert
+      expect( result.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should return the arcsine of a number < 1', (): void => {
+      // Arrange
+      const expected = new ComplexNumber( 0.5235987755982989, 0 );
+
+      // Act
+      const result = ComplexNumber.fromAsin( 0.5 );
+
+      // Assert
+      expect( result.closeTo( expected ) ).to.be.true;
+    } );
+  } );
+
+  describe( 'fromAcos', (): void => {
+    it( 'should return the complex result from the arccosine of a number > 1', (): void => {
+      // Arrange
+      const expected = new ComplexNumber( 0, 0.9624236501192069 );
+
+      // Act
+      const result = ComplexNumber.fromAcos( 1.5 );
+
+      // Assert
+      expect( result.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should return the arccosine of a number < 1', (): void => {
+      // Arrange
+      const expected = new ComplexNumber( 1.0471975511965976, 0 );
+
+      // Act
+      const result = ComplexNumber.fromAcos( 0.5 );
+
+      // Assert
+      expect( result.closeTo( expected ) ).to.be.true;
+    } );
+  } );
 } );
