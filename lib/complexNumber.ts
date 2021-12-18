@@ -54,7 +54,9 @@ export class ComplexNumber extends Observable {
    * @returns The absolute value.
    */
   public get absolute(): number {
-    return Math.sqrt( Math.pow( this.real, 2 ) + Math.pow( this.imaginary, 2 ) );
+    const a = this.real;
+    const b = this.imaginary;
+    return Math.sqrt( a * a + b * b );
   }
 
   /**
@@ -195,8 +197,8 @@ export class ComplexNumber extends Observable {
     const c = cn.real;
     const d = cn.imaginary;
 
-    const real = ( a * c + b * d ) / ( Math.pow( c, 2 ) + Math.pow( d, 2 ) );
-    const imaginary = ( b * c - a * d ) / ( Math.pow( c, 2 ) + Math.pow( d, 2 ) );
+    const real = ( a * c + b * d ) / ( c * c + d * d );
+    const imaginary = ( b * c - a * d ) / ( c * c + d * d );
 
     this.set( real, imaginary );
     return this;
@@ -228,7 +230,8 @@ export class ComplexNumber extends Observable {
       ( 1 - b * b - a * a ) / x,
       ( 2 * a ) / x
     );
-    result.log().multiply( new ComplexNumber( 0, -0.5 ) );
+    result.log();
+    result.multiply( new ComplexNumber( 0, -0.5 ) );
 
     this.copy( result );
     return this;
@@ -254,14 +257,12 @@ export class ComplexNumber extends Observable {
    * @returns The complex result.
    */
   public static fromAsin( value: number ): ComplexNumber {
-    const a = new ComplexNumber( 0, -1 );
-    const b = new ComplexNumber( 0, value );
-    const c = ComplexNumber.fromSqrt( 1 - Math.pow( value, 2 ) );
-    b.add( c );
-    b.log();
-    a.multiply( b );
+    const result = ComplexNumber.fromSqrt( 1 - value * value );
+    result.add( new ComplexNumber( 0, value ) );
+    result.log();
+    result.multiply( new ComplexNumber( 0, -1 ) );
 
-    return a;
+    return result;
   }
 
   /**
@@ -270,15 +271,9 @@ export class ComplexNumber extends Observable {
    * @returns The complex result.
    */
   public static fromAcos( value: number ): ComplexNumber {
-    const a = new ComplexNumber( Math.PI / 2, 0 );
-    const b = new ComplexNumber( 0, 1 );
-    const c = new ComplexNumber( 0, value );
-    const d = ComplexNumber.fromSqrt( 1 - Math.pow( value, 2 ) );
-    c.add( d );
-    c.log();
-    b.multiply( c );
-    a.add( b );
+    const result = new ComplexNumber( Math.PI / 2, 0 );
+    result.sub( ComplexNumber.fromAsin( value ) );
 
-    return a;
+    return result;
   }
 }
