@@ -1,5 +1,6 @@
 export { Angle } from './angle';
 export { Box2 } from './box2';
+export { ComplexNumber } from './complexNumber';
 export { GenericArray } from './genericArray';
 export { Line2 } from './line2';
 export { MathHelper } from './mathHelper';

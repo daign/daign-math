@@ -1,0 +1,132 @@
+import { Observable } from '@daign/observable';
+
+import { MathHelper } from './mathHelper';
+
+/**
+ * Complex number.
+ */
+export class ComplexNumber extends Observable {
+  private _real: number;
+  private _imaginary: number;
+
+  /**
+   * Get the real value.
+   * @returns The real value.
+   */
+  public get real(): number {
+    return this._real;
+  }
+
+  /**
+   * Set the real value.
+   * @param value - The numeric real value.
+   */
+  public set real( value: number ) {
+    // Only call observers if something changed.
+    if ( this._real !== value ) {
+      this._real = value;
+      this.notifyObservers();
+    }
+  }
+
+  /**
+   * Get the imaginary value.
+   * @returns The imaginary value.
+   */
+  public get imaginary(): number {
+    return this._imaginary;
+  }
+
+  /**
+   * Set the imaginary value.
+   * @param value - The numeric imaginary value.
+   */
+  public set imaginary( value: number ) {
+    // Only call observers if something changed.
+    if ( this._imaginary !== value ) {
+      this._imaginary = value;
+      this.notifyObservers();
+    }
+  }
+
+  /**
+   * Constructor.
+   * @param real - Real value.
+   * @param imaginary - Imaginary value.
+   */
+  public constructor( real?: number, imaginary?: number ) {
+    super();
+
+    this._real = real || 0;
+    this._imaginary = imaginary || 0;
+  }
+
+  /**
+   * Set the values.
+   * @param real - Real value.
+   * @param imaginary - Imaginary value.
+   * @returns A reference to itself.
+   */
+  public set( real: number, imaginary: number ): ComplexNumber {
+    // Only call observers if something changed.
+    if ( this._real !== real || this._imaginary !== imaginary ) {
+      this._real = real;
+      this._imaginary = imaginary;
+      this.notifyObservers();
+    }
+    return this;
+  }
+
+  /**
+   * Set the values without notifying observers.
+   * @param real - Real value.
+   * @param imaginary - Imaginary value.
+   * @returns A reference to itself.
+   */
+  public setSilent( real: number, imaginary: number ): ComplexNumber {
+    this._real = real;
+    this._imaginary = imaginary;
+    return this;
+  }
+
+  /**
+   * Set from the values of another complex number.
+   * @param c - Another complex number.
+   * @returns A reference to itself.
+   */
+  public copy( c: ComplexNumber ): ComplexNumber {
+    this.set( c.real, c.imaginary );
+    return this;
+  }
+
+  /**
+   * Create a new complex number with the same values.
+   * @returns A new complex number.
+   */
+  public clone(): ComplexNumber {
+    return new ComplexNumber( this.real, this.imaginary );
+  }
+
+  /**
+   * Test equality of values for two complex numbers.
+   * @param c - Another complex number.
+   * @returns Whether complex numbers are equal.
+   */
+  public equals( c: ComplexNumber ): boolean {
+    return ( ( this.real === c.real ) && ( this.imaginary === c.imaginary ) );
+  }
+
+  /**
+   * Test whether the difference between two complex numbers is smaller than a given delta.
+   * If no delta is passed the epsilon value is used.
+   * @param c - Another complex number.
+   * @param delta - The maximum difference.
+   * @returns The result of the test.
+   */
+  public closeTo( c: ComplexNumber, delta?: number ): boolean {
+    return (
+      MathHelper.closeTo( this.real, c.real, delta ) &&
+      MathHelper.closeTo( this.imaginary, c.imaginary, delta )
+    );
+  }
+}
