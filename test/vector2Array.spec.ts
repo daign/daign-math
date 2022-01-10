@@ -40,6 +40,124 @@ describe( 'Vector2Array', (): void => {
     } );
   } );
 
+  describe( 'copyElementWise', (): void => {
+    it( 'should set each vector to the value of the given array of vectors', (): void => {
+      // Arrange
+      const array1 = new Vector2Array();
+      array1.initializeElements( 2 );
+
+      const point1 = new Vector2( 1, 2 );
+      const point2 = new Vector2( 3, 4 );
+      const array2 = new Vector2Array();
+      array2.elements = [ point1, point2 ];
+
+      // Act
+      array1.copyElementWise( array2 );
+
+      // Assert
+      expect( array1.elements.length ).to.equal( 2 );
+      expect( array1.elements[ 0 ].equals( point1 ) ).to.be.true;
+      expect( array1.elements[ 1 ].equals( point2 ) ).to.be.true;
+    } );
+
+    it( 'should call observers for every change when there are multiple changes', (): void => {
+      // Arrange
+      const array1 = new Vector2Array();
+      array1.initializeElements( 2 );
+
+      const point1 = new Vector2( 1, 2 );
+      const point2 = new Vector2( 3, 4 );
+      const array2 = new Vector2Array();
+      array2.elements = [ point1, point2 ];
+
+      const spy = sinon.spy( array1 as any, 'notifyObservers' );
+
+      // Act
+      array1.copyElementWise( array2 );
+
+      // Assert
+      expect( spy.calledTwice ).to.be.true;
+    } );
+
+    it( 'should not call observers when there are no actual value changes', (): void => {
+      // Arrange
+      const point1 = new Vector2( 1, 2 );
+      const point2 = new Vector2( 3, 4 );
+
+      const array1 = new Vector2Array();
+      array1.elements = [ point1.clone(), point2.clone() ];
+
+      const array2 = new Vector2Array();
+      array2.elements = [ point1.clone(), point2.clone() ];
+
+      const spy = sinon.spy( array1 as any, 'notifyObservers' );
+
+      // Act
+      array1.copyElementWise( array2 );
+
+      // Assert
+      expect( spy.notCalled ).to.be.true;
+    } );
+
+    it( 'should not call observers when original array changes', (): void => {
+      // Arrange
+      const array1 = new Vector2Array();
+      array1.initializeElements( 2 );
+
+      const point1 = new Vector2( 1, 2 );
+      const point2 = new Vector2( 3, 4 );
+      const array2 = new Vector2Array();
+      array2.elements = [ point1, point2 ];
+
+      // Act
+      array1.copyElementWise( array2 );
+
+      const spy = sinon.spy( array1 as any, 'notifyObservers' );
+      const point3 = new Vector2( 5, 6 );
+      array2.push( point3 );
+
+      // Assert
+      expect( spy.notCalled ).to.be.true;
+    } );
+
+    it( 'should not call observers when original element changes', (): void => {
+      // Arrange
+      const array1 = new Vector2Array();
+      array1.initializeElements( 2 );
+
+      const point1 = new Vector2( 1, 2 );
+      const point2 = new Vector2( 3, 4 );
+      const array2 = new Vector2Array();
+      array2.elements = [ point1, point2 ];
+
+      // Act
+      array1.copyElementWise( array2 );
+
+      const spy = sinon.spy( array1 as any, 'notifyObservers' );
+      point1.set( 5, 6 );
+
+      // Assert
+      expect( spy.notCalled ).to.be.true;
+    } );
+
+    it( 'should throw an error when the array lengths do not match', (): void => {
+      // Arrange
+      const array1 = new Vector2Array();
+      array1.initializeElements( 1 );
+
+      const array2 = new Vector2Array();
+      array2.initializeElements( 2 );
+
+      // Act
+      const badFn = (): void => {
+        array1.copyElementWise( array2 );
+      };
+
+      // Assert
+      expect( badFn ).to.throw( 'Array lengths do not match.' );
+    } );
+  } );
+
   describe( 'clone', (): void => {
     it( 'should return an array with the same elements', (): void => {
       // Arrange

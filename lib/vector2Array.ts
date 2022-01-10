@@ -29,6 +29,27 @@ export class Vector2Array extends GenericArray<Vector2> {
   }
 
   /**
+   * Set each vector to the value of the given array of vectors individually.
+   * Will throw an error when the array lengths don't match.
+   * Will notify observers for every individual change in actual value.
+   * @param arr - Another array.
+   * @returns A reference to itself.
+   */
+  public copyElementWise( arr: Vector2Array ): Vector2Array {
+    if ( this.length !== arr.length ) {
+      throw new Error( 'Array lengths do not match.' );
+    }
+
+    this.iterate( ( element: Vector2, index: number ): void => {
+      const sourceElement = arr.getElement( index );
+      // Source element can't be undefined because of the length check.
+      element.copy( sourceElement! );
+    } );
+
+    return this;
+  }
+
+  /**
    * Create an array with the same elements.
    * @returns A new array.
    */
