@@ -404,7 +404,7 @@ export class Vector2 extends Observable {
   }
 
   /**
-   * Get the angle to the x-axis.
+   * Get the angle to the x-axis in counterclockwise direction.
    * @returns The angle.
    */
   public angle(): Angle {
@@ -413,6 +413,45 @@ export class Vector2 extends Observable {
       angle += 2 * Math.PI;
     }
     return new Angle( angle );
+  }
+
+  /**
+   * Set the vector to the given angle relative to the x-axis in counterclockwise direction.
+   * @param a - The angle.
+   * @returns A reference to itself.
+   */
+  public setAngle( a: Angle ): Vector2 {
+    const length = this.length();
+
+    const x = Math.cos( a.radians );
+    const y = Math.sin( a.radians );
+    const v = new Vector2( x, y );
+
+    // Apply old length to vector.
+    v.setLength( length );
+
+    this.copy( v );
+    return this;
+  }
+
+  /**
+   * Rotate the vector in counterclockwise direction.
+   * @param a - The angle.
+   * @returns A reference to itself.
+   */
+  public rotate( a: Angle ): Vector2 {
+    const endAngle = this.angle().add( a );
+    this.setAngle( endAngle );
+    return this;
+  }
+
+  /**
+   * Get the angle between two vectors in counterclockwise direction.
+   * @param v - Another vector.
+   * @returns The angle.
+   */
+  public angleTo( v: Vector2 ): Angle {
+    return v.angle().sub( this.angle() ).normalize();
   }
 
   /**

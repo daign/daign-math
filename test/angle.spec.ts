@@ -116,29 +116,124 @@ describe( 'Angle', (): void => {
     } );
   } );
 
-  describe( 'equals', (): void => {
-    it( 'should return true if values equal', (): void => {
+  describe( 'clone', (): void => {
+    it( 'should return an object with the same value', (): void => {
       // Arrange
-      const a1 = new Angle( 1 );
-      const a2 = new Angle( 1 );
+      const a = new Angle( 2 );
 
       // Act
-      const result = a1.equals( a2 );
+      const result = a.clone();
 
       // Assert
-      expect( result ).to.be.true;
+      expect( result.radians ).to.equal( a.radians );
     } );
 
-    it( 'should return false if values do not equal', (): void => {
+    it( 'should not call notifyObservers when original value changes', (): void => {
       // Arrange
-      const a1 = new Angle( 1 );
-      const a2 = new Angle( 2 );
+      const a = new Angle( 2 );
+      const clone = a.clone();
+      const spy = sinon.spy( clone as any, 'notifyObservers' );
 
       // Act
-      const result = a1.equals( a2 );
+      a.radians = 3;
 
       // Assert
-      expect( result ).to.be.false;
+      expect( spy.notCalled ).to.be.true;
+    } );
+  } );
+
+  describe( 'normalize', (): void => {
+    it( 'should limit angle between 0 and 2 * Math.PI', (): void => {
+      // Arrange
+      const a = new Angle( 5 * Math.PI );
+      const expected = new Angle( Math.PI );
+
+      // Act
+      a.normalize();
+
+      // Assert
+      expect( a.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should limit angle between 0 and 2 * Math.PI for negative angles', (): void => {
+      // Arrange
+      const a = new Angle( -1.5 * Math.PI );
+      const expected = new Angle( 0.5 * Math.PI );
+
+      // Act
+      a.normalize();
+
+      // Assert
+      expect( a.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const a = new Angle( 5 * Math.PI );
+      const spy = sinon.spy( a as any, 'notifyObservers' );
+
+      // Act
+      a.normalize();
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
+  describe( 'roundDegrees', (): void => {
+    it( 'should round the angle to degrees', (): void => {
+      // Arrange
+      const a = new Angle();
+      a.degrees = 2.5;
+      const expected = new Angle();
+      expected.degrees = 3;
+
+      // Act
+      a.roundDegrees();
+
+      // Assert
+      expect( a.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const a = new Angle();
+      a.degrees = 2.5;
+      const spy = sinon.spy( a as any, 'notifyObservers' );
+
+      // Act
+      a.roundDegrees();
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+
+    it( 'should round with given precision', (): void => {
+      // Arrange
+      const a = new Angle();
+      a.degrees = 1.005;
+      const expected = new Angle();
+      expected.degrees = 1.01;
+
+      // Act
+      a.roundDegrees( 2 );
+
+      // Assert
+      expect( a.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should round with given negative precision', (): void => {
+      // Arrange
+      const a = new Angle();
+      a.degrees = 1005;
+      const expected = new Angle();
+      expected.degrees = 1010;
+
+      // Act
+      a.roundDegrees( -1 );
+
+      // Assert
+      expect( a.closeTo( expected ) ).to.be.true;
     } );
   } );
 } );

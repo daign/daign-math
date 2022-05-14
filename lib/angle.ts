@@ -1,17 +1,15 @@
-import { Observable } from '@daign/observable';
+import { Vector1 } from './vector1';
 
 /**
- * Angle.
+ * Angle extension for the 1D vector class.
  */
-export class Angle extends Observable {
-  private _radians: number;
-
+export class Angle extends Vector1<Angle> {
   /**
    * Get angle in radians.
    * @returns The angle in radians.
    */
   public get radians(): number {
-    return this._radians;
+    return this.x;
   }
 
   /**
@@ -19,11 +17,7 @@ export class Angle extends Observable {
    * @param value - The value in radians.
    */
   public set radians( value: number ) {
-    // Only call observers if something changed
-    if ( this._radians !== value ) {
-      this._radians = value;
-      this.notifyObservers();
-    }
+    this.x = value;
   }
 
   /**
@@ -47,17 +41,51 @@ export class Angle extends Observable {
    * @param rad - The angle in radians.
    */
   public constructor( radians?: number ) {
-    super();
-
-    this._radians = radians || 0;
+    super( radians );
   }
 
   /**
-   * Test equality of values for two angles.
-   * @param v - Another angle.
-   * @returns Whether angles are equal.
+   * Overwritten method to allow method chaining with base class methods.
+   * @returns A reference to itself.
    */
-  public equals( a: Angle ): boolean {
-    return ( this.radians === a.radians );
+  protected getThis(): Angle {
+    return this;
+  }
+
+  /**
+   * Create a new angle object with the same value.
+   * @returns A new angle object.
+   */
+  public clone(): Angle {
+    return new Angle( this.radians );
+  }
+
+  /**
+   * Normalize angle between 0 and 2 * Math.PI.
+   * @returns A reference to itself.
+   */
+  public normalize(): Angle {
+    let value = this.radians % ( 2 * Math.PI );
+    if ( value < 0 ) {
+      value += 2 * Math.PI;
+    }
+
+    this.radians = value;
+    return this;
+  }
+
+  /**
+   * Round degree value of angle.
+   * @param precision - The number of decimal places to round to. Optional.
+   * @returns A reference to itself.
+   */
+  public roundDegrees( precision?: number ): Angle {
+    if ( precision ) {
+      const factor = Math.pow( 10, precision );
+      this.degrees = Math.round( ( this.degrees + Number.EPSILON ) * factor ) / factor;
+    } else {
+      this.degrees = Math.round( this.degrees );
+    }
+    return this;
   }
 }

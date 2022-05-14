@@ -1,51 +1,22 @@
-import { Observable } from '@daign/observable';
+import { Vector1 } from './vector1';
 
 /**
- * 1D vector that implements the Observable pattern.
+ * Implementation for the 1D vector class of single numeric values.
  */
-export class Value extends Observable {
-  // Used for saving an older version of itself.
-  public snapshot: Value | undefined;
-
-  private _x: number;
-
-  /**
-   * Get the x value.
-   * @returns The x value.
-   */
-  public get x(): number {
-    return this._x;
-  }
-
-  /**
-   * Set the x value.
-   * @param value - The numeric x value.
-   */
-  public set x( value: number ) {
-    // Only call observers if something changed.
-    if ( this._x !== value ) {
-      this._x = value;
-      this.notifyObservers();
-    }
-  }
-
+export class Value extends Vector1<Value> {
   /**
    * Constructor.
    * @param x - The x value.
    */
   public constructor( x?: number ) {
-    super();
-    this._x = x || 0;
-    this.snapshot = undefined;
+    super( x );
   }
 
   /**
-   * Set the values without notifying observers.
-   * @param x - The x value.
+   * Overwritten method to allow method chaining with base class methods.
    * @returns A reference to itself.
    */
-  public setSilent( x: number ): Value {
-    this._x = x;
+  protected getThis(): Value {
     return this;
   }
 
@@ -55,53 +26,5 @@ export class Value extends Observable {
    */
   public clone(): Value {
     return new Value( this.x );
-  }
-
-  /**
-   * Round the value.
-   * @param precision - The number of decimal places to round to. Optional.
-   * @returns A reference to itself.
-   */
-  public round( precision?: number ): Value {
-    if ( precision ) {
-      const factor = Math.pow( 10, precision );
-      const x = Math.round( ( this.x + Number.EPSILON ) * factor ) / factor;
-      this.x = x;
-    } else {
-      this.x = Math.round( this.x );
-    }
-    return this;
-  }
-
-  /**
-   * Limit a value by lower and upper bounds.
-   * @param min - The lower limit.
-   * @param max - The upper limit.
-   * @returns A reference to itself.
-   */
-  public clamp( min: number, max: number ): Value {
-    this.x = Math.max( min, Math.min( max, this.x ) );
-    return this;
-  }
-
-  /**
-   * Save an internal snapshot of itself.
-   * @returns A reference to itself.
-   */
-  public snap(): Value {
-    this.snapshot = this.clone();
-    return this;
-  }
-
-  /**
-   * Set the value by applying a drag value to the last saved snapshot.
-   * @param v - The drag value.
-   * @returns A reference to itself.
-   */
-  public drag( v: number ): Value {
-    if ( this.snapshot !== undefined ) {
-      this.x = this.snapshot.x + v;
-    }
-    return this;
   }
 }

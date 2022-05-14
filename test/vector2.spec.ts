@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 
 import { MockEvent, MockNode } from '@daign/mock-dom';
 
-import { Box2, Line2, Matrix3, Vector2 } from '../lib';
+import { Angle, Box2, Line2, Matrix3, Vector2 } from '../lib';
 
 describe( 'Vector2', (): void => {
   describe( 'getter x', (): void => {
@@ -650,7 +650,7 @@ describe( 'Vector2', (): void => {
   } );
 
   describe( 'multiplyScalar', (): void => {
-    it( 'should multipy scalar', (): void => {
+    it( 'should multiply scalar', (): void => {
       // Arrange
       const v = new Vector2( 1, 2 );
       const scalar = 3;
@@ -1104,6 +1104,193 @@ describe( 'Vector2', (): void => {
 
       // Assert
       expect( result.radians ).to.be.closeTo( Math.PI * 1.5, 0.001 );
+    } );
+  } );
+
+  describe( 'setAngle', (): void => {
+    it( 'should retain the length of the vector', (): void => {
+      // Arrange
+      const v = new Vector2( 2, 0 );
+      const a = new Angle();
+      a.degrees = 30;
+
+      // Act
+      const result = v.setAngle( a );
+
+      // Assert
+      expect( result.length() ).to.be.closeTo( 2, 0.001 );
+    } );
+
+    it( 'should set the angle to the vector in quadrant 1', (): void => {
+      // Arrange
+      const v = new Vector2( 2, 0 );
+      const a = new Angle();
+      a.degrees = 30;
+
+      // Act
+      const result = v.setAngle( a );
+
+      // Assert
+      const expected = new Vector2( 1.732, 1 );
+      expect( result.closeTo( expected, 0.001 ) ).to.be.true;
+      expect( result.angle().closeTo( a ) ).to.be.true;
+    } );
+
+    it( 'should set the angle to the vector in quadrant 2', (): void => {
+      // Arrange
+      const v = new Vector2( 2, 0 );
+      const a = new Angle();
+      a.degrees = 120;
+
+      // Act
+      const result = v.setAngle( a );
+
+      // Assert
+      const expected = new Vector2( -1, 1.732 );
+      expect( result.closeTo( expected, 0.001 ) ).to.be.true;
+      expect( result.angle().closeTo( a ) ).to.be.true;
+    } );
+
+    it( 'should set the angle to the vector in quadrant 3', (): void => {
+      // Arrange
+      const v = new Vector2( 2, 0 );
+      const a = new Angle();
+      a.degrees = 210;
+
+      // Act
+      const result = v.setAngle( a );
+
+      // Assert
+      const expected = new Vector2( -1.732, -1 );
+      expect( result.closeTo( expected, 0.001 ) ).to.be.true;
+      expect( result.angle().closeTo( a ) ).to.be.true;
+    } );
+
+    it( 'should set the angle to the vector in quadrant 4', (): void => {
+      // Arrange
+      const v = new Vector2( 2, 0 );
+      const a = new Angle();
+      a.degrees = 300;
+
+      // Act
+      const result = v.setAngle( a );
+
+      // Assert
+      const expected = new Vector2( 1, -1.732 );
+      expect( result.closeTo( expected, 0.001 ) ).to.be.true;
+      expect( result.angle().closeTo( a ) ).to.be.true;
+    } );
+
+    it( 'should set the right angle to the vector', (): void => {
+      // Arrange
+      const v = new Vector2( 2, 0 );
+      const a = new Angle();
+      a.degrees = 90;
+
+      // Act
+      const result = v.setAngle( a );
+
+      // Assert
+      const expected = new Vector2( 0, 2 );
+      expect( result.closeTo( expected, 0.001 ) ).to.be.true;
+      expect( result.angle().closeTo( a ) ).to.be.true;
+    } );
+
+    it( 'should set a negative angle to the vector', (): void => {
+      // Arrange
+      const v = new Vector2( 2, 0 );
+      const a = new Angle();
+      a.degrees = -30;
+
+      // Act
+      const result = v.setAngle( a );
+
+      // Assert
+      const expected = new Vector2( 1.732, -1 );
+      expect( result.closeTo( expected, 0.001 ) ).to.be.true;
+    } );
+  } );
+
+  describe( 'rotate', (): void => {
+    it( 'should retain the length of the vector', (): void => {
+      // Arrange
+      const v = new Vector2( 0, 2 );
+      const a = new Angle();
+      a.degrees = 30;
+
+      // Act
+      const result = v.rotate( a );
+
+      // Assert
+      expect( result.length() ).to.be.closeTo( 2, 0.001 );
+    } );
+
+    it( 'should rotate the vector', (): void => {
+      // Arrange
+      const v = new Vector2( 0, 2 );
+      const a = new Angle();
+      a.degrees = 30;
+
+      // Act
+      const result = v.rotate( a );
+
+      // Assert
+      const expected = new Vector2( -1, 1.732 );
+      expect( result.closeTo( expected, 0.001 ) ).to.be.true;
+    } );
+
+    it( 'should rotate the vector in negative direction', (): void => {
+      // Arrange
+      const v = new Vector2( 0, 2 );
+      const a = new Angle();
+      a.degrees = -30;
+
+      // Act
+      const result = v.rotate( a );
+
+      // Assert
+      const expected = new Vector2( 1, 1.732 );
+      expect( result.closeTo( expected, 0.001 ) ).to.be.true;
+    } );
+
+    it( 'should rotate by more than a full turn', (): void => {
+      // Arrange
+      const v = new Vector2( 0, 2 );
+      const a = new Angle();
+      a.degrees = 390;
+
+      // Act
+      const result = v.rotate( a );
+
+      // Assert
+      const expected = new Vector2( -1, 1.732 );
+      expect( result.closeTo( expected, 0.001 ) ).to.be.true;
+    } );
+  } );
+
+  describe( 'angleTo', (): void => {
+    it( 'should get the angle between two vectors', (): void => {
+      // Arrange
+      const v1 = new Vector2( 3, 2 );
+      const v2 = new Vector2( 1, 3 );
+
+      // Act
+      const result = v1.angleTo( v2 );
+
+      // Assert
+      expect( result.radians ).to.be.closeTo( 0.661, 0.001 );
+    } );
+
+    it( 'should get the angle between two vectors normalized', (): void => {
+      // Arrange
+      const v1 = new Vector2( 1, 3 );
+      const v2 = new Vector2( 3, 2 );
+
+      // Act
+      const result = v1.angleTo( v2 );
+
+      // Assert
+      expect( result.radians ).to.be.closeTo( 5.622, 0.001 );
     } );
   } );
 

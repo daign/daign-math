@@ -94,6 +94,32 @@ describe( 'Value', (): void => {
     } );
   } );
 
+  describe( 'copy', (): void => {
+    it( 'should copy the x value', (): void => {
+      // Arrange
+      const v1 = new Value();
+      const v2 = new Value( 2 );
+
+      // Act
+      v1.copy( v2 );
+
+      // Assert
+      expect( v1.x ).to.equal( 2 );
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const v = new Value( 2.5 );
+      const spy = sinon.spy( v as any, 'notifyObservers' );
+
+      // Act
+      v.copy( new Value( 3 ) );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
   describe( 'clone', (): void => {
     it( 'should return an object with the same value', (): void => {
       // Arrange
@@ -117,6 +143,203 @@ describe( 'Value', (): void => {
 
       // Assert
       expect( spy.notCalled ).to.be.true;
+    } );
+  } );
+
+  describe( 'equals', (): void => {
+    it( 'should return true if values equal', (): void => {
+      // Arrange
+      const v1 = new Value( 1 );
+      const v2 = new Value( 1 );
+
+      // Act
+      const result = v1.equals( v2 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false if values do not equal', (): void => {
+      // Arrange
+      const v1 = new Value( 1 );
+      const v2 = new Value( 2 );
+
+      // Act
+      const result = v1.equals( v2 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+  } );
+
+  describe( 'closeTo', (): void => {
+    it( 'should return true for values close to each other using a given delta', (): void => {
+      // Arrange
+      const v1 = new Value( 1 );
+      const v2 = new Value( 1.001 );
+
+      // Act
+      const result = v1.closeTo( v2, 0.002 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false for values not close to each other using a given delta', (): void => {
+      // Arrange
+      const v1 = new Value( 1 );
+      const v2 = new Value( 1.003 );
+
+      // Act
+      const result = v1.closeTo( v2, 0.002 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return true for values close to each other using epsilon delta', (): void => {
+      // Arrange
+      const v1 = new Value( 0.1 + 0.2 );
+      const v2 = new Value( 0.3 );
+
+      // Act
+      const result = v1.closeTo( v2 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false for values not close to each other using epsilon delta', (): void => {
+      // Arrange
+      const v1 = new Value( 1 );
+      const v2 = new Value( 1.000000001 );
+
+      // Act
+      const result = v1.closeTo( v2 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return false for values completely equal if delta is zero', (): void => {
+      // Arrange
+      const v1 = new Value( 1 );
+      const v2 = new Value( 1 );
+
+      // Act
+      const result = v1.closeTo( v2, 0 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+  } );
+
+  describe( 'add', (): void => {
+    it( 'should add values', (): void => {
+      // Arrange
+      const v1 = new Value( 1 );
+      const v2 = new Value( 2 );
+      const expected = new Value( 3 );
+
+      // Act
+      v1.add( v2 );
+
+      // Assert
+      expect( v1.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const v1 = new Value( 1 );
+      const v2 = new Value( 2 );
+      const spy = sinon.spy( v1 as any, 'notifyObservers' );
+
+      // Act
+      v1.add( v2 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
+  describe( 'sub', (): void => {
+    it( 'should subtract values', (): void => {
+      // Arrange
+      const v1 = new Value( 3 );
+      const v2 = new Value( 2 );
+      const expected = new Value( 1 );
+
+      // Act
+      v1.sub( v2 );
+
+      // Assert
+      expect( v1.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const v1 = new Value( 3 );
+      const v2 = new Value( 2 );
+      const spy = sinon.spy( v1 as any, 'notifyObservers' );
+
+      // Act
+      v1.sub( v2 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
+  describe( 'multiplyScalar', (): void => {
+    it( 'should multiply value with a scalar', (): void => {
+      // Arrange
+      const v = new Value( 2 );
+      const s = 3;
+      const expected = new Value( 6 );
+
+      // Act
+      v.multiplyScalar( s );
+
+      // Assert
+      expect( v.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const v = new Value( 2 );
+      const spy = sinon.spy( v as any, 'notifyObservers' );
+
+      // Act
+      v.multiplyScalar( 3 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
+  describe( 'abs', (): void => {
+    it( 'should set to the absolute value of itself', (): void => {
+      // Arrange
+      const v = new Value( -2 );
+      const expected = new Value( 2 );
+
+      // Act
+      v.abs();
+
+      // Assert
+      expect( v.equals( expected ) ).to.be.true;
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const v = new Value( -2 );
+      const spy = sinon.spy( v as any, 'notifyObservers' );
+
+      // Act
+      v.abs();
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
     } );
   } );
 
@@ -203,7 +426,7 @@ describe( 'Value', (): void => {
   } );
 
   describe( 'snap', (): void => {
-    it( 'should save a snaptshot with the same value', (): void => {
+    it( 'should save a snapshot with the same value', (): void => {
       // Arrange
       const v = new Value( 2 );
 

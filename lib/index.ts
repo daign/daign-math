@@ -9,6 +9,7 @@ export { StringArray } from './stringArray';
 export { StringValue } from './stringValue';
 export { Triangle2 } from './triangle2';
 export { Value } from './value';
+export { Vector1 } from './vector1';
 export { Vector2 } from './vector2';
 export { Vector2Array } from './vector2Array';
 export { Vector3 } from './vector3';
