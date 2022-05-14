@@ -18,6 +18,7 @@ npm install @daign/math --save
 
 + **Vector2** - Two-dimensional vectors and main focus of this library.
 
+<!-- -->
 
 + **Line2** - Two-dimensional lines with start and end points.
 + **Box2** - Rectangle shape that is defined by a min and max point. Used to represent bounding boxes.
@@ -25,17 +26,20 @@ npm install @daign/math --save
 + **Vector3** - Basic functionality for three-dimensional vectors.
 + **Matrix3** - 3x3 matrices used for transforming 2D-vectors in homogeneous coordinates.
 
+<!-- -->
 
 + **Vector1** - Abstract class for 1D vectors.
   + **Value** - Basic implementation of the 1D vector class for numeric values.
   + **Angle** - Extension of 1D vectors for calculations with angles.
 + **StringValue** - Implementation of the observable pattern for a single string.
 
+<!-- -->
 
 + **GenericArray** - Abstract class for arrays of elements implementing the observable pattern.
   + **Vector2Array** - Arrays of 2D vectors.
   + **StringArray** - Arrays of strings.
 
+<!-- -->
 
 + **ComplexNumber** - Basic functionality for complex numbers.
 + **MathHelper** - Helper functions.
