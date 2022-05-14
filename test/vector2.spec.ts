@@ -326,6 +326,113 @@ describe( 'Vector2', (): void => {
     } );
   } );
 
+  describe( 'setFromTouchEvent', (): void => {
+    it( 'should set x and y properties from touch event', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const event = new MockEvent();
+      const touchEvent1 = new MockEvent().setClientPoint( 1, 2 );
+      const touchEvent2 = new MockEvent().setClientPoint( 3, 4 );
+      event.addTouchPoint( touchEvent1 );
+      event.addTouchPoint( touchEvent2 );
+
+      // Act
+      v.setFromTouchEvent( event, 1 );
+
+      // Assert
+      expect( v.x ).to.equal( 3 );
+      expect( v.y ).to.equal( 4 );
+    } );
+
+    it( 'should call set when called with touch event', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const event = new MockEvent();
+      const touchEvent1 = new MockEvent().setClientPoint( 1, 2 );
+      const touchEvent2 = new MockEvent().setClientPoint( 3, 4 );
+      event.addTouchPoint( touchEvent1 );
+      event.addTouchPoint( touchEvent2 );
+      const spy = sinon.spy( v, 'set' );
+
+      // Act
+      v.setFromTouchEvent( event, 1 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+
+    it( 'should not call set when passed event is missing coordinates', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const event = new MockEvent();
+      const spy = sinon.spy( v, 'set' );
+
+      // Act
+      v.setFromTouchEvent( event, 1 );
+
+      // Assert
+      expect( spy.notCalled ).to.be.true;
+    } );
+  } );
+
+  describe( 'setFromTouchEventRelative', (): void => {
+    it( 'should set x and y properties from touch event and bounding client rect', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const event = new MockEvent();
+
+      const target = new MockNode().setBoundingClientRect( { left: 1, top: 4 } );
+      event.target = target;
+
+      const touchEvent1 = new MockEvent().setPagePoint( 3, 4 );
+      const touchEvent2 = new MockEvent().setPagePoint( 5, 7 );
+      event.addTargetTouchPoint( touchEvent1 );
+      event.addTargetTouchPoint( touchEvent2 );
+
+      // Act
+      v.setFromTouchEventRelative( event, 1 );
+
+      // Assert
+      expect( v.x ).to.equal( 4 );
+      expect( v.y ).to.equal( 3 );
+    } );
+
+    it( 'should call set when called with touch event', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const event = new MockEvent();
+
+      const target = new MockNode().setBoundingClientRect( { left: 1, top: 4 } );
+      event.target = target;
+
+      const touchEvent1 = new MockEvent().setPagePoint( 3, 4 );
+      const touchEvent2 = new MockEvent().setPagePoint( 5, 7 );
+      event.addTargetTouchPoint( touchEvent1 );
+      event.addTargetTouchPoint( touchEvent2 );
+
+      const spy = sinon.spy( v, 'set' );
+
+      // Act
+      v.setFromTouchEventRelative( event, 1 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+
+    it( 'should not call set when passed event is missing coordinates', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const event = new MockEvent();
+      const spy = sinon.spy( v, 'set' );
+
+      // Act
+      v.setFromTouchEventRelative( event, 1 );
+
+      // Assert
+      expect( spy.notCalled ).to.be.true;
+    } );
+  } );
+
   describe( 'setFromScrollEvent', (): void => {
     it( 'should set x and y properties from event', (): void => {
       // Arrange

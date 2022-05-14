@@ -104,14 +104,78 @@ export class Vector2 extends Observable {
    * @returns A reference to itself.
    */
   public setFromEvent( event: any ): Vector2 {
-    if ( event.clientX !== undefined && event.clientY !== undefined ) {
+    if (
+      event &&
+      event.clientX !== undefined &&
+      event.clientY !== undefined
+    ) {
       this.set( event.clientX, event.clientY );
       return this;
-    } else if (
-      event.touches && event.touches[ 0 ] && event.touches[ 0 ].clientX &&
-      event.touches[ 0 ].clientY
+    } else {
+      this.setFromTouchEvent( event, 0 );
+      return this;
+    }
+  }
+
+  /**
+   * Set the values from the mouse or touch position of an event relative to the events target.
+   * @param event - The event to use.
+   * @returns A reference to itself.
+   */
+  public setFromEventRelative( event: any ): Vector2 {
+    if (
+      event &&
+      event.offsetX !== undefined &&
+      event.offsetY !== undefined
     ) {
-      this.set( event.touches[ 0 ].clientX, event.touches[ 0 ].clientY );
+      this.set( event.offsetX, event.offsetY );
+      return this;
+    } else {
+      this.setFromTouchEventRelative( event, 0 );
+      return this;
+    }
+  }
+
+  /**
+   * Set the values from the touch position of an event.
+   * @param event - The event to use.
+   * @param touchIndex - The index of the touch point.
+   * @returns A reference to itself.
+   */
+  public setFromTouchEvent( event: any, touchIndex: number ): Vector2 {
+    if (
+      event &&
+      event.touches &&
+      event.touches[ touchIndex ] &&
+      event.touches[ touchIndex ].clientX &&
+      event.touches[ touchIndex ].clientY
+    ) {
+      this.set( event.touches[ touchIndex ].clientX, event.touches[ touchIndex ].clientY );
+      return this;
+    } else {
+      return this;
+    }
+  }
+
+  /**
+   * Set the values from the touch position of an event relative to the events target.
+   * @param event - The event to use.
+   * @param touchIndex - The index of the touch point.
+   * @returns A reference to itself.
+   */
+  public setFromTouchEventRelative( event: any, touchIndex: number ): Vector2 {
+    if (
+      event &&
+      event.target &&
+      event.targetTouches &&
+      event.targetTouches[ touchIndex ] &&
+      event.targetTouches[ touchIndex ].pageX &&
+      event.targetTouches[ touchIndex ].pageY
+    ) {
+      const rect = event.target.getBoundingClientRect();
+      const x = event.targetTouches[ touchIndex ].pageX - rect.left;
+      const y = event.targetTouches[ touchIndex ].pageY - rect.top;
+      this.set( x, y );
       return this;
     } else {
       return this;
@@ -136,29 +200,6 @@ export class Vector2 extends Observable {
 
     this.copy( delta );
     return this;
-  }
-
-  /**
-   * Set the values from the mouse or touch position of an event relative to the events target.
-   * @param event - The event to use.
-   * @returns A reference to itself.
-   */
-  public setFromEventRelative( event: any ): Vector2 {
-    if ( event.offsetX !== undefined && event.offsetY !== undefined ) {
-      this.set( event.offsetX, event.offsetY );
-      return this;
-    } else if (
-      event.targetTouches && event.targetTouches[ 0 ] && event.targetTouches[ 0 ].pageX &&
-      event.targetTouches[ 0 ].pageY
-    ) {
-      const rect = event.target.getBoundingClientRect();
-      const x = event.targetTouches[ 0 ].pageX - rect.left;
-      const y = event.targetTouches[ 0 ].pageY - rect.top;
-      this.set( x, y );
-      return this;
-    } else {
-      return this;
-    }
   }
 
   /**
