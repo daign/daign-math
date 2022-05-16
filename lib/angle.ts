@@ -53,6 +53,26 @@ export class Angle extends Vector1<Angle> {
   }
 
   /**
+   * Setter for radians that allows method chaining.
+   * @param value - The value in radians.
+   * @returns A reference to itself.
+   */
+  public setRadians( value: number ): Angle {
+    this.radians = value;
+    return this;
+  }
+
+  /**
+   * Setter for degrees that allows method chaining.
+   * @param value - The value in degrees.
+   * @returns A reference to itself.
+   */
+  public setDegrees( value: number ): Angle {
+    this.degrees = value;
+    return this;
+  }
+
+  /**
    * Create a new angle object with the same value.
    * @returns A new angle object.
    */

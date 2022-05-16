@@ -116,6 +116,56 @@ describe( 'Angle', (): void => {
     } );
   } );
 
+  describe( 'setRadians', (): void => {
+    it( 'should set radians', (): void => {
+      // Arrange
+      const a = new Angle();
+
+      // Act
+      a.setRadians( 1 );
+
+      // Assert
+      expect( a.radians ).to.equal( 1 );
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const a = new Angle();
+      const spy = sinon.spy( a as any, 'notifyObservers' );
+
+      // Act
+      a.setRadians( 1 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
+  describe( 'setDegrees', (): void => {
+    it( 'should set degrees', (): void => {
+      // Arrange
+      const a = new Angle();
+
+      // Act
+      a.setDegrees( 1 );
+
+      // Assert
+      expect( a.degrees ).to.equal( 1 );
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const a = new Angle();
+      const spy = sinon.spy( a as any, 'notifyObservers' );
+
+      // Act
+      a.setDegrees( 1 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
   describe( 'clone', (): void => {
     it( 'should return an object with the same value', (): void => {
       // Arrange

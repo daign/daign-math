@@ -87,6 +87,26 @@ export class Vector2 extends Observable {
   }
 
   /**
+   * Setter for x value that allows method chaining.
+   * @param value - The x value.
+   * @returns A reference to itself.
+   */
+  public setX( value: number ): Vector2 {
+    this.x = value;
+    return this;
+  }
+
+  /**
+   * Setter for y value that allows method chaining.
+   * @param value - The y value.
+   * @returns A reference to itself.
+   */
+  public setY( value: number ): Vector2 {
+    this.y = value;
+    return this;
+  }
+
+  /**
    * Set the values without notifying observers.
    * @param x - First value.
    * @param y - Second value.

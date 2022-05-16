@@ -158,6 +158,56 @@ describe( 'Vector2', (): void => {
     } );
   } );
 
+  describe( 'setX', (): void => {
+    it( 'should set x value', (): void => {
+      // Arrange
+      const v = new Vector2();
+
+      // Act
+      v.setX( 1 );
+
+      // Assert
+      expect( v.x ).to.equal( 1 );
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const spy = sinon.spy( v as any, 'notifyObservers' );
+
+      // Act
+      v.setX( 1 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
+  describe( 'setY', (): void => {
+    it( 'should set y value', (): void => {
+      // Arrange
+      const v = new Vector2();
+
+      // Act
+      v.setY( 1 );
+
+      // Assert
+      expect( v.y ).to.equal( 1 );
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const spy = sinon.spy( v as any, 'notifyObservers' );
+
+      // Act
+      v.setY( 1 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
   describe( 'setSilent', (): void => {
     it( 'should set x and y properties', (): void => {
       // Arrange
