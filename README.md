@@ -1,6 +1,7 @@
 # daign-math
 
-[![NPM package][npm]][npm-url]
+[![CI][ci-icon]][ci-url]
+[![NPM package][npm-icon]][npm-url]
 
 #### Math library in Typescript
 
@@ -78,5 +79,7 @@ console.log( point.distanceTo( projected ) );
 
     npm run test
 
-[npm]: https://img.shields.io/npm/v/@daign/math.svg
+[ci-icon]: https://github.com/daign/daign-math/workflows/CI/badge.svg
+[ci-url]: https://github.com/daign/daign-math/actions
+[npm-icon]: https://img.shields.io/npm/v/@daign/math.svg
 [npm-url]: https://www.npmjs.com/package/@daign/math
