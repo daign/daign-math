@@ -1,6 +1,7 @@
 # daign-math
 
 [![CI][ci-icon]][ci-url]
+[![Coverage][coveralls-icon]][coveralls-url]
 [![NPM package][npm-icon]][npm-url]
 
 #### Math library in Typescript
@@ -67,19 +68,23 @@ console.log( point.distanceTo( projected ) );
 
 ## Scripts
 
-#### Build
+```bash
+# Build
+npm run build
 
-    npm run build
+# Run lint analysis
+npm run lint
 
-#### Run lint analysis
+# Run unit tests with code coverage
+npm run test
 
-    npm run lint
-
-#### Run unit tests with code coverage
-
-    npm run test
+# Get a full lcov report
+npm run coverage
+```
 
 [ci-icon]: https://github.com/daign/daign-math/workflows/CI/badge.svg
 [ci-url]: https://github.com/daign/daign-math/actions
+[coveralls-icon]: https://coveralls.io/repos/github/daign/daign-math/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/daign/daign-math?branch=master
 [npm-icon]: https://img.shields.io/npm/v/@daign/math.svg
 [npm-url]: https://www.npmjs.com/package/@daign/math
