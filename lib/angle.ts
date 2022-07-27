@@ -81,13 +81,36 @@ export class Angle extends Vector1<Angle> {
   }
 
   /**
+   * Remove full 360 degree turns. Negative angles remain negative.
+   * @returns A reference to itself.
+   */
+  public reduce(): Angle {
+    this.radians = this.radians % ( 2 * Math.PI );
+    return this;
+  }
+
+  /**
    * Normalize angle between 0 and 2 * Math.PI.
    * @returns A reference to itself.
    */
   public normalize(): Angle {
     let value = this.radians % ( 2 * Math.PI );
-    if ( value < 0 ) {
-      value += 2 * Math.PI;
+    value = ( 2 * Math.PI + value ) % ( 2 * Math.PI );
+
+    this.radians = value;
+    return this;
+  }
+
+  /**
+   * Normalize angle between -Math.PI and Math.PI.
+   * @returns A reference to itself.
+   */
+  public normalizeMinimumAbsolute(): Angle {
+    let value = this.radians % ( 2 * Math.PI );
+    value = ( 2 * Math.PI + value ) % ( 2 * Math.PI );
+
+    if ( value > Math.PI ) {
+      value -= 2 * Math.PI;
     }
 
     this.radians = value;

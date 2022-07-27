@@ -192,6 +192,44 @@ describe( 'Angle', (): void => {
     } );
   } );
 
+  describe( 'reduce', (): void => {
+    it( 'should remove full turns', (): void => {
+      // Arrange
+      const a = new Angle( 5 * Math.PI );
+      const expected = new Angle( Math.PI );
+
+      // Act
+      a.reduce();
+
+      // Assert
+      expect( a.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should keep negative angles negative', (): void => {
+      // Arrange
+      const a = new Angle( -2.5 * Math.PI );
+      const expected = new Angle( -0.5 * Math.PI );
+
+      // Act
+      a.reduce();
+
+      // Assert
+      expect( a.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const a = new Angle( 5 * Math.PI );
+      const spy = sinon.spy( a as any, 'notifyObservers' );
+
+      // Act
+      a.reduce();
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
   describe( 'normalize', (): void => {
     it( 'should limit angle between 0 and 2 * Math.PI', (): void => {
       // Arrange
@@ -224,6 +262,56 @@ describe( 'Angle', (): void => {
 
       // Act
       a.normalize();
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
+  describe( 'normalizeMinimumAbsolute', (): void => {
+    it( 'should limit angle between -Math.PI and Math.PI', (): void => {
+      // Arrange
+      const a = new Angle( 4.5 * Math.PI );
+      const expected = new Angle( 0.5 * Math.PI );
+
+      // Act
+      a.normalizeMinimumAbsolute();
+
+      // Assert
+      expect( a.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should convert to negative angle when greater than Math.PI normalized', (): void => {
+      // Arrange
+      const a = new Angle( 3.5 * Math.PI );
+      const expected = new Angle( -0.5 * Math.PI );
+
+      // Act
+      a.normalizeMinimumAbsolute();
+
+      // Assert
+      expect( a.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should keep negative angles when greater than -Math.PI', (): void => {
+      // Arrange
+      const a = new Angle( -0.7 * Math.PI );
+      const expected = new Angle( -0.7 * Math.PI );
+
+      // Act
+      a.normalizeMinimumAbsolute();
+
+      // Assert
+      expect( a.closeTo( expected ) ).to.be.true;
+    } );
+
+    it( 'should call notifyObservers', (): void => {
+      // Arrange
+      const a = new Angle( 5 * Math.PI );
+      const spy = sinon.spy( a as any, 'notifyObservers' );
+
+      // Act
+      a.normalizeMinimumAbsolute();
 
       // Assert
       expect( spy.calledOnce ).to.be.true;
