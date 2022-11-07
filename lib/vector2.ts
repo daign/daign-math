@@ -167,8 +167,8 @@ export class Vector2 extends Observable {
       event &&
       event.touches &&
       event.touches[ touchIndex ] &&
-      event.touches[ touchIndex ].clientX &&
-      event.touches[ touchIndex ].clientY
+      event.touches[ touchIndex ].clientX !== undefined &&
+      event.touches[ touchIndex ].clientY !== undefined
     ) {
       this.set( event.touches[ touchIndex ].clientX, event.touches[ touchIndex ].clientY );
       return this;
@@ -189,8 +189,8 @@ export class Vector2 extends Observable {
       event.target &&
       event.targetTouches &&
       event.targetTouches[ touchIndex ] &&
-      event.targetTouches[ touchIndex ].pageX &&
-      event.targetTouches[ touchIndex ].pageY
+      event.targetTouches[ touchIndex ].pageX !== undefined &&
+      event.targetTouches[ touchIndex ].pageY !== undefined
     ) {
       const rect = event.target.getBoundingClientRect();
       const x = event.targetTouches[ touchIndex ].pageX - rect.left;
