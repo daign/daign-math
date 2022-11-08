@@ -120,6 +120,7 @@ export class Vector2 extends Observable {
 
   /**
    * Set the values from the mouse or touch position of an event.
+   * Will throw error when the event does not contain position information.
    * @param event - The event to use.
    * @returns A reference to itself.
    */
@@ -139,6 +140,7 @@ export class Vector2 extends Observable {
 
   /**
    * Set the values from the mouse or touch position of an event relative to the events target.
+   * Will throw error when the event does not contain position information.
    * @param event - The event to use.
    * @returns A reference to itself.
    */
@@ -158,6 +160,7 @@ export class Vector2 extends Observable {
 
   /**
    * Set the values from the touch position of an event.
+   * Will throw error when the event does not contain position information.
    * @param event - The event to use.
    * @param touchIndex - The index of the touch point.
    * @returns A reference to itself.
@@ -173,41 +176,63 @@ export class Vector2 extends Observable {
       this.set( event.touches[ touchIndex ].clientX, event.touches[ touchIndex ].clientY );
       return this;
     } else {
-      return this;
+      throw new Error( 'Unable to extract position from event.' );
     }
   }
 
   /**
    * Set the values from the touch position of an event relative to the events target.
+   * Will throw error when the event does not contain position information.
    * @param event - The event to use.
    * @param touchIndex - The index of the touch point.
    * @returns A reference to itself.
    */
   public setFromTouchEventRelative( event: any, touchIndex: number ): Vector2 {
     if (
-      event &&
-      event.target &&
-      event.targetTouches &&
-      event.targetTouches[ touchIndex ] &&
-      event.targetTouches[ touchIndex ].pageX !== undefined &&
-      event.targetTouches[ touchIndex ].pageY !== undefined
+      !event ||
+      !event.target ||
+      !event.target.getBoundingClientRect ||
+      !event.touches ||
+      !event.touches[ touchIndex ] ||
+      event.touches[ touchIndex ].pageX === undefined ||
+      event.touches[ touchIndex ].pageY === undefined
     ) {
-      const rect = event.target.getBoundingClientRect();
-      const x = event.targetTouches[ touchIndex ].pageX - rect.left;
-      const y = event.targetTouches[ touchIndex ].pageY - rect.top;
-      this.set( x, y );
-      return this;
-    } else {
-      return this;
+      throw new Error( 'Unable to extract position from event.' );
     }
+
+    // Get the offset of the event's target element relative to the page.
+    const rect = event.target.getBoundingClientRect();
+    if (
+      !rect ||
+      rect.left === undefined ||
+      rect.top === undefined
+    ) {
+      throw new Error( 'Unable to extract position from event.' );
+    }
+
+    /* Calculate position relative to target object by subtracting the target's offset from the
+     * touch position on the page. */
+    const x = event.touches[ touchIndex ].pageX - rect.left;
+    const y = event.touches[ touchIndex ].pageY - rect.top;
+    this.set( x, y );
+    return this;
   }
 
   /**
    * Set the values from the delta values of a scroll event.
+   * Will throw error when the event does not contain scroll information.
    * @param event - The event to use.
    * @returns A reference to itself.
    */
   public setFromScrollEvent( event: any ): Vector2 {
+    // Throw error when both delta values are undefined.
+    if (
+      !event ||
+      ( event.deltaX === undefined && event.deltaY === undefined )
+    ) {
+      throw new Error( 'Unable to extract scroll value from event.' );
+    }
+
     const delta = new Vector2();
 
     if ( event.deltaX !== undefined ) {

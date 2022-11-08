@@ -289,17 +289,18 @@ describe( 'Vector2', (): void => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should not call set when passed event is missing coordinates', (): void => {
+    it( 'should throw error when passed event is missing coordinates', (): void => {
       // Arrange
       const v = new Vector2();
       const event = new MockEvent();
-      const spy = sinon.spy( v, 'set' );
 
       // Act
-      v.setFromEvent( event );
+      const badFn = (): void => {
+        v.setFromEvent( event );
+      };
 
       // Assert
-      expect( spy.notCalled ).to.be.true;
+      expect( badFn ).to.throw( 'Unable to extract position from event.' );
     } );
   } );
 
@@ -335,7 +336,7 @@ describe( 'Vector2', (): void => {
       const v = new Vector2();
       const touchEvent = new MockEvent().setPagePoint( 5, 7 );
       const target = new MockNode().setBoundingClientRect( { left: 1, top: 4 } );
-      const event = new MockEvent().addTargetTouchPoint( touchEvent );
+      const event = new MockEvent().addTouchPoint( touchEvent );
       event.target = target;
 
       // Act
@@ -351,7 +352,7 @@ describe( 'Vector2', (): void => {
       const v = new Vector2();
       const touchEvent = new MockEvent().setPagePoint( 5, 7 );
       const target = new MockNode().setBoundingClientRect( { left: 1, top: 4 } );
-      const event = new MockEvent().addTargetTouchPoint( touchEvent );
+      const event = new MockEvent().addTouchPoint( touchEvent );
       event.target = target;
       const spy = sinon.spy( v, 'set' );
 
@@ -362,17 +363,18 @@ describe( 'Vector2', (): void => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should not call set when passed event is missing coordinates', (): void => {
+    it( 'should throw error when passed event is missing coordinates', (): void => {
       // Arrange
       const v = new Vector2();
       const event = new MockEvent();
-      const spy = sinon.spy( v, 'set' );
 
       // Act
-      v.setFromEventRelative( event );
+      const badFn = (): void => {
+        v.setFromEventRelative( event );
+      };
 
       // Assert
-      expect( spy.notCalled ).to.be.true;
+      expect( badFn ).to.throw( 'Unable to extract position from event.' );
     } );
   } );
 
@@ -411,17 +413,18 @@ describe( 'Vector2', (): void => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should not call set when passed event is missing coordinates', (): void => {
+    it( 'should throw error when passed event is missing coordinates', (): void => {
       // Arrange
       const v = new Vector2();
       const event = new MockEvent();
-      const spy = sinon.spy( v, 'set' );
 
       // Act
-      v.setFromTouchEvent( event, 1 );
+      const badFn = (): void => {
+        v.setFromTouchEvent( event, 1 );
+      };
 
       // Assert
-      expect( spy.notCalled ).to.be.true;
+      expect( badFn ).to.throw( 'Unable to extract position from event.' );
     } );
   } );
 
@@ -436,8 +439,8 @@ describe( 'Vector2', (): void => {
 
       const touchEvent1 = new MockEvent().setPagePoint( 3, 4 );
       const touchEvent2 = new MockEvent().setPagePoint( 5, 7 );
-      event.addTargetTouchPoint( touchEvent1 );
-      event.addTargetTouchPoint( touchEvent2 );
+      event.addTouchPoint( touchEvent1 );
+      event.addTouchPoint( touchEvent2 );
 
       // Act
       v.setFromTouchEventRelative( event, 1 );
@@ -457,8 +460,8 @@ describe( 'Vector2', (): void => {
 
       const touchEvent1 = new MockEvent().setPagePoint( 3, 4 );
       const touchEvent2 = new MockEvent().setPagePoint( 5, 7 );
-      event.addTargetTouchPoint( touchEvent1 );
-      event.addTargetTouchPoint( touchEvent2 );
+      event.addTouchPoint( touchEvent1 );
+      event.addTouchPoint( touchEvent2 );
 
       const spy = sinon.spy( v, 'set' );
 
@@ -469,17 +472,40 @@ describe( 'Vector2', (): void => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should not call set when passed event is missing coordinates', (): void => {
+    it( 'should throw error when passed event is missing coordinates', (): void => {
       // Arrange
       const v = new Vector2();
       const event = new MockEvent();
-      const spy = sinon.spy( v, 'set' );
 
       // Act
-      v.setFromTouchEventRelative( event, 1 );
+      const badFn = (): void => {
+        v.setFromTouchEventRelative( event, 1 );
+      };
 
       // Assert
-      expect( spy.notCalled ).to.be.true;
+      expect( badFn ).to.throw( 'Unable to extract position from event.' );
+    } );
+
+    it( 'should throw error when target is missing bounding client rect information', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const event = new MockEvent();
+
+      const target = new MockNode();
+      event.target = target;
+
+      const touchEvent1 = new MockEvent().setPagePoint( 3, 4 );
+      const touchEvent2 = new MockEvent().setPagePoint( 5, 7 );
+      event.addTouchPoint( touchEvent1 );
+      event.addTouchPoint( touchEvent2 );
+
+      // Act
+      const badFn = (): void => {
+        v.setFromTouchEventRelative( event, 1 );
+      };
+
+      // Assert
+      expect( badFn ).to.throw( 'Unable to extract position from event.' );
     } );
   } );
 
@@ -510,17 +536,46 @@ describe( 'Vector2', (): void => {
       expect( spy.calledOnce ).to.be.true;
     } );
 
-    it( 'should set to zero vector when event is missing coordinates', (): void => {
+    it( 'should set x when only deltaX value is provided', (): void => {
       // Arrange
       const v = new Vector2();
       const event = new MockEvent();
+      event.deltaX = 3;
+
+      // Act
+      v.setFromScrollEvent( event );
+
+      // Assert
+      expect( v.x ).to.equal( 3 );
+      expect( v.y ).to.equal( 0 );
+    } );
+
+    it( 'should set y when only deltaY value is provided', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const event = new MockEvent();
+      event.deltaY = 3;
 
       // Act
       v.setFromScrollEvent( event );
 
       // Assert
       expect( v.x ).to.equal( 0 );
-      expect( v.y ).to.equal( 0 );
+      expect( v.y ).to.equal( 3 );
+    } );
+
+    it( 'should throw error when event is missing both scroll values', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const event = new MockEvent();
+
+      // Act
+      const badFn = (): void => {
+        v.setFromScrollEvent( event );
+      };
+
+      // Assert
+      expect( badFn ).to.throw( 'Unable to extract scroll value from event.' );
     } );
   } );
 
