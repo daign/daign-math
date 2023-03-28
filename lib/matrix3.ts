@@ -227,6 +227,36 @@ export class Matrix3 extends Observable {
   }
 
   /**
+   * Set the transformation matrix for a skew along the x axis.
+   * @param a - The skew angle.
+   * @returns A reference to itself.
+   */
+  public setSkewX( a: Angle ): Matrix3 {
+    const tan = Math.tan( a.radians );
+    this.set(
+      1, tan, 0,
+      0, 1, 0,
+      0, 0, 1
+    );
+    return this;
+  }
+
+  /**
+   * Set the transformation matrix for a skew along the y axis.
+   * @param a - The skew angle.
+   * @returns A reference to itself.
+   */
+  public setSkewY( a: Angle ): Matrix3 {
+    const tan = Math.tan( a.radians );
+    this.set(
+      1, 0, 0,
+      tan, 1, 0,
+      0, 0, 1
+    );
+    return this;
+  }
+
+  /**
    * Apply a translation transformation to the matrix.
    * @param t - The translation vector.
    * @returns A reference to itself.
@@ -254,6 +284,26 @@ export class Matrix3 extends Observable {
    */
   public applyRotation( a: Angle, p?: Vector2 ): Matrix3 {
     this.transform( new Matrix3().setRotation( a, p ) );
+    return this;
+  }
+
+  /**
+   * Apply a skew along the x axis transformation to the matrix.
+   * @param a - The skew angle.
+   * @returns A reference to itself.
+   */
+  public applySkewX( a: Angle ): Matrix3 {
+    this.transform( new Matrix3().setSkewX( a ) );
+    return this;
+  }
+
+  /**
+   * Apply a skew along the y axis transformation to the matrix.
+   * @param a - The skew angle.
+   * @returns A reference to itself.
+   */
+  public applySkewY( a: Angle ): Matrix3 {
+    this.transform( new Matrix3().setSkewY( a ) );
     return this;
   }
 

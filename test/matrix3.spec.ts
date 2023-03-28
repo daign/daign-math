@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import * as sinon from 'sinon';
+import { spy } from 'sinon';
 
 import { Angle, Matrix3, Vector2 } from '../lib';
 
@@ -77,26 +77,26 @@ describe( 'Matrix3', (): void => {
     it( 'should call notifyObservers', (): void => {
       // Arrange
       const m = new Matrix3();
-      const spy = sinon.spy( m as any, 'notifyObservers' );
+      const notifyObserversSpy = spy( m as any, 'notifyObservers' );
 
       // Act
       m.set( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
 
       // Assert
-      expect( spy.calledOnce ).to.be.true;
+      expect( notifyObserversSpy.calledOnce ).to.be.true;
     } );
 
     it( 'should not call notifyObservers when value does not change', (): void => {
       // Arrange
       const m = new Matrix3();
       m.set( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
-      const spy = sinon.spy( m as any, 'notifyObservers' );
+      const notifyObserversSpy = spy( m as any, 'notifyObservers' );
 
       // Act
       m.set( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
 
       // Assert
-      expect( spy.notCalled ).to.be.true;
+      expect( notifyObserversSpy.notCalled ).to.be.true;
     } );
   } );
 
@@ -117,13 +117,13 @@ describe( 'Matrix3', (): void => {
       // Arrange
       const m1 = new Matrix3();
       const m2 = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
-      const spy = sinon.spy( m1, 'set' );
+      const setSpy = spy( m1, 'set' );
 
       // Act
       m1.copy( m2 );
 
       // Assert
-      expect( spy.calledOnce ).to.be.true;
+      expect( setSpy.calledOnce ).to.be.true;
     } );
   } );
 
@@ -143,13 +143,13 @@ describe( 'Matrix3', (): void => {
       // Arrange
       const m = new Matrix3( 1, 2, 3, 4, 5, 6, 7, 8, 9 );
       const result = m.clone();
-      const spy = sinon.spy( ( result as any ), 'notifyObservers' );
+      const notifyObserversSpy = spy( ( result as any ), 'notifyObservers' );
 
       // Act
       m.setIdentity();
 
       // Assert
-      expect( spy.notCalled ).to.be.true;
+      expect( notifyObserversSpy.notCalled ).to.be.true;
     } );
   } );
 
@@ -199,13 +199,13 @@ describe( 'Matrix3', (): void => {
       const result = new Matrix3();
       const m1 = new Matrix3();
       const m2 = new Matrix3();
-      const spy = sinon.spy( result, 'set' );
+      const setSpy = spy( result, 'set' );
 
       // Act
       result.matrixMultiplication( m1, m2 );
 
       // Assert
-      expect( spy.calledOnce ).to.be.true;
+      expect( setSpy.calledOnce ).to.be.true;
     } );
   } );
 
@@ -227,13 +227,13 @@ describe( 'Matrix3', (): void => {
       // Arrange
       const m1 = new Matrix3();
       const m2 = new Matrix3();
-      const spy = sinon.spy( m1, 'set' );
+      const setSpy = spy( m1, 'set' );
 
       // Act
       m1.multiply( m2 );
 
       // Assert
-      expect( spy.calledOnce ).to.be.true;
+      expect( setSpy.calledOnce ).to.be.true;
     } );
   } );
 
@@ -255,13 +255,13 @@ describe( 'Matrix3', (): void => {
       // Arrange
       const m1 = new Matrix3();
       const m2 = new Matrix3();
-      const spy = sinon.spy( m1, 'set' );
+      const setSpy = spy( m1, 'set' );
 
       // Act
       m1.transform( m2 );
 
       // Assert
-      expect( spy.calledOnce ).to.be.true;
+      expect( setSpy.calledOnce ).to.be.true;
     } );
   } );
 
@@ -281,13 +281,13 @@ describe( 'Matrix3', (): void => {
     it( 'should call set', (): void => {
       // Arrange
       const m = new Matrix3();
-      const spy = sinon.spy( m, 'set' );
+      const setSpy = spy( m, 'set' );
 
       // Act
       m.setIdentity();
 
       // Assert
-      expect( spy.calledOnce ).to.be.true;
+      expect( setSpy.calledOnce ).to.be.true;
     } );
 
     it( 'should calculate the identical matrix when used as a transformation', (): void => {
@@ -320,13 +320,13 @@ describe( 'Matrix3', (): void => {
     it( 'should call set', (): void => {
       // Arrange
       const m = new Matrix3();
-      const spy = sinon.spy( m, 'set' );
+      const setSpy = spy( m, 'set' );
 
       // Act
       m.setTranslation( new Vector2() );
 
       // Assert
-      expect( spy.calledOnce ).to.be.true;
+      expect( setSpy.calledOnce ).to.be.true;
     } );
 
     it( 'should calculate the translated vector when used as a transformation', (): void => {
@@ -360,13 +360,13 @@ describe( 'Matrix3', (): void => {
     it( 'should call set', (): void => {
       // Arrange
       const m = new Matrix3();
-      const spy = sinon.spy( m, 'set' );
+      const setSpy = spy( m, 'set' );
 
       // Act
       m.setScaling( new Vector2() );
 
       // Assert
-      expect( spy.calledOnce ).to.be.true;
+      expect( setSpy.calledOnce ).to.be.true;
     } );
 
     it( 'should calculate the scaled vector when used as a transformation', (): void => {
@@ -388,13 +388,13 @@ describe( 'Matrix3', (): void => {
     it( 'should call set', (): void => {
       // Arrange
       const m = new Matrix3();
-      const spy = sinon.spy( m, 'set' );
+      const setSpy = spy( m, 'set' );
 
       // Act
       m.setRotation( new Angle() );
 
       // Assert
-      expect( spy.calledOnce ).to.be.true;
+      expect( setSpy.calledOnce ).to.be.true;
     } );
 
     it( 'should calculate the rotated vector when used as a transformation', (): void => {
@@ -429,6 +429,64 @@ describe( 'Matrix3', (): void => {
         expect( v.y ).to.be.closeTo( expected.y, 0.001 );
       }
     );
+  } );
+
+  describe( 'setSkewX', (): void => {
+    it( 'should call set', (): void => {
+      // Arrange
+      const m = new Matrix3();
+      const setSpy = spy( m, 'set' );
+
+      // Act
+      m.setSkewX( new Angle() );
+
+      // Assert
+      expect( setSpy.calledOnce ).to.be.true;
+    } );
+
+    it( 'should calculate the skewed vector when used as a transformation', (): void => {
+      // Arrange
+      const v = new Vector2( 1, 2 );
+      const angle = new Angle( 0.17 );
+      const m = new Matrix3().setSkewX( angle );
+      const expected = new Vector2( 1.343, 2 );
+
+      // Act
+      v.transform( m );
+
+      // Assert
+      expect( v.x ).to.be.closeTo( expected.x, 0.001 );
+      expect( v.y ).to.be.closeTo( expected.y, 0.001 );
+    } );
+  } );
+
+  describe( 'setSkewY', (): void => {
+    it( 'should call set', (): void => {
+      // Arrange
+      const m = new Matrix3();
+      const setSpy = spy( m, 'set' );
+
+      // Act
+      m.setSkewY( new Angle() );
+
+      // Assert
+      expect( setSpy.calledOnce ).to.be.true;
+    } );
+
+    it( 'should calculate the skewed vector when used as a transformation', (): void => {
+      // Arrange
+      const v = new Vector2( 2, 1 );
+      const angle = new Angle( 0.17 );
+      const m = new Matrix3().setSkewY( angle );
+      const expected = new Vector2( 2, 1.343 );
+
+      // Act
+      v.transform( m );
+
+      // Assert
+      expect( v.x ).to.be.closeTo( expected.x, 0.001 );
+      expect( v.y ).to.be.closeTo( expected.y, 0.001 );
+    } );
   } );
 
   describe( 'applyTranslation', (): void => {
@@ -474,13 +532,13 @@ describe( 'Matrix3', (): void => {
       const translation = new Vector2( 1, 2 );
       const rotation = new Angle( Math.PI / 2 );
 
-      // Transformation is initialised with a translation which should execute before the rotation
+      // Transformation is initialised with a translation which should execute before the rotation.
       const m = new Matrix3().setTranslation( translation );
       const expected = new Vector2( -2, 1 );
 
       // Act
       m.applyRotation( rotation );
-      // The complete transformation is executed on a vector
+      // The complete transformation is executed on a vector.
       v.transform( m );
 
       // Assert
@@ -495,13 +553,57 @@ describe( 'Matrix3', (): void => {
       const rotation = new Angle( Math.PI / 2 );
       const center = new Vector2( 3, 3 );
 
-      // Transformation is initialised with a translation which should execute before the rotation
+      // Transformation is initialised with a translation which should execute before the rotation.
       const m = new Matrix3().setTranslation( translation );
       const expected = new Vector2( 4, 1 );
 
       // Act
       m.applyRotation( rotation, center );
-      // The complete transformation is executed on a vector
+      // The complete transformation is executed on a vector.
+      v.transform( m );
+
+      // Assert
+      expect( v.x ).to.be.closeTo( expected.x, 0.001 );
+      expect( v.y ).to.be.closeTo( expected.y, 0.001 );
+    } );
+  } );
+
+  describe( 'applySkewX', (): void => {
+    it( 'should apply skew along the x axis to a transformation matrix', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const translation = new Vector2( 1, 2 );
+      const skewX = new Angle( 0.17 );
+
+      // Transformation is initialised with a translation which should execute before the skew.
+      const m = new Matrix3().setTranslation( translation );
+      const expected = new Vector2( 1.343, 2 );
+
+      // Act
+      m.applySkewX( skewX );
+      // The complete transformation is executed on a vector.
+      v.transform( m );
+
+      // Assert
+      expect( v.x ).to.be.closeTo( expected.x, 0.001 );
+      expect( v.y ).to.be.closeTo( expected.y, 0.001 );
+    } );
+  } );
+
+  describe( 'applySkewY', (): void => {
+    it( 'should apply skew along the y axis to a transformation matrix', (): void => {
+      // Arrange
+      const v = new Vector2();
+      const translation = new Vector2( 2, 1 );
+      const skewY = new Angle( 0.17 );
+
+      // Transformation is initialised with a translation which should execute before the skew.
+      const m = new Matrix3().setTranslation( translation );
+      const expected = new Vector2( 2, 1.343 );
+
+      // Act
+      m.applySkewY( skewY );
+      // The complete transformation is executed on a vector.
       v.transform( m );
 
       // Assert
