@@ -38,4 +38,16 @@ export abstract class MathHelper {
     const d = ( delta !== undefined ) ? delta : epsilon;
     return Math.abs( x - y ) < d;
   }
+
+  /**
+   * Round a number with given precision.
+   * @param value - The number to round.
+   * @param precision - The number of decimal places to round to.
+   * @returns The rounded value.
+   */
+  public static precisionRound( value: number, precision: number ): number {
+    const factor = Math.pow( 10, precision );
+    const roundedValue = Math.round( ( value + Number.EPSILON ) * factor ) / factor;
+    return roundedValue;
+  }
 }

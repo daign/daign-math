@@ -96,4 +96,22 @@ describe( 'MathHelper', (): void => {
       expect( result ).to.be.false;
     } );
   } );
+
+  describe( 'precisionRound', (): void => {
+    it( 'should round with given precision', (): void => {
+      // Act
+      const result = MathHelper.precisionRound( 1.005, 2 );
+
+      // Assert
+      expect( result ).to.equal( 1.01 );
+    } );
+
+    it( 'should round with given negative precision', (): void => {
+      // Act
+      const result = MathHelper.precisionRound( 1005, -1 );
+
+      // Assert
+      expect( result ).to.equal( 1010 );
+    } );
+  } );
 } );
