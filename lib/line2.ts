@@ -1,9 +1,12 @@
 import { Observable } from '@daign/observable';
 
 import { Vector2 } from './vector2';
+import { MathHelper } from './mathHelper';
+
+const precision = 1e-14;
 
 /**
- * 2D line.
+ * 2D line defined by start and end point.
  */
 export class Line2 extends Observable {
   private _start: Vector2;
@@ -31,6 +34,41 @@ export class Line2 extends Observable {
    */
   public get direction(): Vector2 {
     return this.end.clone().sub( this.start );
+  }
+
+  /**
+   * Get the length of the line segment.
+   * @returns The length of the line segment.
+   */
+  public get length(): number {
+    return this.direction.length();
+  }
+
+  /**
+   * Get the slope of a line.
+   * @returns The slope value.
+   */
+  public get slope(): number {
+    const d = this.direction;
+    // If x component of directional vector is zero, then we have a vertical line.
+    if ( d.x === 0 ) {
+      return Infinity;
+    }
+
+    return ( d.y / d.x );
+  }
+
+  /**
+   * Get the coordinate where the line intersects the y-axis.
+   * @returns The coordinate where the line intersects the y-axis.
+   */
+  public get yIntercept(): number | null {
+    const slope = this.slope;
+    if ( !isFinite( slope ) ) {
+      return null;
+    }
+
+    return this.start.y - slope * this.start.x;
   }
 
   /**
@@ -216,12 +254,58 @@ export class Line2 extends Observable {
 
   /**
    * Determines on which side of the line a point lies.
-   * @param p - The point.
+   * @param point - The point.
    * @returns -1 or 1 for the sides, or 0 if on the line.
    */
-  public getSideOfPoint( p: Vector2 ): number {
-    const d = this.direction.cross( p.clone().sub( this.start ) );
+  public getSideOfPoint( point: Vector2 ): number {
+    const d = this.direction.cross( point.clone().sub( this.start ) );
+
+    // Return 0 if value is very close to zero.
+    if ( MathHelper.closeTo( d, 0, precision ) ) {
+      return 0;
+    }
 
     return Math.sign( d );
+  }
+
+  /**
+   * Determines whether a point lies on the line or not.
+   * @param point - The point.
+   * @returns Whether the point lies on the line or not.
+   */
+  public containsPoint( point: Vector2 ): boolean {
+    const side = this.getSideOfPoint( point );
+
+    return ( side === 0 );
+  }
+
+  /**
+   * Determines whether a point lies on the line segment or not.
+   * @param point - The point.
+   * @returns Whether the point lies on the line segment or not.
+   */
+  public containsPointInSegment( point: Vector2 ): boolean {
+    // Check whether point lies on the infinite line.
+    const onLine = this.containsPoint( point );
+
+    if ( onLine ) {
+      // Check if the result of a projection would lie between the endpoints of the line segment.
+      const support = point.clone().sub( this.start );
+      const d = support.dot( this.direction.normalize() );
+      const length = this.length;
+
+      if ( d >= 0 && d <= length ) {
+        // Projection would lie between the endpoints.
+        return true;
+      } else if ( MathHelper.closeTo( d, 0, precision ) ) {
+        // Projection is close to the start point.
+        return true
+      } else if ( MathHelper.closeTo( d, length, precision ) ) {
+        // Projection is close to the end point.
+        return true;
+      }
+    }
+
+    return false;
   }
 }

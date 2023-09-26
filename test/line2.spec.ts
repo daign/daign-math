@@ -42,6 +42,78 @@ describe( 'Line2', (): void => {
     } );
   } );
 
+  describe( 'length getter', (): void => {
+    it( 'should return the length', (): void => {
+      // Arrange
+      const l = new Line2( new Vector2( 1, 1 ), new Vector2( 4, 5 ) );
+
+      // Act
+      const result = l.length;
+
+      // Assert
+      expect( result ).to.be.closeTo( 5, 0.001 );
+    } );
+  } );
+
+  describe( 'slop getter', (): void => {
+    it( 'should return the slope', (): void => {
+      // Arrange
+      const l = new Line2( new Vector2( 1, 1 ), new Vector2( 4, 3 ) );
+
+      // Act
+      const result = l.slope;
+
+      // Assert
+      expect( result ).to.be.closeTo( 2 / 3, 0.001 );
+    } );
+
+    it( 'should return a negative slope', (): void => {
+      // Arrange
+      const l = new Line2( new Vector2( 1, 1 ), new Vector2( -3, 4 ) );
+
+      // Act
+      const result = l.slope;
+
+      // Assert
+      expect( result ).to.be.closeTo( -3 / 4, 0.001 );
+    } );
+
+    it( 'should return infinity for a vertical line', (): void => {
+      // Arrange
+      const l = new Line2( new Vector2( 1, 1 ), new Vector2( 1, 4 ) );
+
+      // Act
+      const result = l.slope;
+
+      // Assert
+      expect( result ).to.equal( Infinity );
+    } );
+  } );
+
+  describe( 'yIntercept getter', (): void => {
+    it( 'should return the yIntercept', (): void => {
+      // Arrange
+      const l = new Line2( new Vector2( 3, 0 ), new Vector2( 5, 1 ) );
+
+      // Act
+      const result = l.yIntercept;
+
+      // Assert
+      expect( result ).to.be.closeTo( -3 / 2, 0.001 );
+    } );
+
+    it( 'should return null for a vertical line', (): void => {
+      // Arrange
+      const l = new Line2( new Vector2( 1, 1 ), new Vector2( 1, 4 ) );
+
+      // Act
+      const result = l.yIntercept;
+
+      // Assert
+      expect( result ).to.be.null;
+    } );
+  } );
+
   describe( 'constructor', (): void => {
     it( 'should create with given points', (): void => {
       // Arrange
@@ -433,7 +505,7 @@ describe( 'Line2', (): void => {
       expect( result ).to.equal( -1 );
     } );
 
-    it( 'should return 0 if point is on line', (): void => {
+    it( 'should return 0 if point is on the line', (): void => {
       // Arrange
       const l = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
       const p = new Vector2( 3, 2 );
@@ -443,6 +515,106 @@ describe( 'Line2', (): void => {
 
       // Assert
       expect( result ).to.equal( 0 );
+    } );
+
+    it( 'should return 0 if point is very close to the line', (): void => {
+      // Arrange
+      const l = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
+      const p = new Vector2( 3, 2 + 1e-15 );
+
+      // Act
+      const result = l.getSideOfPoint( p );
+
+      // Assert
+      expect( result ).to.equal( 0 );
+    } );
+  } );
+
+  describe( 'containsPoint', (): void => {
+    it( 'should return false if not on the line', (): void => {
+      // Arrange
+      const l = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
+      const p = new Vector2( 1, 2 );
+
+      // Act
+      const result = l.containsPoint( p );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return true if point is on the infinite line', (): void => {
+      // Arrange
+      const l = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
+      const p = new Vector2( 6, 4 );
+
+      // Act
+      const result = l.containsPoint( p );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+  } );
+
+  describe( 'containsPointInSegment', (): void => {
+    it( 'should return false if not on the line', (): void => {
+      // Arrange
+      const l = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
+      const p = new Vector2( 1, 2 );
+
+      // Act
+      const result = l.containsPointInSegment( p );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return true if point is on the line segment', (): void => {
+      // Arrange
+      const l = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
+      const p = new Vector2( 3 / 2, 1 );
+
+      // Act
+      const result = l.containsPointInSegment( p );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return true if point is close to the start point of the segment', (): void => {
+      // Arrange
+      const l = new Line2( new Vector2( 3, 2 ), new Vector2( 6, 4 ) );
+      const p = new Vector2( 3 - 1e-15, 2 );
+
+      // Act
+      const result = l.containsPointInSegment( p );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return true if point is close to the end point of the segment', (): void => {
+      // Arrange
+      const l = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
+      const p = new Vector2( 3 + 1e-15, 2 );
+
+      // Act
+      const result = l.containsPointInSegment( p );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false if point is on the line but outside of segment', (): void => {
+      // Arrange
+      const l = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
+      const p = new Vector2( 6, 4 );
+
+      // Act
+      const result = l.containsPointInSegment( p );
+
+      // Assert
+      expect( result ).to.be.false;
     } );
   } );
 } );
