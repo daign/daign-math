@@ -99,7 +99,7 @@ export class Line2 extends Observable {
   }
 
   /**
-   * Test parallelity of two lines.
+   * Test parallelism of two lines.
    * @param l - Another line.
    * @returns Whether lines are parallel.
    */
@@ -145,12 +145,13 @@ export class Line2 extends Observable {
       return new Vector2( x, y );
     }
 
-    return null; // Returns null if lines are parallel.
+    // Returns null if lines are parallel.
+    return null;
   }
 
   /**
    * Returns the intersection of line segments.
-   * The intersection point must lie between the end of both line segments.
+   * The intersection point must lie between the ends of both line segments.
    * @param l - Another line.
    * @returns The intersection point or null if lines don't intersect.
    */
@@ -177,7 +178,40 @@ export class Line2 extends Observable {
       }
     }
 
-    return null; // Returns null if lines are parallel or intersection is outside of segment limits.
+    // Returns null if lines are parallel or intersection is outside of segment limits.
+    return null;
+  }
+
+  /**
+   * Returns the intersection of a line segment with an infinite line.
+   * The intersection point must lie between the ends of the line segment.
+   * @param l - The infinite line.
+   * @returns The intersection point or null if lines don't intersect.
+   */
+  public getSegmentAndLineIntersection( l: Line2 ): Vector2 | null {
+    const ax = this.start.x;
+    const ay = this.start.y;
+    const bx = this.end.x;
+    const by = this.end.y;
+    const cx = l.start.x;
+    const cy = l.start.y;
+    const dx = l.end.x;
+    const dy = l.end.y;
+
+    const n = ( bx - ax ) * ( dy - cy ) - ( by - ay ) * ( dx - cx );
+
+    if ( n !== 0 ) {
+      const s = ( ( ax - cx ) * ( dy - cy ) - ( ay - cy ) * ( dx - cx ) ) / -n;
+
+      if ( 0 <= s && s <= 1 ) {
+        const x = ax + s * ( bx - ax );
+        const y = ay + s * ( by - ay );
+        return new Vector2( x, y );
+      }
+    }
+
+    // Returns null if lines are parallel or intersection is outside of segment limits.
+    return null;
   }
 
   /**
@@ -188,7 +222,6 @@ export class Line2 extends Observable {
   public getSideOfPoint( p: Vector2 ): number {
     const d = this.direction.cross( p.clone().sub( this.start ) );
 
-    const sign = ( x: number ): number => Number( x > 0 ) - Number( x < 0 );
-    return sign( d );
+    return Math.sign( d );
   }
 }

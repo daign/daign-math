@@ -356,6 +356,58 @@ describe( 'Line2', (): void => {
     } );
   } );
 
+  describe( 'getSegmentAndLineIntersection', (): void => {
+    it( 'should return the intersection point', (): void => {
+      // Arrange
+      const l1 = new Line2( new Vector2( 0, 0 ), new Vector2( 6, 4 ) );
+      const l2 = new Line2( new Vector2( 5, -1 ), new Vector2( 1, 5 ) );
+
+      // Act
+      const result = l1.getSegmentAndLineIntersection( l2 );
+
+      // Assert
+      expect( result!.x ).to.be.closeTo( 3, 0.001 );
+      expect( result!.y ).to.be.closeTo( 2, 0.001 );
+    } );
+
+    it( 'should return null if intersection is outside of first line segment', (): void => {
+      // Arrange
+      const l1 = new Line2( new Vector2( 1, 5 ), new Vector2( -1, 8 ) );
+      const l2 = new Line2( new Vector2( 0, 0 ), new Vector2( 6, 4 ) );
+
+      // Act
+      const result = l1.getSegmentAndLineIntersection( l2 );
+
+      // Assert
+      expect( result ).to.be.null;
+    } );
+
+    it( 'should return intersection point if the second line is infinite', (): void => {
+      // Arrange
+      const l1 = new Line2( new Vector2( 5, -1 ), new Vector2( 1, 5 ) );
+      const l2 = new Line2( new Vector2( 0, 0 ), new Vector2( -6, -4 ) );
+
+      // Act
+      const result = l1.getSegmentAndLineIntersection( l2 );
+
+      // Assert
+      expect( result!.x ).to.be.closeTo( 3, 0.001 );
+      expect( result!.y ).to.be.closeTo( 2, 0.001 );
+    } );
+
+    it( 'should return null for parallel lines', (): void => {
+      // Arrange
+      const l1 = new Line2( new Vector2( 0, 0 ), new Vector2( 3, 2 ) );
+      const l2 = new Line2( new Vector2( 1, 2 ), new Vector2( 4, 4 ) );
+
+      // Act
+      const result = l1.getSegmentAndLineIntersection( l2 );
+
+      // Assert
+      expect( result ).to.be.null;
+    } );
+  } );
+
   describe( 'getSideOfPoint', (): void => {
     it( 'should return 1 if left of line', (): void => {
       // Arrange
