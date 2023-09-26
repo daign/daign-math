@@ -97,6 +97,40 @@ describe( 'MathHelper', (): void => {
     } );
   } );
 
+  describe( 'withinOrCloseToLimits', (): void => {
+    it( 'should return true for a value within limits', (): void => {
+      // Act
+      const result = MathHelper.withinOrCloseToLimits( 1, 0, 2 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return true for a value close to minimum limit', (): void => {
+      // Act
+      const result = MathHelper.withinOrCloseToLimits( 0 - 0.001, 0, 2, 0.002 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return true for a value close to maximum limit', (): void => {
+      // Act
+      const result = MathHelper.withinOrCloseToLimits( 2 + 0.001, 0, 2, 0.002 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false for a value outside of limits', (): void => {
+      // Act
+      const result = MathHelper.withinOrCloseToLimits( 2 + 0.001, 0, 2 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+  } );
+
   describe( 'precisionRound', (): void => {
     it( 'should round with given precision', (): void => {
       // Act

@@ -40,6 +40,32 @@ export abstract class MathHelper {
   }
 
   /**
+   * Test whether a number is within or close to limits with a given delta.
+   * If no delta is passed the epsilon value is used.
+   * @param value - The number to test.
+   * @param min - The lower limit.
+   * @param max - The upper limit.
+   * @param delta - The maximum difference to limits.
+   * @returns The result of the test.
+   */
+  public static withinOrCloseToLimits(
+    value: number, min: number, max: number, delta?: number
+  ): boolean {
+    if ( value >= min && value <= max ) {
+      // Value clearly lies within limits.
+      return true;
+    } else if ( this.closeTo( value, min, delta ) ) {
+      // Value is very close to lower limit.
+      return true;
+    } else if ( MathHelper.closeTo( value, max, delta ) ) {
+      // Value is very close to upper limit.
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * Round a number with given precision.
    * @param value - The number to round.
    * @param precision - The number of decimal places to round to.

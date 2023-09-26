@@ -1674,6 +1674,21 @@ describe( 'Vector2', (): void => {
       // Assert
       expect( result ).to.be.null;
     } );
+
+    it( 'should project on line when very close to line segment endpoint', (): void => {
+      // Arrange
+      const v = new Vector2( 0 - 1e-16, 4 );
+      const l1 = new Vector2( 0, 0 );
+      const l2 = new Vector2( 4, 0 );
+      const l = new Line2( l1, l2 );
+
+      // Act
+      const result = v.projectOnLineSegment( l );
+
+      // Assert
+      expect( result!.x ).to.be.closeTo( 0, 0.001 );
+      expect( result!.y ).to.be.closeTo( 0, 0.001 );
+    } );
   } );
 
   describe( 'perpendicular', (): void => {

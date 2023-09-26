@@ -209,7 +209,11 @@ export class Line2 extends Observable {
       const s = ( ( ax - cx ) * ( dy - cy ) - ( ay - cy ) * ( dx - cx ) ) / -n;
       const t = ( ( cx - ax ) * ( by - ay ) - ( cy - ay ) * ( bx - ax ) ) / n;
 
-      if ( 0 <= s && s <= 1 && 0 <= t && t <= 1 ) {
+      // Intersection point must lie between or close to endpoints.
+      if (
+        MathHelper.withinOrCloseToLimits( s, 0, 1, precision ) &&
+        MathHelper.withinOrCloseToLimits( t, 0, 1, precision )
+      ) {
         const x = ax + s * ( bx - ax );
         const y = ay + s * ( by - ay );
         return new Vector2( x, y );
@@ -241,7 +245,8 @@ export class Line2 extends Observable {
     if ( n !== 0 ) {
       const s = ( ( ax - cx ) * ( dy - cy ) - ( ay - cy ) * ( dx - cx ) ) / -n;
 
-      if ( 0 <= s && s <= 1 ) {
+      // Intersection point must lie between or close to endpoints.
+      if ( MathHelper.withinOrCloseToLimits( s, 0, 1, precision ) ) {
         const x = ax + s * ( bx - ax );
         const y = ay + s * ( by - ay );
         return new Vector2( x, y );
@@ -294,14 +299,8 @@ export class Line2 extends Observable {
       const d = support.dot( this.direction.normalize() );
       const length = this.length;
 
-      if ( d >= 0 && d <= length ) {
-        // Projection would lie between the endpoints.
-        return true;
-      } else if ( MathHelper.closeTo( d, 0, precision ) ) {
-        // Projection is close to the start point.
-        return true
-      } else if ( MathHelper.closeTo( d, length, precision ) ) {
-        // Projection is close to the end point.
+      if ( MathHelper.withinOrCloseToLimits( d, 0, length, precision ) ) {
+        // Projection lies within or close to the endpoints.
         return true;
       }
     }

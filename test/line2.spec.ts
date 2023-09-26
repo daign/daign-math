@@ -403,6 +403,19 @@ describe( 'Line2', (): void => {
       expect( result!.y ).to.be.closeTo( 2, 0.001 );
     } );
 
+    it( 'should return the intersection point if intersection is close to endpoint', (): void => {
+      // Arrange
+      const l1 = new Line2( new Vector2( 0 + 1e-15, 0 ), new Vector2( 4, 0 ) );
+      const l2 = new Line2( new Vector2( 0, -2 ), new Vector2( 0, 2 ) );
+
+      // Act
+      const result = l1.getSegmentIntersection( l2 );
+
+      // Assert
+      expect( result!.x ).to.be.closeTo( 0, 0.001 );
+      expect( result!.y ).to.be.closeTo( 0, 0.001 );
+    } );
+
     it( 'should return null if intersection is outside of segments', (): void => {
       // Arrange
       const l1 = new Line2( new Vector2( 0, 0 ), new Vector2( 6, 4 ) );
@@ -440,6 +453,19 @@ describe( 'Line2', (): void => {
       // Assert
       expect( result!.x ).to.be.closeTo( 3, 0.001 );
       expect( result!.y ).to.be.closeTo( 2, 0.001 );
+    } );
+
+    it( 'should return the intersection point if intersection is close to endpoint', (): void => {
+      // Arrange
+      const l1 = new Line2( new Vector2( 0 + 1e-15, 0 ), new Vector2( 4, 0 ) );
+      const l2 = new Line2( new Vector2( 0, 2 ), new Vector2( 0, 4 ) );
+
+      // Act
+      const result = l1.getSegmentAndLineIntersection( l2 );
+
+      // Assert
+      expect( result!.x ).to.be.closeTo( 0, 0.001 );
+      expect( result!.y ).to.be.closeTo( 0, 0.001 );
     } );
 
     it( 'should return null if intersection is outside of first line segment', (): void => {

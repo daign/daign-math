@@ -605,7 +605,7 @@ export class Vector2 extends Observable {
     const d = support.dot( directionN );
 
     // Check if the result of the projection would lie between the endpoints of the line segment.
-    if ( d >= 0 && d <= direction.length() ) {
+    if ( MathHelper.withinOrCloseToLimits( d, 0, direction.length() ) ) {
       return directionN.clone().multiplyScalar( d ).add( l.start );
     } else {
       // Projection not possible because the projected point would not lie on the line segment.
