@@ -190,4 +190,118 @@ describe( 'Polygon2', (): void => {
       expect( result ).to.be.false;
     } );
   } );
+
+  describe( 'isPointInside', (): void => {
+    it( 'should return true if point is inside of polygon', (): void => {
+      // Arrange
+      const corners = [
+        new Vector2( 0, 1 ), new Vector2( 1, -1 ), new Vector2( 2, 1 ), new Vector2( 3, -1 ),
+        new Vector2( 1, -2 ), new Vector2( -1, -1 )
+      ];
+      const polygon = new Polygon2( corners );
+      const point = new Vector2( 0, 0 );
+
+      // Act
+      const result = polygon.isPointInside( point );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false if point is outside of polygon', (): void => {
+      // Arrange
+      const corners = [
+        new Vector2( 0, 1 ), new Vector2( 1, -1 ), new Vector2( 2, 1 ), new Vector2( 3, -1 ),
+        new Vector2( 1, -2 ), new Vector2( -1, -1 )
+      ];
+      const polygon = new Polygon2( corners );
+      const point = new Vector2( 1, 0 );
+
+      // Act
+      const result = polygon.isPointInside( point );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return true if point is on the edge', (): void => {
+      // Arrange
+      const corners = [
+        new Vector2( 0, 1 ), new Vector2( 1, -1 ), new Vector2( 2, 1 ), new Vector2( 3, -1 ),
+        new Vector2( 1, -2 ), new Vector2( -1, -1 )
+      ];
+      const polygon = new Polygon2( corners );
+      const point = new Vector2( 0, 1 );
+
+      // Act
+      const result = polygon.isPointInside( point );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return true if ray leaves through point on the edge', (): void => {
+      // Arrange
+      const corners = [
+        new Vector2( 0, 1 ), new Vector2( 1, -1 ), new Vector2( 2, 1 ), new Vector2( 3, -1 ),
+        new Vector2( 1, -2 ), new Vector2( -1, -1 )
+      ];
+      const polygon = new Polygon2( corners );
+      const point = new Vector2( 2, -1 );
+
+      // Act
+      const result = polygon.isPointInside( point );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false if ray touches point on the edge from the outside', (): void => {
+      // Arrange
+      const corners = [
+        new Vector2( 0, 1 ), new Vector2( 1, -1 ), new Vector2( 2, 1 ), new Vector2( 3, -1 ),
+        new Vector2( 1, -2 ), new Vector2( -1, -1 )
+      ];
+      const polygon = new Polygon2( corners );
+      const point = new Vector2( 1, 1 );
+
+      // Act
+      const result = polygon.isPointInside( point );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return true if ray leaves through parallel edge', (): void => {
+      // Arrange
+      const corners = [
+        new Vector2( -1, 1 ), new Vector2( 1, 0 ), new Vector2( 2, 0 ), new Vector2( -1, -2 )
+      ];
+      const polygon = new Polygon2( corners );
+      const point = new Vector2( 0, 0 );
+
+      // Act
+      const result = polygon.isPointInside( point );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return true for complex example', (): void => {
+      // Arrange
+      const corners = [
+        new Vector2( 0, -2 ), new Vector2( 1, 0 ), new Vector2( 2, 0 ), new Vector2( 3, 1 ),
+        new Vector2( 3, 0 ), new Vector2( 4, -1 ), new Vector2( 4, 0 ), new Vector2( 5, 1 ),
+        new Vector2( 3, 2 ), new Vector2( -1, 1 )
+      ];
+      const polygon = new Polygon2( corners );
+      const point = new Vector2( 0, 0 );
+
+      // Act
+      const result = polygon.isPointInside( point );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+  } );
 } );

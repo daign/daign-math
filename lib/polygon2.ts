@@ -1,4 +1,5 @@
 import { Line2 } from './line2';
+import { Ray2 } from './ray2';
 import { Vector2 } from './vector2';
 import { Vector2Array } from './vector2Array';
 
@@ -76,5 +77,52 @@ export class Polygon2 extends Vector2Array {
     } );
 
     return pointIsOnEdge;
+  }
+
+  /**
+   * Test whether a given point is inside or on the edge of the polygon, or not.
+   * @param point - The point to test.
+   * @returns Whether a given point is inside or on the edge of the polygon, or not.
+   */
+  public isPointInside( point: Vector2 ): boolean {
+    // When on the edge, this counts as inside of the polygon.
+    if ( this.isPointOnEdge( point ) ) {
+      return true;
+    }
+
+    // A ray starting from the given point.
+    const ray = new Ray2( point, new Vector2( 1, 0 ) );
+    let numberOfIntersections = 0;
+
+    // Test for every line segment of the polygon.
+    this.iterateLineSegments( ( line: Line2 ): void => {
+      // Calculate intersection of ray and line segment.
+      const intersectionPoint = ray.getLineSegmentIntersection( line );
+
+      // Count the intersection if result is not null.
+      if ( intersectionPoint !== null ) {
+        /* But if the intersection is close to the start or end of the line, then only count if the
+         * other endpoint of the line is below the ray. Otherwise we would count intersections
+         * twice. */
+        if ( intersectionPoint.closeTo( line.start ) ) {
+          if ( ray.getSideOfPoint( line.end ) === -1 ) {
+            numberOfIntersections += 1;
+          }
+        } else if ( intersectionPoint.closeTo( line.end ) ) {
+          if ( ray.getSideOfPoint( line.start ) === -1 ) {
+            numberOfIntersections += 1;
+          }
+        } else {
+          numberOfIntersections += 1;
+        }
+      }
+    } );
+
+    // If the ray intersects the polygon an odd number of times, then the point is inside.
+    if ( numberOfIntersections % 2 === 1 ) {
+      return true;
+    }
+
+    return false;
   }
 }
