@@ -1057,5 +1057,19 @@ describe( 'GenericArray', (): void => {
       // Assert
       expect( spy.notCalled ).to.be.true;
     } );
+
+    it( 'should not call the function if array has only one element', (): void => {
+      // Arrange
+      const value = new Value( 1 );
+      const array = new TestClass();
+      array.elements = [ value ];
+      const spy = sinon.spy();
+
+      // Act
+      array.iteratePairwise( spy );
+
+      // Assert
+      expect( spy.notCalled ).to.be.true;
+    } );
   } );
 } );

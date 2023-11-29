@@ -55,7 +55,7 @@ describe( 'Line2', (): void => {
     } );
   } );
 
-  describe( 'slop getter', (): void => {
+  describe( 'slope getter', (): void => {
     it( 'should return the slope', (): void => {
       // Arrange
       const l = new Line2( new Vector2( 1, 1 ), new Vector2( 4, 3 ) );
@@ -503,6 +503,47 @@ describe( 'Line2', (): void => {
 
       // Assert
       expect( result ).to.be.null;
+    } );
+  } );
+
+  describe( 'getNearestPointOnLineSegment', (): void => {
+    it( 'should return the nearest point on the line', (): void => {
+      // Arrange
+      const line = new Line2( new Vector2( 0, 0 ), new Vector2( 6, 4 ) );
+      const point = new Vector2( 1, 5 );
+
+      // Act
+      const result = line.getNearestPointOnLineSegment( point );
+
+      // Assert
+      expect( result!.x ).to.be.closeTo( 3, 0.001 );
+      expect( result!.y ).to.be.closeTo( 2, 0.001 );
+    } );
+
+    it( 'should return the start point when this is the nearest', (): void => {
+      // Arrange
+      const line = new Line2( new Vector2( 0, 0 ), new Vector2( 6, 4 ) );
+      const point = new Vector2( -1, -1 );
+
+      // Act
+      const result = line.getNearestPointOnLineSegment( point );
+
+      // Assert
+      expect( result!.x ).to.be.closeTo( 0, 0.001 );
+      expect( result!.y ).to.be.closeTo( 0, 0.001 );
+    } );
+
+    it( 'should return the end point when this is the nearest', (): void => {
+      // Arrange
+      const line = new Line2( new Vector2( 0, 0 ), new Vector2( 6, 4 ) );
+      const point = new Vector2( 8, 9 );
+
+      // Act
+      const result = line.getNearestPointOnLineSegment( point );
+
+      // Assert
+      expect( result!.x ).to.be.closeTo( 6, 0.001 );
+      expect( result!.y ).to.be.closeTo( 4, 0.001 );
     } );
   } );
 

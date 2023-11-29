@@ -258,6 +258,22 @@ export class Line2 extends Observable {
   }
 
   /**
+   * Get the nearest point on a line segment to a given point.
+   * @param point - The other point.
+   * @returns The nearest point.
+   */
+  public getNearestPointOnLineSegment( point: Vector2 ): Vector2 {
+    const support = point.clone().sub( this.start );
+    const directionN = this.direction.normalize();
+    const d = support.dot( directionN );
+
+    // Limit the projected point to the end of the line segment.
+    const clamped = MathHelper.clamp( d, 0, this.length );
+
+    return directionN.clone().multiplyScalar( clamped ).add( this.start );
+  }
+
+  /**
    * Determines on which side of the line a point lies.
    * @param point - The point.
    * @returns -1 or 1 for the sides, or 0 if on the line.
