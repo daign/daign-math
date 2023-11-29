@@ -131,6 +131,32 @@ describe( 'MathHelper', (): void => {
     } );
   } );
 
+  describe( 'greaterOrCloseTo', (): void => {
+    it( 'should return true for a value above minimum limit', (): void => {
+      // Act
+      const result = MathHelper.greaterOrCloseTo( 1, 0 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return true for a value close to minimum limit', (): void => {
+      // Act
+      const result = MathHelper.greaterOrCloseTo( 0 - 0.001, 0, 0.002 );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false for a value outside of limits', (): void => {
+      // Act
+      const result = MathHelper.greaterOrCloseTo( 0 - 0.001, 0 );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+  } );
+
   describe( 'precisionRound', (): void => {
     it( 'should round with given precision', (): void => {
       // Act

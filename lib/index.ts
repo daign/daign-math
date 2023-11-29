@@ -6,6 +6,7 @@ export { Line2 } from './line2';
 export { MathHelper } from './mathHelper';
 export { Matrix3 } from './matrix3';
 export { Polygon2 } from './polygon2';
+export { Ray2 } from './ray2';
 export { StringArray } from './stringArray';
 export { StringValue } from './stringValue';
 export { Triangle2 } from './triangle2';

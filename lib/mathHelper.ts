@@ -66,6 +66,28 @@ export abstract class MathHelper {
   }
 
   /**
+   * Test whether a number is greater than or close to minimum limit with a given delta.
+   * If no delta is passed the epsilon value is used.
+   * @param value - The number to test.
+   * @param min - The minimum limit.
+   * @param delta - The maximum difference to limit.
+   * @returns The result of the test.
+   */
+  public static greaterOrCloseTo(
+    value: number, min: number, delta?: number
+  ): boolean {
+    if ( value >= min ) {
+      // Value clearly greater or equal to minimum limit.
+      return true;
+    } else if ( this.closeTo( value, min, delta ) ) {
+      // Value is very close to minimum limit.
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * Round a number with given precision.
    * @param value - The number to round.
    * @param precision - The number of decimal places to round to.
