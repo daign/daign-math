@@ -125,4 +125,57 @@ export class Polygon2 extends Vector2Array {
 
     return false;
   }
+
+  /**
+   * Test whether the polygon is convex.
+   * Only works for polygons that are not self-intersecting.
+   * @returns Whether the polygon is convex.
+   */
+  public isConvex(): boolean {
+    let isConvex = true;
+    let orientation = 0;
+
+    this.iterateLineSegments( ( line: Line2, index: number ): void => {
+      // For each line segment, determine the relative location of next point.
+      const nextPoint = this.getElement( ( index + 2 ) % this.length )!;
+      const sideOfPoint = line.getSideOfPoint( nextPoint );
+
+      /* When side of point is determined, then orientation is set. All following cases must have
+       * the same value or 0. */
+      if ( orientation === 0 ) {
+        orientation = sideOfPoint;
+      } else if ( sideOfPoint !== 0 && orientation !== sideOfPoint ) {
+        isConvex = false;
+      }
+    } );
+
+    return isConvex;
+  }
+
+  /**
+   * Test whether the polygon is self intersecting.
+   * @returns Whether the polygon is self intersecting.
+   */
+  public isSelfIntersecting(): boolean {
+    let isSelfIntersecting = false;
+
+    // Compare each pair of edge segments that are not neighboring edges.
+    this.iterateLineSegments( ( line1: Line2, index1: number ): void => {
+      this.iterateLineSegments( ( line2: Line2, index2: number ): void => {
+        // Only test if not same index and difference between indices is greater than 1.
+        if (
+          index1 !== index2 &&
+          ( index1 - index2 + this.length ) % this.length > 1 &&
+          ( index2 - index1 + this.length ) % this.length > 1
+        ) {
+          const intersection = line1.getSegmentIntersection( line2 );
+          if ( intersection !== null ) {
+            isSelfIntersecting = true;
+          }
+        }
+      } );
+    } );
+
+    return isSelfIntersecting;
+  }
 }

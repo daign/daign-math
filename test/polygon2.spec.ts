@@ -304,4 +304,98 @@ describe( 'Polygon2', (): void => {
       expect( result ).to.be.true;
     } );
   } );
+
+  describe( 'isConvex', (): void => {
+    it( 'should return true if polygon is convex', (): void => {
+      // Arrange
+      const corners = [
+        new Vector2( 0, 2 ), new Vector2( 2, 0 ), new Vector2( 2, -1 ), new Vector2( 0, -2 ),
+        new Vector2( -1, -1 ), new Vector2( -2, 0 ), new Vector2( -2, 1 )
+      ];
+      const polygon = new Polygon2( corners );
+
+      // Act
+      const result = polygon.isConvex();
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false if polygon is not convex', (): void => {
+      // Arrange
+      const corners = [
+        new Vector2( 0, 2 ), new Vector2( 2, 0 ), new Vector2( 2, -1 ), new Vector2( 0, -2 ),
+        new Vector2( -1, -3 ), new Vector2( -2, 0 ), new Vector2( -2, 1 )
+      ];
+      const polygon = new Polygon2( corners );
+
+      // Act
+      const result = polygon.isConvex();
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+
+    it( 'should return true for special case of self intersecting polygon', (): void => {
+      // Arrange
+      const corners = [
+        new Vector2( 0, 2 ), new Vector2( 2, 0 ), new Vector2( 2, -1 ), new Vector2( 0, -2 ),
+        new Vector2( -1, 0 ), new Vector2( 0, -1 ), new Vector2( -2, 0 ), new Vector2( -2, 1 )
+      ];
+      const polygon = new Polygon2( corners );
+
+      // Act
+      const result = polygon.isConvex();
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+  } );
+
+  describe( 'isSelfIntersecting', (): void => {
+    it( 'should return true if polygon self intersects', (): void => {
+      // Arrange
+      const corners = [
+        new Vector2( 0, 1 ), new Vector2( 2, -1 ), new Vector2( 2, 1 ), new Vector2( 0, -1 ),
+        new Vector2( -2, 1 ), new Vector2( -2, -1 )
+      ];
+      const polygon = new Polygon2( corners );
+
+      // Act
+      const result = polygon.isSelfIntersecting();
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return true if polygon has touching vertices', (): void => {
+      // Arrange
+      const corners = [
+        new Vector2( -2, 1 ), new Vector2( 0, 0 ), new Vector2( 2, 1 ), new Vector2( 2, -1 ),
+        new Vector2( 0, 0 ), new Vector2( -2, -1 )
+      ];
+      const polygon = new Polygon2( corners );
+
+      // Act
+      const result = polygon.isSelfIntersecting();
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false if polygon does not self intersect', (): void => {
+      // Arrange
+      const corners = [
+        new Vector2( 0, 1 ), new Vector2( 1, -1 ), new Vector2( 2, 0 ), new Vector2( 1, -2 ),
+        new Vector2( -1, -1 ), new Vector2( 0, 0 ), new Vector2( -2, -1 )
+      ];
+      const polygon = new Polygon2( corners );
+
+      // Act
+      const result = polygon.isSelfIntersecting();
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+  } );
 } );

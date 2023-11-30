@@ -72,7 +72,7 @@ export class Triangle2 extends Observable {
   }
 
   /**
-   * Create a new trianlge with the same values.
+   * Create a new triangle with the same values.
    * @returns A new triangle.
    */
   public clone(): Triangle2 {
