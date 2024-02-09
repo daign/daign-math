@@ -7,9 +7,15 @@ import { Vector2 } from './vector2';
  * Rectangle shape that is defined by a min and max point. Used to represent bounding boxes.
  */
 export class Box2 extends Observable {
+  /* Min and max vectors are private, so you can't replace them, because this would break the
+   * subscriptions on them.
+   * Through the getters you can access the vectors directly. So you should clone them when you want
+   * to use and modify the values in other places. */
+
   // Min coordinates, has the smaller x and y values.
   private _min: Vector2;
-  // Max coodinates, has the greater x and y values.
+
+  // Max coordinates, has the greater x and y values.
   private _max: Vector2;
 
   /**
@@ -17,7 +23,7 @@ export class Box2 extends Observable {
    * @returns The minimum point.
    */
   public get min(): Vector2 {
-    return this._min.clone();
+    return this._min;
   }
 
   /**
@@ -25,7 +31,7 @@ export class Box2 extends Observable {
    * @returns The maximum point.
    */
   public get max(): Vector2 {
-    return this._max.clone();
+    return this._max;
   }
 
   /**
@@ -33,7 +39,7 @@ export class Box2 extends Observable {
    * @returns The boolean result.
    */
   public get isEmpty(): boolean {
-    return ( this._max.x < this._min.x ) || ( this._max.y < this._min.y );
+    return ( this.max.x < this.min.x ) || ( this.max.y < this.min.y );
   }
 
   /**
@@ -41,7 +47,7 @@ export class Box2 extends Observable {
    * @returns The boolean result.
    */
   public get isArea(): boolean {
-    return ( this._max.x > this._min.x ) && ( this._max.y > this._min.y );
+    return ( this.max.x > this.min.x ) && ( this.max.y > this.min.y );
   }
 
   /**
@@ -52,7 +58,7 @@ export class Box2 extends Observable {
     if ( this.isEmpty ) {
       return new Vector2( 0, 0 );
     }
-    return this._max.clone().sub( this._min );
+    return this.max.clone().sub( this.min );
   }
 
   /**
@@ -63,7 +69,7 @@ export class Box2 extends Observable {
     if ( this.isEmpty ) {
       return new Vector2( 0, 0 );
     }
-    return this._min.clone().add( this.size.multiplyScalar( 0.5 ) );
+    return this.min.clone().add( this.size.multiplyScalar( 0.5 ) );
   }
 
   /**
@@ -75,15 +81,16 @@ export class Box2 extends Observable {
     super();
 
     // Passed points are used directly, not cloned. Also no non-empty check.
+    // If not supplied, an empty box is initialized.
     this._min = min || new Vector2( +Infinity, +Infinity );
     this._max = max || new Vector2( -Infinity, -Infinity );
 
-    // Notify observers when start or end point has changes.
+    // Notify observers when min or max point has changes.
     const callback = (): void => {
       this.notifyObservers();
     };
-    this._min.subscribeToChanges( callback );
-    this._max.subscribeToChanges( callback );
+    this.min.subscribeToChanges( callback );
+    this.max.subscribeToChanges( callback );
   }
 
   /**
@@ -92,17 +99,17 @@ export class Box2 extends Observable {
    * @returns A reference to itself.
    */
   public copy( b: Box2 ): Box2 {
-    this._min.copy( b.min );
-    this._max.copy( b.max );
+    this.min.copy( b.min );
+    this.max.copy( b.max );
     return this;
   }
 
   /**
-   * Create a new box with the same values.
+   * Create a new box with the same, cloned values.
    * @returns A new box.
    */
   public clone(): Box2 {
-    return new Box2( this.min, this.max );
+    return new Box2( this.min.clone(), this.max.clone() );
   }
 
   /**
@@ -116,11 +123,22 @@ export class Box2 extends Observable {
 
   /**
    * Makes the box empty.
+   * Expending an empty box by a point will set the box to that point.
    * @returns A reference to itself.
    */
   public makeEmpty(): Box2 {
-    this._min.x = this._min.y = +Infinity;
-    this._max.x = this._max.y = -Infinity;
+    this.min.set( +Infinity, +Infinity );
+    this.max.set( -Infinity, -Infinity );
+    return this;
+  }
+
+  /**
+   * Makes the box unlimited.
+   * @returns A reference to itself.
+   */
+  public makeUnlimited(): Box2 {
+    this.min.set( -Infinity, -Infinity );
+    this.max.set( +Infinity, +Infinity );
     return this;
   }
 
@@ -134,8 +152,8 @@ export class Box2 extends Observable {
     const minimumOffset = this.size.multiplyScalar( -0.5 );
     offset.max( minimumOffset );
 
-    this._min.sub( offset );
-    this._max.add( offset );
+    this.min.sub( offset );
+    this.max.add( offset );
     return this;
   }
 
@@ -146,8 +164,8 @@ export class Box2 extends Observable {
    */
   public scale( s: number ): Box2 {
     const difference = this.size.multiplyScalar( ( Math.abs( s ) - 1 ) / 2 );
-    this._min.sub( difference );
-    this._max.add( difference );
+    this.min.sub( difference );
+    this.max.add( difference );
     return this;
   }
 
@@ -157,8 +175,8 @@ export class Box2 extends Observable {
    * @returns A reference to itself.
    */
   public expandByPoint( p: Vector2 ): Box2 {
-    this._min.min( p );
-    this._max.max( p );
+    this.min.min( p );
+    this.max.max( p );
     return this;
   }
 
@@ -168,8 +186,8 @@ export class Box2 extends Observable {
    * @returns A reference to itself.
    */
   public expandByBox( b: Box2 ): Box2 {
-    this._min.min( b.min );
-    this._max.max( b.max );
+    this.min.min( b.min );
+    this.max.max( b.max );
     return this;
   }
 
@@ -186,8 +204,8 @@ export class Box2 extends Observable {
 
     /* Transform all 4 corners of the box, to make sure that after a rotation all previously
      * contained points are still contained. */
-    const corner1 = this.min.transform( m );
-    const corner2 = this.max.transform( m );
+    const corner1 = this.min.clone().transform( m );
+    const corner2 = this.max.clone().transform( m );
     const corner3 = new Vector2( this.min.x, this.max.y ).transform( m );
     const corner4 = new Vector2( this.max.x, this.min.y ).transform( m );
 

@@ -437,7 +437,7 @@ describe( 'Box2', (): void => {
       expect( b.equals( bInit ) ).to.be.true;
     } );
 
-    it( 'should call notifyObservers 4 times', (): void => {
+    it( 'should call notifyObservers twice', (): void => {
       // Arrange
       const min = new Vector2( 3, 4 );
       const max = new Vector2( 5, 6 );
@@ -448,7 +448,44 @@ describe( 'Box2', (): void => {
       b.makeEmpty();
 
       // Assert
-      expect( spy.callCount ).to.equal( 4 );
+      expect( spy.callCount ).to.equal( 2 );
+    } );
+  } );
+
+  describe( 'makeUnlimited', (): void => {
+    it( 'should result in a box with infinite size', (): void => {
+      // Arrange
+      const b = new Box2();
+
+      // Act
+      b.makeUnlimited();
+
+      // Assert
+      expect( b.size.x ).to.equal( Infinity );
+      expect( b.size.y ).to.equal( Infinity );
+    } );
+
+    it( 'should contain an arbitrary point', (): void => {
+      // Arrange
+      const b = new Box2();
+
+      // Act
+      b.makeUnlimited();
+
+      // Assert
+      expect( b.containsPoint( new Vector2( 123, -456 ) ) ).to.be.true;
+    } );
+
+    it( 'should call notifyObservers twice', (): void => {
+      // Arrange
+      const b = new Box2();
+      const spy = sinon.spy( b as any, 'notifyObservers' );
+
+      // Act
+      b.makeUnlimited();
+
+      // Assert
+      expect( spy.callCount ).to.equal( 2 );
     } );
   } );
 

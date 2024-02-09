@@ -15,6 +15,7 @@ export abstract class GenericArray<T extends Observable> extends Observable {
 
   /**
    * Get the elements.
+   * The returned array is a copy of the internal array.
    * @returns An array of elements.
    */
   public get elements(): T[] {

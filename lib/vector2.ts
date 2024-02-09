@@ -258,6 +258,16 @@ export class Vector2 extends Observable {
   }
 
   /**
+   * Set from the values of another vector. Don't notify observers.
+   * @param v - Another vector.
+   * @returns A reference to itself.
+   */
+  public copySilent( v: Vector2 ): Vector2 {
+    this.setSilent( v.x, v.y );
+    return this;
+  }
+
+  /**
    * Create a new vector with the same values.
    * @returns A new vector.
    */

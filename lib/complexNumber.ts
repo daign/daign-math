@@ -6,7 +6,10 @@ import { MathHelper } from './mathHelper';
  * Complex number.
  */
 export class ComplexNumber extends Observable {
+  // The real part of the complex number.
   private _real: number;
+
+  // The imaginary part of the complex number.
   private _imaginary: number;
 
   /**

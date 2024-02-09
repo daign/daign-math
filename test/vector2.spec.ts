@@ -607,6 +607,34 @@ describe( 'Vector2', (): void => {
     } );
   } );
 
+  describe( 'copySilent', (): void => {
+    it( 'should copy x and y properties', (): void => {
+      // Arrange
+      const v1 = new Vector2();
+      const v2 = new Vector2( 1, 2 );
+
+      // Act
+      v1.copySilent( v2 );
+
+      // Assert
+      expect( v1.x ).to.equal( 1 );
+      expect( v1.y ).to.equal( 2 );
+    } );
+
+    it( 'should call setSilent', (): void => {
+      // Arrange
+      const v1 = new Vector2();
+      const v2 = new Vector2( 1, 2 );
+      const spy = sinon.spy( v1, 'setSilent' );
+
+      // Act
+      v1.copySilent( v2 );
+
+      // Assert
+      expect( spy.calledOnce ).to.be.true;
+    } );
+  } );
+
   describe( 'clone', (): void => {
     it( 'should return an object with the same values', (): void => {
       // Arrange
@@ -1169,6 +1197,34 @@ describe( 'Vector2', (): void => {
 
       // Assert
       expect( v.equals( vCopy ) ).to.be.true;
+    } );
+
+    it( 'should not change vector when clamped in unlimited box', (): void => {
+      // Arrange
+      const v = new Vector2( 2, 3 );
+      const vCopy = v.clone();
+      const b = new Box2();
+      b.makeUnlimited();
+
+      // Act
+      v.clampInBox( b );
+
+      // Assert
+      expect( v.equals( vCopy ) ).to.be.true;
+    } );
+
+    it( 'should return infinite vector when clamped in empty box', (): void => {
+      // Arrange
+      const v = new Vector2( 2, 3 );
+      const b = new Box2();
+      b.makeEmpty();
+
+      // Act
+      v.clampInBox( b );
+
+      // Assert
+      expect( v.x ).to.equal( Infinity );
+      expect( v.y ).to.equal( Infinity );
     } );
   } );
 
